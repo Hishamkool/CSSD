@@ -9,8 +9,8 @@ import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/bottom_navigat
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/timeline_view.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/dashboard_view_dept.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/sterilization_request_view.dart';
-import 'package:cssd/app/modules/login_module/login_screen.dart';
-import 'package:cssd/app/modules/login_module/splash_screen.dart';
+import 'package:cssd/app/modules/login_module/view/login_screen.dart';
+import 'package:cssd/app/modules/login_module/view/splash_screen.dart';
 import 'package:cssd/app/modules/login_module/view/dashboard_switch_cssd_dept.dart';
 import 'package:flutter/material.dart';
 

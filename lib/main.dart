@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
               color: StaticColors.scaffoldBackgroundcolor,
             ),
           ),
-          initialRoute: Routes.switchBetweenCssdAndDepartment,
+          initialRoute: Routes.loginScreen,
           
           routes: Routes.routes,
         ),

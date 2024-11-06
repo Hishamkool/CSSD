@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/department_list_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/depart_dropdown_jsonserializable.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:flutter/material.dart';
 import 'package:retrofit/retrofit.dart';
@@ -11,7 +11,7 @@ class SterilizationControllerCssdCussDeptUser extends ChangeNotifier {
     deparmentList();
   }
 
-  List<DepartmentListData> departments = [];
+  List<Datum> departments = [];
   List<DropdownMenuEntry<dynamic>> departmentDropDownEntries = [];
   Future<void> deparmentList() async {
     final client = await AppUtil.createAdminTokenApiClient();
@@ -26,7 +26,7 @@ class SterilizationControllerCssdCussDeptUser extends ChangeNotifier {
         printList(departments);
         departmentDropDownEntries = departments.map((e) {
           return DropdownMenuEntry<dynamic>(
-            value: e.subID,
+            value: e.subId,
             label: e.subName!,
           );
         }).toList();

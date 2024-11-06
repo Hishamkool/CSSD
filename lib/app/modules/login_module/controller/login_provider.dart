@@ -135,7 +135,7 @@ class LoginController extends ChangeNotifier {
               StorageKeys.privilegeFlagCssdAndDept, true);
           Navigator.pushNamedAndRemoveUntil(
               context,
-              Routes.bottomNavBarDashboardCssdUser,
+              Routes.switchBetweenCssdAndDepartment,
               (Route<dynamic> route) => false);
         } else if (_privileges.contains("312")) {
           await LocalStorageManager.setBool(
