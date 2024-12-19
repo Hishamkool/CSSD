@@ -11,7 +11,6 @@ import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/saved_us
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/dashboard_view_dept.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/department_stock_details_view.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/send_to_cssd_view.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/pie_request_details_view.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/used_item_entry_view.dart';
 import 'package:cssd/app/modules/login_module/view/login_screen.dart';
 import 'package:cssd/app/modules/login_module/view/splash_screen.dart';
@@ -47,7 +46,7 @@ class Routes {
       '/DashboardViewCssdCussDeptUser';
   static const String sterilizationRequestViewCssdCussDeptUser =
       '/SterilizationRequestViewCssdCussDeptUser';
- /*  static const String requestDetailsViewCssdCussDeptUser =
+  /*  static const String requestDetailsViewCssdCussDeptUser =
       '/RequestDetailsViewCssdCussDeptUser';
  */
   static const String departmentStockDetailsView =

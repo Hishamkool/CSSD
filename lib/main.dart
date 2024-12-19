@@ -4,9 +4,9 @@ import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/se
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/used_item_entry_controller.dart';
 import 'package:cssd/app/modules/login_module/controller/login_controller.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/pickup_provider.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/request_controler.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/request_provider.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/sterilization_provider.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/timeline_controller.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/timeline_provider.dart';
 import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/local_storage_manager.dart';

@@ -90,6 +90,39 @@ class _ApiClient implements ApiClient {
   }
 
   @override
+  Future<GetCssdList> getCSSDList() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<GetCssdList>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/Home/GetCSSD_List',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(
+            baseUrl: _combineBaseUrls(
+          _dio.options.baseUrl,
+          baseUrl,
+        )));
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late GetCssdList _value;
+    try {
+      _value = GetCssdList.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<GetDepartmentListModel> getDepartementListData() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -102,7 +135,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'DepartmentList',
+          'Department/DepartmentList',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -141,7 +174,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetItemName',
+          'Department/GetItemName',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -174,7 +207,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetRequestedCount',
+          'Department/GetRequestedCount',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -207,7 +240,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetPendingRequestCount',
+          'Department/GetPendingRequestCount',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -240,7 +273,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetRequested_Details',
+          'Department/GetRequested_Details',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -274,7 +307,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetPendingRequestdetails',
+          'Department/GetPendingRequestdetails',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -308,7 +341,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetDepartmentwiseStock_Details',
+          'Department/GetDepartmentwiseStock_Details',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -351,7 +384,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'QtyValidation',
+          'Department/QtyValidation',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -386,7 +419,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'UsedItemEntry',
+          'Department/UsedItemEntry',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -425,7 +458,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetUsedItemNames',
+          'Department/GetUsedItemNames',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -459,7 +492,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'SendToCssd',
+          'Department/SendToCssd',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -493,7 +526,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'Departmentwise_UsedItemList',
+          'Department/Departmentwise_UsedItemList',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -526,7 +559,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetCssdSentItems',
+          'Department/GetCssdSentItems',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -559,7 +592,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetCssdSentItem_Details',
+          'Department/GetCssdSentItem_Details',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -598,7 +631,7 @@ class _ApiClient implements ApiClient {
     )
         .compose(
           _dio.options,
-          'GetPackagedetails',
+          'Department/GetPackagedetails',
           queryParameters: queryParameters,
           data: _data,
         )

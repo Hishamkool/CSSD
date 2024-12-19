@@ -26,7 +26,7 @@ class GradientColors {
 }
 
 class StaticColors {
-  static Color transparentGlassContainer = Color.fromRGBO(71, 225, 252, 0.32);
+  static Color transparentGlassContainer = const  Color.fromRGBO(71, 225, 252, 0.32);
   //app background color
   static const scaffoldBackgroundcolor = Color(0xFF044B7F);
 

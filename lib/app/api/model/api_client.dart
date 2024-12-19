@@ -1,5 +1,7 @@
 import 'package:cssd/app/api/model/api_links.dart';
 import 'package:cssd/app/api/model/general_response_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_det_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/dahboard_models/get_cssd_send_requests.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/dahboard_models/get_cssd_sent_item_details_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/dahboard_models/get_request_details_model.dart';
@@ -25,13 +27,17 @@ part 'api_client.g.dart';
 abstract class ApiClient {
   factory ApiClient(Dio dio, {String baseUrl}) = _ApiClient;
 
-  // cssd user
+  //login
   @POST(ApiLinks.preLoginAuth)
   Future<PreLoginAuthenticationModel> submitPhoneForHospitalIds(
       @Query("PhoneNumber") String phoneNumber);
 
   @POST(ApiLinks.login)
   Future<LoginModel> login(@Body() Map<String, dynamic> body);
+
+  // cssd user
+  @GET(ApiLinks.getCssdList)
+  Future<GetCssdList> getCSSDList();
 
   //department user
   @GET(ApiLinks.departementList)
@@ -94,4 +100,9 @@ abstract class ApiClient {
   @GET(ApiLinks.getPackagedetails)
   Future<GetPackagedetails> getPackagedetails(
       @Query("department") String department, @Query("pckid") int pckid);
+
+  /* @GET(ApiLinks.getCssdDet) // not required
+  Future<GetCssdDet> getCssdDet(
+    @Query("SID") int sid,
+  ); */
 }

@@ -41,7 +41,8 @@ dependencies:
   syncfusion_flutter_charts: ^27.2.2 # USE ONE OF THE ABOVE CHARTS
   device_preview: ^1.2.0
   flutter_screenutil: ^5.9.3
-  text_marquee: ^0.0.2
+  # text_marquee: ^0.0.2
+  marquee: ^2.3.0 #testing new marquee
   fluentui_system_icons: ^1.1.260
   curved_navigation_bar: ^1.0.6
   timeline_tile: ^2.0.0

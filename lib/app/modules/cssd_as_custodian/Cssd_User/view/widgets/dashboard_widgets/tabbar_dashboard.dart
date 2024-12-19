@@ -1,25 +1,21 @@
-import 'package:cssd/Widgets/clickable_card.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/sampleBatchNoQuantity.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/sampleRequestList.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/dashboard_controller.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/request_details_view.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/dashboard_widgets/request_card_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/dashboard_widgets/tabbar_head_dahboard.dart';
+import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/fonts.dart';
-import 'package:cssd/util/hex_to_color_with_opacity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class TabBarDashboard extends StatelessWidget {
   const TabBarDashboard({
     super.key,
-    required this.dashboardProvider,
   });
-
-  final DashboardController dashboardProvider;
 
   @override
   Widget build(BuildContext context) {
-     final mediaQuery = MediaQuery.of(context).size;
+    final mediaQuery = MediaQuery.of(context).size;
     final isMobile = mediaQuery.width <= 500;
     return DefaultTabController(
       length: 3,
@@ -27,60 +23,50 @@ class TabBarDashboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-            height: 40.h,
-            decoration: BoxDecoration(
-                boxShadow: const [
-                  BoxShadow(
-                      color: Color.fromARGB(255, 197, 197, 197),
-                      blurRadius: 2.0,
-
-                      offset: Offset(1, 4),
-                      spreadRadius: -0.5),
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10.h)),
-                color: hexToColorWithOpacity(hexColor: "FDF7FF"),
-                // gradient: LinearGradient(
-                //     begin: Alignment.centerLeft,
-                //     end: Alignment.centerRight,
-                //     colors: [
-                //       // hexToColorWithOpacity(hexColor: "DADADF"),
-                //       hexToColorWithOpacity(hexColor: "F2F2F7"),
-                //       hexToColorWithOpacity(hexColor: "F2F2F7"),
-                //     ]),
-                ),
-            child: Builder(builder: (context) {
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(40)),
+              color: Color(0xffDBEBF5),
+            ),
+            child: Consumer<DashboardController>(
+                builder: (context, dashboardConsumer, child) {
               return TabBar(
                 onTap: (value) {
-                  dashboardProvider.updateSelectedIndex(value);
+                  dashboardConsumer.updateSelectedIndex(value);
                 },
                 indicator: BoxDecoration(
-                    color: hexToColorWithOpacity(hexColor: "5D55B3"),
+                    border: Border.all(color: Colors.black.withAlpha(10)),
+                    color: const Color(0xffF0F5FA),
                     borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
+                      Radius.circular(20),
                     )),
-                labelColor: Colors.white,
-                labelStyle: FontStyles.todaysSterilizationText,
-                unselectedLabelColor: Colors.black87,
-                // indicatorColor: StaticColors.scaffoldBackgroundcolor,
-                indicatorColor: hexToColorWithOpacity(hexColor: "5D55B3"),
-                indicatorSize: TabBarIndicatorSize.tab,
+                labelStyle: GoogleFonts.plusJakartaSans(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
+                unselectedLabelStyle: GoogleFonts.plusJakartaSans(
+                    color: const Color(0xff307AB0),
+                    fontWeight: FontWeight.bold),
+                indicatorSize: TabBarIndicatorSize.label,
                 dividerColor: Colors.transparent,
-
                 tabs: [
                   DashboardTabBarHead(
                     titleText: isMobile ? 'High ' : 'High Priority',
-                    countText: sampleHighPriorityRequestsList.length.toString(),
+                    countText: dashboardConsumer.highPriorityRequestList.length
+                        .toString(),
                     tabIndex: 0,
                   ),
                   DashboardTabBarHead(
                     titleText: isMobile ? 'Medium ' : 'Medium Priority',
-                    countText:
-                        sampleMediumPriorityRequestsList.length.toString(),
+                    countText: dashboardConsumer
+                        .mediumPriorityRequestList.length
+                        .toString(),
                     tabIndex: 1,
                   ),
                   DashboardTabBarHead(
-                   titleText: isMobile ? 'Low ' : 'Low Priority',
-                    countText: sampleLowPriorityRequestsList.length.toString(),
+                    titleText: isMobile ? 'Low ' : 'Low Priority',
+                    countText: dashboardConsumer.lowPriorityRequestList.length
+                        .toString(),
                     tabIndex: 2,
                   ),
                 ],
@@ -101,72 +87,84 @@ class TabBarDashboard extends StatelessWidget {
     );
   }
 
-  Widget _lowPriorityTabView() {
-    return ListView.builder(
-      // itemCount: dashboardProvider.mediumPriorityRequests.length,
-      itemCount: sampleLowPriorityRequestsList.length,
-      itemBuilder: (context, index) {
-        final request = sampleLowPriorityRequestsList[index];
-        // final request = dashboardProvider.mediumPriorityRequests[index];
-        return ClickableCard(
-          cardColor: Colors.white,
-          reqiestTime: request.requestTime,
-          requestID: request.requestID,
-          requestDate: request.requestDate,
-          requestDepartment: request.requestDepartment,
-          requestSubTitle: request.requestSubTitle,
-          requestTitle: request.requestTitle,
-        );
-      },
-    );
-  }
-
-  Widget _mediumPriorityTabView() {
-    return ListView.builder(
-      // itemCount: dashboardProvider.mediumPriorityRequests.length,
-      itemCount: sampleMediumPriorityRequestsList.length,
-      itemBuilder: (context, index) {
-        final request = sampleMediumPriorityRequestsList[index];
-        // final request = dashboardProvider.mediumPriorityRequests[index];
-        return ClickableCard(
-          cardColor: Colors.white,
-          reqiestTime: request.requestTime,
-          requestID: request.requestID,
-          requestDate: request.requestDate,
-          requestDepartment: request.requestDepartment,
-          requestSubTitle: request.requestSubTitle,
-          requestTitle: request.requestTitle,
-        );
-      },
-    );
-  }
-
   Widget _highPriorityTabView() {
-    return ListView.builder(
-      // itemCount: dashboardProvider.mediumPriorityRequests.length,
-      itemCount: sampleHighPriorityRequestsList.length,
-      itemBuilder: (context, index) {
-        final request = sampleHighPriorityRequestsList[index];
-        final requestID = SampleGeneratedList().sampleRequestNumber[index];
-        // final request = dashboardProvider.mediumPriorityRequests[index];
-        return ClickableCard(
-          cardClickFunction: () {
-            // Navigator.pushNamed(context, Routes.requestDetailsViewCssdCussCssLogin);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RequestDetailsViewCssdCussCssLogin(),
-                ));
-          },
-          cardColor: Colors.white,
-          reqiestTime: request.requestTime,
-          requestID: requestID.toString(),
-          requestDate: request.requestDate,
-          requestDepartment: request.requestDepartment,
-          requestSubTitle: request.requestSubTitle,
-          requestTitle: request.requestTitle,
-        );
-      },
-    );
+    return Consumer<DashboardController>(
+        builder: (context, dashboardProvider, child) {
+      return ListView.builder(
+          itemCount: dashboardProvider.highPriorityRequestList.length,
+          itemBuilder: (context, index) {
+            final requestList =
+                dashboardProvider.highPriorityRequestList[index];
+            return Column(children: [
+              RequestCard(
+                onTap: () => Navigator.pushNamed(
+                    context, Routes.requestDetailsViewCssdCussCssLogin,
+                    arguments: [requestList.sid]),
+                request: HighMedLowReqModel(
+                    priority: requestList.priority,
+                    remarks: requestList.remarks,
+                    productdet: requestList.productdet,
+                    rTime: requestList.rTime,
+                    ruser: requestList.ruser,
+                    sid: requestList.sid,
+                    sub: requestList.sub),
+              ),
+            ]);
+          });
+    });
   }
+}
+
+Widget _mediumPriorityTabView() {
+  return Consumer<DashboardController>(
+      builder: (context, dashboardProvider, child) {
+    return ListView.builder(
+        itemCount: dashboardProvider.mediumPriorityRequestList.length,
+        itemBuilder: (context, index) {
+          final requestList =
+              dashboardProvider.mediumPriorityRequestList[index];
+
+          return Column(children: [
+            RequestCard(
+              onTap: () => Navigator.pushNamed(
+                  context, Routes.requestDetailsViewCssdCussCssLogin,
+                  arguments: [requestList.sid]),
+              request: HighMedLowReqModel(
+                  priority: requestList.priority,
+                  remarks: requestList.remarks,
+                  productdet: requestList.productdet,
+                  rTime: requestList.rTime,
+                  ruser: requestList.ruser,
+                  sid: requestList.sid,
+                  sub: requestList.sub),
+            ),
+          ]);
+        });
+  });
+}
+
+Widget _lowPriorityTabView() {
+  return Consumer<DashboardController>(
+      builder: (context, dashboardProvider, child) {
+    return ListView.builder(
+        itemCount: dashboardProvider.lowPriorityRequestList.length,
+        itemBuilder: (context, index) {
+          final requestList = dashboardProvider.lowPriorityRequestList[index];
+          return Column(children: [
+            RequestCard(
+              onTap: () => Navigator.pushNamed(
+                  context, Routes.requestDetailsViewCssdCussCssLogin,
+                  arguments: [requestList.sid]),
+              request: HighMedLowReqModel(
+                  priority: requestList.priority,
+                  remarks: requestList.remarks,
+                  productdet: requestList.productdet,
+                  rTime: requestList.rTime,
+                  ruser: requestList.ruser,
+                  sid: requestList.sid,
+                  sub: requestList.sub),
+            ),
+          ]);
+        });
+  });
 }

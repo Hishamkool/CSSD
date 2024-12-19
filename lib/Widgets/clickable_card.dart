@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:text_marquee/text_marquee.dart';
 
 class ClickableCard extends StatelessWidget {
   final Color? cardColor;
@@ -13,7 +12,7 @@ class ClickableCard extends StatelessWidget {
   final String requestDepartment;
   final GestureTapCallback? cardClickFunction;
 
-  ClickableCard({
+  const ClickableCard({
     super.key,
     this.cardColor,
     this.cardLeadingContainerColor = const Color(0xff0C9EDF),
@@ -58,9 +57,8 @@ class ClickableCard extends StatelessWidget {
               )),
           subtitle: SizedBox(
             width: 20,
-            child: TextMarquee(
+            child: Text(
               requestSubTitle,
-              spaceSize: 20,
             ),
           ),
           trailing: Column(
@@ -77,3 +75,4 @@ class ClickableCard extends StatelessWidget {
     );
   }
 }
+

@@ -11,7 +11,8 @@ import 'package:dio/dio.dart';
 class DioUtilAuthorized {
   DioUtilAuthorized._internal();
   static Future<ApiClient> createApiClient() async {
-    String baseUrl = "${ApiLinks.baseIp}${ApiLinks.baseurl}";
+/*     String baseUrl = "${ApiLinks.baseIp}${ApiLinks.baseurl}"; */
+    String baseUrl = ApiLinks.baseIp;
 
     try {
       final dioClient = Dio(

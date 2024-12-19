@@ -9,9 +9,12 @@ import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/dashbo
 import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
+import 'package:cssd/util/hex_to_color_with_opacity.dart';
 import 'package:cssd/util/local_storage_manager.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class DashboardViewCssdCssCssdLogin extends StatefulWidget {
@@ -25,15 +28,18 @@ class DashboardViewCssdCssCssdLogin extends StatefulWidget {
 class _DashboardViewCssdCssCssdLoginState
     extends State<DashboardViewCssdCssCssdLogin> {
   bool? hasPrivileges;
-   String? userName;
+  String? userName;
 
   @override
   void initState() {
-        LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
- //check if you need to define it in bottomnav and dashboard also
+    LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
+    //check if you need to define it in bottomnav and dashboard also
     hasPrivileges =
         LocalStorageManager.getBool(StorageKeys.privilegeFlagCssdAndDept);
     userName = LocalStorageManager.getString(StorageKeys.loggedinUser);
+    final dashboardController =
+        Provider.of<DashboardController>(context, listen: false);
+    dashboardController.getCssdRequestList();
     super.initState();
   }
 
@@ -41,7 +47,7 @@ class _DashboardViewCssdCssCssdLoginState
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
     final isMobile = mediaQuery.width <= 500;
-    final dashboardProvider =
+    final dashboardController =
         Provider.of<DashboardController>(context, listen: false);
 
     return Scaffold(
@@ -114,7 +120,8 @@ class _DashboardViewCssdCssCssdLoginState
                                 height: isMobile ? 120 : 150,
                                 width: isMobile ? 120 : 150,
                                 child: PieChart(
-                                  swapAnimationDuration: const Duration(microseconds: 900),
+                                  swapAnimationDuration:
+                                      const Duration(microseconds: 900),
                                   swapAnimationCurve: Curves.easeIn,
                                   PieChartData(sections: [
                                     PieChartSectionData(
@@ -159,9 +166,25 @@ class _DashboardViewCssdCssCssdLoginState
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "Today's Sterilization Requests ",
-                                    style: FontStyles.bodyPieTitleStyle,
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Today's Sterilization Requests ",
+                                        style: GoogleFonts.plusJakartaSans(fontSize: 22, fontWeight: FontWeight.bold, color: hexToColorWithOpacity(hexColor: "1C170D")),
+                                      ),
+                                      Consumer<DashboardController>(builder:
+                                          (context, dashboardProvider, child) {
+                                        return Text(
+                                          "(${dashboardProvider.highPriorityRequestList.length + dashboardProvider.mediumPriorityRequestList.length + dashboardProvider.lowPriorityRequestList.length})",
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: hexToColorWithOpacity(
+                                                hexColor: "#003f5c"),
+                                          ),
+                                        );
+                                      })
+                                    ],
                                   ),
                                   ButtonWidget(
                                       borderRadius: 8,
@@ -170,7 +193,7 @@ class _DashboardViewCssdCssCssdLoginState
                                       onPressed: () {}),
                                 ],
                               ),
-                              const Align(
+                              /* const Align(
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
                                   padding:
@@ -179,10 +202,10 @@ class _DashboardViewCssdCssCssdLoginState
                                     "Priority : ",
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: TabBarDashboard(
-                                    dashboardProvider: dashboardProvider),
+                              ), */
+                              SizedBox(height: 10.h,),
+                              const Expanded(
+                                child: TabBarDashboard(),
                               ),
                             ],
                           ),
@@ -198,7 +221,8 @@ class _DashboardViewCssdCssCssdLoginState
           const Positioned(
             top: -20,
             left: 0,
-            child: DoctorProfile(imageUrl: "assets/images/alosious edited1.png"),
+            child:
+                DoctorProfile(imageUrl: "assets/images/alosious edited1.png"),
           ),
         ],
       ),
@@ -231,7 +255,6 @@ class _DashboardViewCssdCssCssdLoginState
     );
   }
 
-  
   Widget _buildFloatingActionButton(hasPrivileges) {
     log("Privilege Status: $hasPrivileges");
 
@@ -247,7 +270,8 @@ class _DashboardViewCssdCssCssdLoginState
         style: TextStyle(color: Colors.white),
       ),
       onPressed: () {
-        Navigator.pushNamedAndRemoveUntil(context, Routes.dashboardViewCssdCussDeptUser, (Route route)=> false);
+        Navigator.pushNamedAndRemoveUntil(context,
+            Routes.dashboardViewCssdCussDeptUser, (Route route) => false);
       },
     );
   }
