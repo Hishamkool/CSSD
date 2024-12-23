@@ -4,13 +4,14 @@ class RoundedContainer extends StatelessWidget {
   final Widget containerBody;
   final Color containerColor;
   final double? containerHeight;
+  final EdgeInsetsGeometry? padding;
   
 
   const RoundedContainer(
       {super.key,
       required this.containerBody,
       this.containerColor = Colors.white,
-      this.containerHeight});
+      this.containerHeight, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class RoundedContainer extends StatelessWidget {
         height: containerHeight ,
         width: mediaQuery.width,
         margin: const EdgeInsets.symmetric(horizontal: 3, vertical: 10),
-        padding: const EdgeInsets.all(10.0),
+        padding: padding ?? const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
             // boxShadow: [
             //   BoxShadow(

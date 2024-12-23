@@ -32,7 +32,6 @@ class DashboardController extends ChangeNotifier {
     }
   }
 
-
   // functions to get all received sterilization requests --Todays Sterilization requests
   final List<GetCssdListData> _requestList = [];
   List<GetCssdListData> get requestList => _requestList;
@@ -71,34 +70,13 @@ class DashboardController extends ChangeNotifier {
 
   // to clear all the requested items list in the dashboard before fetching new data --Todays Sterilization requests
   void clearRequestList() {
-     _requestList.clear();
+    _requestList.clear();
     _highPriorityRequestList.clear();
     _mediumPriorityRequestList.clear();
     _lowPriorityRequestList.clear();
   }
 
-  /*
-  not required ............
-  // function to get details of the request list
-  final List<GetCssdDetData> _requestDetailsDataList = [];
-  List<GetCssdDetData> get requestDetailsDataList => _requestDetailsDataList;
-   Future<void> getCssdRequestListDetails(int requestID) async {
-    final client = await DioUtilAuthorized.createApiClient();
-    try {
-      final response = await client.getCssdDet(requestID);
-      _requestDetailsDataList.clear();
-      if (response.status == 200) {
-        _requestDetailsDataList.addAll(response.data);
-      }else{
-        showSnackBarNoContext(isError: true, msg: "something went wrong");
-        if (kDebugMode) {
-          log("response error ${response.status} , message : ${response.message}");
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        log("exception while fetching request details $e");
-      }
-    }
-  } */
+
+
+  
 }

@@ -101,8 +101,8 @@ abstract class ApiClient {
   Future<GetPackagedetails> getPackagedetails(
       @Query("department") String department, @Query("pckid") int pckid);
 
-  /* @GET(ApiLinks.getCssdDet) // not required
+  @GET(ApiLinks.getCssdDet) // not required
   Future<GetCssdDet> getCssdDet(
     @Query("SID") int sid,
-  ); */
+  );
 }

@@ -1,3 +1,9 @@
+import 'dart:developer';
+
+import 'package:cssd/app/api/dio_interceptors/dio_interceptor.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_det_model.dart';
+import 'package:cssd/util/app_util.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class RequestControler extends ChangeNotifier {
@@ -25,6 +31,8 @@ class RequestControler extends ChangeNotifier {
   List<String> _filteredRequestedUsers = [];
   String? _selectedUser;
   bool _showDropDown = false;
+  final bool _isChecked = false;
+  bool get isChecked => _isChecked;
 
   //original list of users
   final List<String> _sampleRequestedUsers = [
@@ -52,7 +60,7 @@ class RequestControler extends ChangeNotifier {
     "Radiology",
     "Pathology",
     "General Surgery"
-    "Urology",
+        "Urology",
     "Dermatology",
     "Gastroenterology",
     "Nephrology",
@@ -92,4 +100,32 @@ class RequestControler extends ChangeNotifier {
     _showDropDown = value;
     notifyListeners();
   }
+
+  // function to get details of the request list -- request details page 
+  final List<GetCssdDetData> _requestDetailsDataList = [];
+  List<GetCssdDetData> get requestDetailsDataList => _requestDetailsDataList;
+  Future<void> getCssdRequestListDetails(int requestID) async {
+    _requestDetailsDataList.clear();
+    final client = await DioUtilAuthorized.createApiClient();
+    try {
+      final response = await client.getCssdDet(requestID);
+      _requestDetailsDataList.clear();
+      if (response.status == 200) {
+        _requestDetailsDataList.addAll(response.data);
+      } else {
+        showSnackBarNoContext(isError: true, msg: "something went wrong");
+        if (kDebugMode) {
+          log("response error ${response.status} , message : ${response.message}");
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        log("exception while fetching request details $e");
+      }
+    }
+    notifyListeners();
+  }
+
+  // selecting the items from the request list 
+  
 }

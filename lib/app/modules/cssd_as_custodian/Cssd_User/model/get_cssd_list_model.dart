@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'get_cssd_list_model.g.dart';
-
 /* http://192.168.0.251:65113/api/Home/GetCSSD_List */
+
 @JsonSerializable()
 class GetCssdList {
     @JsonKey(name: "status")

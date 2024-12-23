@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 class GradientColors {
+  
   static List<Color> splashGradient = const [
     Color.fromRGBO(30, 106, 159, 100),
     Color(0xff1e6a9f),
     Color(0xff6c9dc0),
-  ];
+  ]; 
 
   static List<Color> backgroundGradient = const [
     StaticColors.scaffoldBackgroundcolor, // Dark Blue
@@ -18,7 +19,8 @@ class GradientColors {
     Color(0xff091e3a),
     Color(0xff2f80ed),
     Color(0xff2d9ee0),
-  ];
+  ]; 
+
   static List<Color> greyGraient = const [
     Color(0xff536976),
     Color(0xff292e49), 

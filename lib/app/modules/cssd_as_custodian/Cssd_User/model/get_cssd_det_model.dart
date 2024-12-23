@@ -1,6 +1,6 @@
-// not required 
 
-/* import 'package:json_annotation/json_annotation.dart';
+// details of a particular request
+import 'package:json_annotation/json_annotation.dart';
 part 'get_cssd_det_model.g.dart';
 /* http://192.168.0.251:65113/api/Home/GetCSSD_Det?SID=11 */
 @JsonSerializable()
@@ -89,4 +89,4 @@ class GetCssdDetData {
       "Remarks": "test"
     }
   ]
-} */ */
+} */

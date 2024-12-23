@@ -3,7 +3,6 @@ import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/dashboar
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/dashboard_widgets/request_card_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/dashboard_widgets/tabbar_head_dahboard.dart';
 import 'package:cssd/util/app_routes.dart';
-import 'package:cssd/util/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

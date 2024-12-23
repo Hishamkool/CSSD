@@ -35,8 +35,7 @@ List<DropdownMenuEntry<String>> sampleDepartmentDropDownEntries = const [
   DropdownMenuEntry(value: "Cardiology", label: "Cardiology"),
   DropdownMenuEntry(value: "Neurology", label: "Neurology"),
   DropdownMenuEntry(value: "Pediatrics", label: "Pediatrics"),
-  DropdownMenuEntry(
-      value: "Obstetrics and Gynecology", label: "Obstetrics and Gynecology"),
+  DropdownMenuEntry(value: "Obstetrics and Gynecology", label: "Obstetrics and Gynecology"),
   DropdownMenuEntry(value: "Oncology", label: "Oncology"),
   DropdownMenuEntry(value: "Orthopedics", label: "Orthopedics"),
   DropdownMenuEntry(value: "Radiology", label: "Radiology"),

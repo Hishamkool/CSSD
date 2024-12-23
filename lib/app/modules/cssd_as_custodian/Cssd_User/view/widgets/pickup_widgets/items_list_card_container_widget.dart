@@ -11,7 +11,8 @@ class ItemsListCardContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  ListView.builder(
+    return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: sampleHighPriorityRequestsList.length,
       itemBuilder: (context, index) {

@@ -12,6 +12,7 @@ import 'package:cssd/util/fonts.dart';
 import 'package:cssd/util/hex_to_color_with_opacity.dart';
 import 'package:cssd/util/local_storage_manager.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,8 +48,8 @@ class _DashboardViewCssdCssCssdLoginState
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
     final isMobile = mediaQuery.width <= 500;
-    final dashboardController =
-        Provider.of<DashboardController>(context, listen: false);
+    /* final dashboardController =
+        Provider.of<DashboardController>(context, listen: false); */
 
     return Scaffold(
       floatingActionButton: _buildFloatingActionButton(hasPrivileges),
@@ -170,7 +171,11 @@ class _DashboardViewCssdCssCssdLoginState
                                     children: [
                                       Text(
                                         "Today's Sterilization Requests ",
-                                        style: GoogleFonts.plusJakartaSans(fontSize: 22, fontWeight: FontWeight.bold, color: hexToColorWithOpacity(hexColor: "1C170D")),
+                                        style: GoogleFonts.plusJakartaSans(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                            color: hexToColorWithOpacity(
+                                                hexColor: "1C170D")),
                                       ),
                                       Consumer<DashboardController>(builder:
                                           (context, dashboardProvider, child) {
@@ -186,11 +191,19 @@ class _DashboardViewCssdCssCssdLoginState
                                       })
                                     ],
                                   ),
-                                  ButtonWidget(
+                                  IconButton(
+                                    hoverColor: Colors.amber,tooltip: "Search Requests",
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        FluentIcons.search_12_filled,
+                                        color: hexToColorWithOpacity(
+                                            hexColor: "#003f5c"),
+                                      ))
+                                  /*  ButtonWidget(
                                       borderRadius: 8,
                                       buttonTextSize: 14,
                                       buttonLabel: "ALL",
-                                      onPressed: () {}),
+                                      onPressed: () {}), */
                                 ],
                               ),
                               /* const Align(
@@ -203,7 +216,9 @@ class _DashboardViewCssdCssCssdLoginState
                                   ),
                                 ),
                               ), */
-                              SizedBox(height: 10.h,),
+                              SizedBox(
+                                height: 10.h,
+                              ),
                               const Expanded(
                                 child: TabBarDashboard(),
                               ),
