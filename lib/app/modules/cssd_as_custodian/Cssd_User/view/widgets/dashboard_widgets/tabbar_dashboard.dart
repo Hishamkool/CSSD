@@ -33,6 +33,8 @@ class TabBarDashboard extends StatelessWidget {
                 onTap: (value) {
                   dashboardConsumer.updateSelectedIndex(value);
                 },
+                indicatorPadding:
+                    const EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
                 indicator: BoxDecoration(
                     border: Border.all(color: Colors.black.withAlpha(10)),
                     color: const Color(0xffF0F5FA),
@@ -97,8 +99,10 @@ class TabBarDashboard extends StatelessWidget {
             return Column(children: [
               RequestCard(
                 onTap: () => Navigator.pushNamed(
-                    context, Routes.requestDetailsViewCssdCussCssLogin,
-                    arguments: [requestList.sid]),
+                  context,
+                  Routes.requestDetailsViewCssdCussCssLogin,
+                  arguments: requestList.sid,
+                ),
                 request: HighMedLowReqModel(
                     priority: requestList.priority,
                     remarks: requestList.remarks,
@@ -126,8 +130,10 @@ Widget _mediumPriorityTabView() {
           return Column(children: [
             RequestCard(
               onTap: () => Navigator.pushNamed(
-                  context, Routes.requestDetailsViewCssdCussCssLogin,
-                  arguments: [requestList.sid]),
+                context,
+                Routes.requestDetailsViewCssdCussCssLogin,
+                arguments: requestList.sid,
+              ),
               request: HighMedLowReqModel(
                   priority: requestList.priority,
                   remarks: requestList.remarks,
@@ -152,8 +158,10 @@ Widget _lowPriorityTabView() {
           return Column(children: [
             RequestCard(
               onTap: () => Navigator.pushNamed(
-                  context, Routes.requestDetailsViewCssdCussCssLogin,
-                  arguments: [requestList.sid]),
+                context,
+                Routes.requestDetailsViewCssdCussCssLogin,
+                arguments: requestList.sid,
+              ),
               request: HighMedLowReqModel(
                   priority: requestList.priority,
                   remarks: requestList.remarks,

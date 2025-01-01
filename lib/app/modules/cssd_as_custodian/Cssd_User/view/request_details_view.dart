@@ -4,6 +4,7 @@ import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/request_
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/endDrawer.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/sampleRequestList.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/pickup_widgets/items_list_card_container_widget.dart';
+import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
 import 'package:cssd/util/hex_to_color_with_opacity.dart';
@@ -29,14 +30,17 @@ class _RequestDetailsViewCssdCussCssLoginState
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final requestId = ModalRoute.of(context)?.settings.arguments as List;
-      context.read<RequestControler>().getCssdRequestListDetails(requestId[0]);
+      final requestId = ModalRoute.of(context)?.settings.arguments as int;
+      context
+          .read<RequestControler>()
+          .getCssdRequestListDetails(requestId); // eg: , [11]
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final requestId = ModalRoute.of(context)!.settings.arguments as List;
+    final requestId =
+        ModalRoute.of(context)!.settings.arguments as List; // eg: , [11]
 
     return Scaffold(
         backgroundColor: StaticColors.scaffoldBackgroundcolor,
@@ -71,18 +75,32 @@ class _RequestDetailsViewCssdCussCssLoginState
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             FloatingActionButton.extended(
+              heroTag: "cancelRequest",
               backgroundColor: StaticColors.scaffoldBackgroundcolor,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(
+                    context, Routes.bottomNavBarDashboardCssdUser);
+              },
               label: const Text(
-                "Cancel",
+                "Decline",
                 style: TextStyle(
                   color: Colors.white,
                 ),
               ),
             ),
             FloatingActionButton.extended(
+              heroTag: "acceptRequest",
               backgroundColor: StaticColors.scaffoldBackgroundcolor,
-              onPressed: () {},
+              onPressed: () async {
+                final requestController =
+                    Provider.of<RequestControler>(context, listen: false);
+                bool ifAccepted =
+                    await requestController.acceptCurrentRequest(requestId[0]);
+
+                if (ifAccepted) {
+                  Navigator.pushNamed(context, Routes.sterilizationViewCssdCussCssdLogin ,arguments: requestId);
+                }
+              },
               label: const Text(
                 "Accept",
                 style: TextStyle(
@@ -106,7 +124,7 @@ class _RequestDetailsViewCssdCussCssLoginState
               topRight: Radius.circular(25),
             ),
             child: ListView(
-              shrinkWrap: true,
+              shrinkWrap: false,
               children: [
                 //request title
                 Consumer<RequestControler>(
@@ -283,42 +301,52 @@ class _RequestDetailsViewCssdCussCssLoginState
                       "Packages",
                       style: FontStyles.bodyPieTitleStyle,
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: sampleHighPriorityRequestsList.length,
-                        itemBuilder: (context, index) {
-                          final sampleRequest =
-                              sampleHighPriorityRequestsList[index];
 
-                          return Card(
-                            color: Colors.white,
-                            child: ExpansionTile(
-                              shape: Border.all(color: Colors.transparent),
-                              title: Text(
-                                sampleRequest.requestTitle,
-                                overflow: TextOverflow.visible,
-                              ),
-                              subtitle: const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Card(
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text("tems : 1 "),
+                    // when package items are included handle the visibility accordingly -- not using packages right now.
+                    Visibility(
+                      replacement: const Center(
+                          child: Padding(
+                        padding: EdgeInsets.only(top: 30.0),
+                        child: Text("No package items"),
+                      )),
+                      visible: false,
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: sampleHighPriorityRequestsList.length,
+                          itemBuilder: (context, index) {
+                            final sampleRequest =
+                                sampleHighPriorityRequestsList[index];
+
+                            return Card(
+                              color: Colors.white,
+                              child: ExpansionTile(
+                                shape: Border.all(color: Colors.transparent),
+                                title: Text(
+                                  sampleRequest.requestTitle,
+                                  overflow: TextOverflow.visible,
+                                ),
+                                subtitle: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Card(
+                                      color: Colors.white,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Text("tems : 1 "),
+                                      ),
                                     ),
-                                  ),
+                                  ],
+                                ),
+                                children: const [
+                                  ItemsListCardContainerWidget(),
                                 ],
                               ),
-                              children: const [
-                                ItemsListCardContainerWidget(),
-                              ],
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       ),
                     )
                   ],

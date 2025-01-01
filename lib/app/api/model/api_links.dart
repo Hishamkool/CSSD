@@ -1,7 +1,6 @@
 class ApiLinks{
 
-  static const String baseIp = "http://192.168.0.251:65113/api/" ;
-/*   static const String baseurl  = 'Department/'; */
+  static const String baseIp = "http://192.168.0.251:65113/api/" ; 
 
   //login
   static const String preLoginAuth = "Home/PreLoginAuthentication";
@@ -10,6 +9,7 @@ class ApiLinks{
   //cssd user
   static const String  getCssdList = "/Home/GetCSSD_List"; // cssd dashboard request list 
   static const String  getCssdDet = "/Home/GetCSSD_Det";  // cssd dashboard request list details
+  static const String  acceptRequest = "/Home/AcceptRequest";  // cssd dashboard accepting the whole request using requestId
   
 
 

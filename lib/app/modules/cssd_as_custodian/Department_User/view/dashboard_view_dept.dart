@@ -5,7 +5,7 @@ import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/da
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/widgets/dashboard_widgets/build_floating_actions_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/widgets/dashboard_widgets/dahboard_buttons_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/widgets/dashboard_widgets/department_dropdown_dashboard_widget.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/widgets/dashboard_widgets/exit_dialogbox_widget.dart';
+import 'package:cssd/Widgets/exit_dialogbox_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/widgets/dashboard_widgets/request_details_table_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/view/widgets/dashboard_widgets/show_department_selection_popup_widget.dart';
 import 'package:cssd/app/modules/login_module/view/widgets/logout_popup.dart';

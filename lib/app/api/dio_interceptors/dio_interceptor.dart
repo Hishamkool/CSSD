@@ -3,8 +3,12 @@ import 'dart:io';
 
 import 'package:cssd/app/api/model/api_client.dart';
 import 'package:cssd/app/api/model/api_links.dart';
+import 'package:cssd/app/modules/login_module/view/login_screen.dart';
+import 'package:cssd/main.dart';
+import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/local_storage_manager.dart';
+import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:dio/dio.dart';
 
@@ -42,7 +46,7 @@ class DioUtilAuthorized {
             options.headers['accept'] = "*/*";
             String? token =
                 LocalStorageManager.getString(StorageKeys.loginToken);
-                log("Token is : Bearer $token");
+            log("Token is : Bearer $token");
             if (token != null) {
               options.headers['Authorization'] = 'Bearer $token';
             } else {
@@ -55,12 +59,27 @@ class DioUtilAuthorized {
               log('Authorization failed: ${error.response?.statusCode}');
               showSnackBarNoContext(
                   isError: true, msg: "Please RELOGIN, authorization failed.");
+              try {
+                Navigator.pushNamedAndRemoveUntil(
+                  scaffoldMessengerKey.currentState!.context,
+                  Routes.loginScreen,
+                  (route) => false,
+                );
+                Navigator.pushAndRemoveUntil(
+                  scaffoldMessengerKey.currentState!.context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                  (route) => false, // Removes all previous routes
+                );
+              } on Exception catch (e) {
+                showSnackBarNoContext(isError: true, msg: "$e");
+              }
             } else if (error.response?.statusCode == 206) {
               showSnackBarNoContext(
                   isError: true, msg: "Partial Data error, status 206");
             }
             if (error.type == DioExceptionType.connectionError ||
-                error.type == DioExceptionType.connectionTimeout || error.error is SocketException) {
+                error.type == DioExceptionType.connectionTimeout ||
+                error.error is SocketException) {
               log('Connection error or timeout');
               // Show Snackbar with connection error message
               showSnackBarNoContext(

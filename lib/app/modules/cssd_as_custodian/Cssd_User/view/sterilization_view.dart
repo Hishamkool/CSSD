@@ -2,6 +2,7 @@ import 'package:cssd/Widgets/button_widget.dart';
 import 'package:cssd/Widgets/custom_date_picker_widget.dart';
 import 'package:cssd/Widgets/custom_dialog.dart';
 import 'package:cssd/Widgets/custom_textfield.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/request_provider.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/endDrawer.dart';
 import 'package:cssd/Widgets/rounded_container.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/sterilization_provider.dart';
@@ -14,10 +15,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-class SterilizationViewCssdCussCssdLogin extends StatelessWidget {
+class SterilizationViewCssdCussCssdLogin extends StatefulWidget {
   const SterilizationViewCssdCussCssdLogin({super.key});
+
+  @override
+  State<SterilizationViewCssdCussCssdLogin> createState() =>
+      _SterilizationViewCssdCussCssdLoginState();
+}
+
+class _SterilizationViewCssdCussCssdLoginState
+    extends State<SterilizationViewCssdCussCssdLogin> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    final requestId = ModalRoute.of(context)?.settings.arguments ;
+      if (requestId  is int ) {
+        context
+            .read<RequestControler>()
+            .getCssdRequestListDetails(requestId); // eg: , [11]
+      }  
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final  requestId = ModalRoute.of(context)?.settings.arguments ;
+    
     final mediaQuery = MediaQuery.of(context).size;
     var isMobile = mediaQuery.width <= 500;
     return Scaffold(
@@ -40,78 +64,81 @@ class SterilizationViewCssdCussCssdLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  RoundedContainer(
-                      containerBody: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ButtonWidget(
-                            borderRadius: 6,
-                            buttonSize: const Size(0, 0),
-                            buttonLabel: "change",
-                            onPressed: () {},
-                          ),
-                          Text(
-                            "Request ID :  4",
-                            style: FontStyles.bodyPieTitleStyle,
-                          ),
-                          ButtonWidget(
-                            borderRadius: 6,
-                            buttonSize: const Size(0, 0),
-                            buttonLabel: "Items",
-                            onPressed: () {
-                              customDialog(
-                                dialogContext: context,
-                                onCancelDefaultAction: () {
-                                  Navigator.of(context).pop();
-                                },
-                                defaultAcceptText: "Add",
-                                defaultCancelText: "Cancel",
-                                dialogContent: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.5,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.5,
-                                  child: const Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Single items :"),
-                                      Expanded(
-                                          child:
-                                              SterilizationSingleItemsPopupWidget()),
-                                      SizedBox(height: 20),
-                                      Text("Package Items :"),
-                                      Expanded(
-                                          child:
-                                              SterilizationPackageItemsPopupWidget()),
-                                    ],
+                  Visibility(
+                    visible: requestId != null,
+                    child: RoundedContainer(
+                        containerBody: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ButtonWidget(
+                              borderRadius: 6,
+                              buttonSize: const Size(0, 0),
+                              buttonLabel: "change",
+                              onPressed: () {},
+                            ),
+                            Text(
+                              "Request ID :  $requestId",
+                              style: FontStyles.bodyPieTitleStyle,
+                            ),
+                            ButtonWidget(
+                              borderRadius: 6,
+                              buttonSize: const Size(0, 0),
+                              buttonLabel: "Items",
+                              onPressed: () {
+                                customDialog(
+                                  dialogContext: context,
+                                  onCancelDefaultAction: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  defaultAcceptText: "Add",
+                                  defaultCancelText: "Cancel",
+                                  dialogContent: SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.5,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                    child: const Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Single items :"),
+                                        Expanded(
+                                            child:
+                                                SterilizationSingleItemsPopupWidget()),
+                                        SizedBox(height: 20),
+                                        Text("Package Items :"),
+                                        Expanded(
+                                            child:
+                                                SterilizationPackageItemsPopupWidget()),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                dialogShowDefaultActions: true,
-                              );
-                            },
-                          )
-                        ],
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Department : Operation Theater"),
-                          Text("Priority : Medium"),
-                        ],
-                      ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("Requested By : Omar"),
-                          Text("Request date : 21-10-2024"),
-                        ],
-                      ),
-                    ],
-                  )),
+                                  dialogShowDefaultActions: true,
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Department : Operation Theater"),
+                            Text("Priority : Medium"),
+                          ],
+                        ),
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Requested By : Omar"),
+                            Text("Request date : 21-10-2024"),
+                          ],
+                        ),
+                      ],
+                    )),
+                  ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10.w),
                     child: Column(

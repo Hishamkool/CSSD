@@ -1,3 +1,4 @@
+import 'package:cssd/Widgets/exit_dialogbox_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/dashboard_controller.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/dashboard_view.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/issue_view.dart';
@@ -31,7 +32,7 @@ class BottomNavigationBarDashboardCssdUser extends StatelessWidget {
 
     List<Widget> screens = [
       const DashboardViewCssdCssCssdLogin(),
-      const RequestsViewCssdCussCssdLogin(),
+      // const RequestsViewCssdCussCssdLogin(),
       const SterilizationViewCssdCussCssdLogin(),
       const PickupPageCssdCussCssdLogin(),
       const IssueViewCssdCussCssdLogin(),
@@ -44,7 +45,7 @@ class BottomNavigationBarDashboardCssdUser extends StatelessWidget {
         if (didPop) {
           return;
         }
-        logoutPopup(context);
+        exitDialogBox(context);
       },
       child: Scaffold(
         bottomNavigationBar: Consumer<DashboardController>(
@@ -62,10 +63,10 @@ class BottomNavigationBarDashboardCssdUser extends StatelessWidget {
                 semanticLabel: 'Home',
                 color: Colors.white,
               ),
-              Icon(
+              /*  Icon(
                 FluentIcons.branch_request_16_filled,
                 color: Colors.white,
-              ),
+              ), */
               Icon(
                 FluentIcons.paint_brush_16_filled,
                 color: Colors.white,

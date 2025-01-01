@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cssd/app/api/dio_interceptors/dio_interceptor.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/accept_request_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_det_model.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:flutter/foundation.dart';
@@ -101,7 +102,7 @@ class RequestControler extends ChangeNotifier {
     notifyListeners();
   }
 
-  // function to get details of the request list -- request details page 
+  // function to get details of the request list -- request details page
   final List<GetCssdDetData> _requestDetailsDataList = [];
   List<GetCssdDetData> get requestDetailsDataList => _requestDetailsDataList;
   Future<void> getCssdRequestListDetails(int requestID) async {
@@ -126,6 +127,30 @@ class RequestControler extends ChangeNotifier {
     notifyListeners();
   }
 
-  // selecting the items from the request list 
-  
+  // function to accept the current request
+  final List<AcceptRequestData> _acceptedRequest = [];
+  List<AcceptRequestData> get acceptedRequest => _acceptedRequest;
+  Future<bool> acceptCurrentRequest(int requestID) async {
+    final client = await DioUtilAuthorized.createApiClient();
+    try {
+      final response = await client.acceptRequest(requestID);
+      if (response.status == 200) {
+        _acceptedRequest.add(response.data);
+        showSnackBarNoContext(isError: false, msg: "Successfully accepted");
+        return true;
+        // succesfully accepted
+      } else {
+        showSnackBarNoContext(
+            isError: true,
+            msg: "Some error occured, status:${response.status}");
+        return false;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        log("exception occured while accepting the current request $e");
+        showSnackBarNoContext(isError: true, msg: "$e");
+      }
+      return false;
+    }
+  }
 }

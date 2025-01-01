@@ -1,5 +1,7 @@
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
+import 'package:cssd/util/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:marquee/marquee.dart';
 
@@ -12,16 +14,18 @@ class RequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // to get products in each map
-    final allProducts = request.productdet.map((pdt) => pdt.productName).join(' , ');
+    final allProducts =
+        request.productdet.map((pdt) => pdt.productName).join(' , ');
     final requestedTime = request.rTime;
     String formatedTime = DateFormat('hh:mm a').format(requestedTime);
     String formatedDate = DateFormat('dd/MMM/yyy').format(requestedTime);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
       child: InkWell(
         onTap: onTap,
         child: Card(
+          color: StaticColors.scaffoldBackgroundcolor,
           elevation: 4,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -30,7 +34,6 @@ class RequestCard extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
-              color: Colors.white,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,9 +46,9 @@ class RequestCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 8),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: const BorderRadius.only(
+                      decoration: const BoxDecoration(
+                        color:  Color(0xffF0F5FA),
+                        borderRadius: BorderRadius.only(
                             bottomRight: Radius.circular(10),
                             topLeft: Radius.circular(12)),
                       ),
@@ -54,7 +57,7 @@ class RequestCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -69,15 +72,16 @@ class RequestCard extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              color: Colors.white,
                             ),
                           ),
                           const SizedBox(height: 4),
+                          // requested user
                           Text(
-                            request.ruser, // requested user
-                            style: const TextStyle(
+                            request.ruser,
+                            style: GoogleFonts.roboto(
                               fontSize: 12,
-                              color: Colors.black54,
+                              color: Colors.white,
                             ),
                           ),
                         ],
@@ -91,7 +95,7 @@ class RequestCard extends StatelessWidget {
                           formatedTime,
                           style: const TextStyle(
                             fontSize: 12,
-                            color: Colors.black54,
+                            color: Colors.white,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -100,7 +104,7 @@ class RequestCard extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: Colors.black87,
+                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -121,7 +125,7 @@ class RequestCard extends StatelessWidget {
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: Colors.black87,
+                      color: Colors.white,
                     ),
                     scrollAxis: Axis.horizontal,
                     blankSpace: 50.0,

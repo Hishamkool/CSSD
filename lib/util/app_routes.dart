@@ -28,18 +28,12 @@ class Routes {
   static const String dashboardViewCssdCssCssdLogin =
       '/DashboardViewCssdCssCssdLogin';
   static const String alertViewCssdCusCssdLogin = '/AlertViewCssdCusCssdLogin';
-  static const String requestsViewCssdCussCssdLogin =
-      '/RequestsViewCssdCussCssdLogin';
-  static const String requestDetailsViewCssdCussCssLogin =
-      '/RequestDetailsViewCssdCussCssLogin';
-  static const String sterilizationViewCssdCussCssdLogin =
-      '/SterilizationViewCssdCussCssdLogin';
-  static const String pickupPageCssdCussCssdLogin =
-      '/PickupPageCssdCussCssdLogin';
-  static const String issueViewCssdCussCssdLogin =
-      '/IssueViewCssdCussCssdLogin';
-  static const String timelineViewCssdCussCssdLogin =
-      '/TimelineViewCssdCussCssdLogin';
+  static const String searchRequestsViewCssdCussCssdLogin = '/SearchRequestsViewCssdCussCssdLogin';
+  static const String requestDetailsViewCssdCussCssLogin = '/RequestDetailsViewCssdCussCssLogin';
+  static const String sterilizationViewCssdCussCssdLogin = '/SterilizationViewCssdCussCssdLogin';
+  static const String pickupPageCssdCussCssdLogin = '/PickupPageCssdCussCssdLogin';
+  static const String issueViewCssdCussCssdLogin = '/IssueViewCssdCussCssdLogin';
+  static const String timelineViewCssdCussCssdLogin = '/TimelineViewCssdCussCssdLogin';
 
   /*Department pages  -- cssd custodian--------------------------------------------------------------*/
   static const String dashboardViewCssdCussDeptUser =
@@ -68,8 +62,8 @@ class Routes {
     dashboardViewCssdCssCssdLogin: (context) =>
         const DashboardViewCssdCssCssdLogin(),
     alertViewCssdCusCssdLogin: (context) => const AlertViewCssdCusCssdLogin(),
-    requestsViewCssdCussCssdLogin: (context) =>
-        const RequestsViewCssdCussCssdLogin(),
+    searchRequestsViewCssdCussCssdLogin: (context) =>
+        const SearchRequestsViewCssdCussCssdLogin(),
     requestDetailsViewCssdCussCssLogin: (context) =>
         const RequestDetailsViewCssdCussCssLogin(),
     sterilizationViewCssdCussCssdLogin: (context) =>

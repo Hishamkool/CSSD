@@ -192,8 +192,14 @@ class _DashboardViewCssdCssCssdLoginState
                                     ],
                                   ),
                                   IconButton(
-                                    hoverColor: Colors.amber,tooltip: "Search Requests",
-                                      onPressed: () {},
+                                      hoverColor: Colors.amber,
+                                      tooltip: "Search Requests",
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context,
+                                            Routes
+                                                .searchRequestsViewCssdCussCssdLogin);
+                                      },
                                       icon: Icon(
                                         FluentIcons.search_12_filled,
                                         color: hexToColorWithOpacity(
@@ -278,16 +284,22 @@ class _DashboardViewCssdCssCssdLoginState
       return const SizedBox.shrink(); // Return an empty widget if no privileges
     }
     // Return the floating action button if the privilege flag is true
-    return FloatingActionButton.extended(
-      backgroundColor: StaticColors.scaffoldBackgroundcolor,
-      label: const Text(
-        "Switch to department",
-        style: TextStyle(color: Colors.white),
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.blue.shade100, width: 0.2),
+          borderRadius: BorderRadius.circular(15)),
+      child: FloatingActionButton.extended(
+        elevation: 9,
+        backgroundColor: StaticColors.scaffoldBackgroundcolor,
+        label: const Text(
+          "Switch to department",
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: () {
+          Navigator.pushNamedAndRemoveUntil(context,
+              Routes.dashboardViewCssdCussDeptUser, (Route route) => false);
+        },
       ),
-      onPressed: () {
-        Navigator.pushNamedAndRemoveUntil(context,
-            Routes.dashboardViewCssdCussDeptUser, (Route route) => false);
-      },
     );
   }
 }

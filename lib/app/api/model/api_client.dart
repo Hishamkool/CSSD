@@ -1,5 +1,6 @@
 import 'package:cssd/app/api/model/api_links.dart';
 import 'package:cssd/app/api/model/general_response_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/accept_request_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_det_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/dahboard_models/get_cssd_send_requests.dart';
@@ -105,4 +106,9 @@ abstract class ApiClient {
   Future<GetCssdDet> getCssdDet(
     @Query("SID") int sid,
   );
+
+  @POST(ApiLinks.acceptRequest)
+  Future<AcceptRequest> acceptRequest(@Query("SID") int sid);
+
 }
+ 
