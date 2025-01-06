@@ -1,4 +1,4 @@
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/dashboard_models/get_cssd_list_model.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';

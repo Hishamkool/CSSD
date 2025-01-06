@@ -1,4 +1,4 @@
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/dashboard_models/get_cssd_list_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/dashboard_controller.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/dashboard_widgets/request_card_widget.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/dashboard_widgets/tabbar_head_dahboard.dart';

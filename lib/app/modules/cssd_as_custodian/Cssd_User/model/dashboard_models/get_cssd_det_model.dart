@@ -1,4 +1,3 @@
-
 // details of a particular request
 import 'package:json_annotation/json_annotation.dart';
 part 'get_cssd_det_model.g.dart';

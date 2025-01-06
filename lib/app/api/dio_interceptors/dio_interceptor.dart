@@ -59,20 +59,11 @@ class DioUtilAuthorized {
               log('Authorization failed: ${error.response?.statusCode}');
               showSnackBarNoContext(
                   isError: true, msg: "Please RELOGIN, authorization failed.");
-              try {
-                Navigator.pushNamedAndRemoveUntil(
-                  scaffoldMessengerKey.currentState!.context,
-                  Routes.loginScreen,
-                  (route) => false,
-                );
-                Navigator.pushAndRemoveUntil(
-                  scaffoldMessengerKey.currentState!.context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                  (route) => false, // Removes all previous routes
-                );
-              } on Exception catch (e) {
-                showSnackBarNoContext(isError: true, msg: "$e");
-              }
+              // routing back to login screen
+              navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                Routes.loginScreen,
+                (route) => false,
+              );
             } else if (error.response?.statusCode == 206) {
               showSnackBarNoContext(
                   isError: true, msg: "Partial Data error, status 206");
@@ -87,9 +78,9 @@ class DioUtilAuthorized {
                   msg: "No internet connection. Please check your network.");
             } else if (error.error == 'No internet connection') {
               log('No internet connection');
+              showSnackBarNoContext(isError: true, msg: "no network connection");
             } else {
               log('Server error: ${error.requestOptions.uri}');
-              showSnackBarNoContext(isError: true, msg: "Something went wrong");
             }
 
             log('Error: ${error.toString()}');
@@ -200,7 +191,3 @@ class DioUtilAuthorized {
 //     }
 //   }
 // } */
-
-
-
-

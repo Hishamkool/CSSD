@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:cssd/Widgets/button_widget.dart';
 import 'package:cssd/Widgets/doctorProfileImage.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/endDrawer.dart';
 import 'package:cssd/Widgets/notification_icon.dart';
@@ -163,54 +162,52 @@ class _DashboardViewCssdCssCssdLoginState
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Today's Sterilization Requests ",
-                                        style: GoogleFonts.plusJakartaSans(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                            color: hexToColorWithOpacity(
-                                                hexColor: "1C170D")),
-                                      ),
-                                      Consumer<DashboardController>(builder:
-                                          (context, dashboardProvider, child) {
-                                        return Text(
-                                          "(${dashboardProvider.highPriorityRequestList.length + dashboardProvider.mediumPriorityRequestList.length + dashboardProvider.lowPriorityRequestList.length})",
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: hexToColorWithOpacity(
-                                                hexColor: "#003f5c"),
-                                          ),
-                                        );
-                                      })
-                                    ],
-                                  ),
-                                  IconButton(
-                                      hoverColor: Colors.amber,
-                                      tooltip: "Search Requests",
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context,
-                                            Routes
-                                                .searchRequestsViewCssdCussCssdLogin);
-                                      },
-                                      icon: Icon(
-                                        FluentIcons.search_12_filled,
-                                        color: hexToColorWithOpacity(
-                                            hexColor: "#003f5c"),
-                                      ))
-                                  /*  ButtonWidget(
-                                      borderRadius: 8,
-                                      buttonTextSize: 14,
-                                      buttonLabel: "ALL",
-                                      onPressed: () {}), */
-                                ],
+                              FittedBox(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "Today's Sterilization Requests ",
+                                          style: GoogleFonts.plusJakartaSans(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold,
+                                              color: hexToColorWithOpacity(
+                                                  hexColor: "1C170D")),
+                                        ),
+                                        Consumer<DashboardController>(builder:
+                                            (context, dashboardProvider, child) {
+                                          return Text(
+                                            "(${dashboardProvider.highPriorityRequestList.length + dashboardProvider.mediumPriorityRequestList.length + dashboardProvider.lowPriorityRequestList.length})",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              color: hexToColorWithOpacity(
+                                                  hexColor: "#003f5c"),
+                                            ),
+                                          );
+                                        })
+                                      ],
+                                    ),
+                                    IconButton(
+                                        hoverColor: Colors.amber,
+                                        tooltip: "Search Requests",
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context,
+                                              Routes
+                                                  .searchRequestsViewCssdCussCssdLogin);
+                                        },
+                                        icon: Icon(
+                                          FluentIcons.search_12_filled,
+                                          color: hexToColorWithOpacity(
+                                              hexColor: "#003f5c"),
+                                        ))
+                                     
+                                  ],
+                                ),
                               ),
                               /* const Align(
                                 alignment: Alignment.centerLeft,

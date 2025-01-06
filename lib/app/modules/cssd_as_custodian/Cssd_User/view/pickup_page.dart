@@ -10,7 +10,7 @@ import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart'; 
 
 class PickupPageCssdCussCssdLogin extends StatelessWidget {
   const PickupPageCssdCussCssdLogin({super.key});

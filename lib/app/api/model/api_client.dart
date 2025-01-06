@@ -1,8 +1,10 @@
 import 'package:cssd/app/api/model/api_links.dart';
 import 'package:cssd/app/api/model/general_response_model.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/accept_request_model.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_det_model.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/request_models/accept_request_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/dashboard_models/get_cssd_det_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/dashboard_models/get_cssd_list_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/sterilization_models/get_machine_name_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/sterilization_models/get_process_name_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/dahboard_models/get_cssd_send_requests.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/dahboard_models/get_cssd_sent_item_details_model.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/dahboard_models/get_request_details_model.dart';
@@ -20,8 +22,7 @@ import 'package:cssd/app/modules/cssd_as_custodian/Department_User/model/used_it
 import 'package:cssd/app/modules/login_module/model/login_model.dart';
 import 'package:cssd/app/modules/login_module/model/pre_login_authentication_model.dart';
 import 'package:dio/dio.dart';
-import 'package:retrofit/retrofit.dart';
-
+import 'package:retrofit/retrofit.dart'; 
 part 'api_client.g.dart';
 
 @RestApi(baseUrl: "")
@@ -102,7 +103,7 @@ abstract class ApiClient {
   Future<GetPackagedetails> getPackagedetails(
       @Query("department") String department, @Query("pckid") int pckid);
 
-  @GET(ApiLinks.getCssdDet) // not required
+  @GET(ApiLinks.getCssdDet)
   Future<GetCssdDet> getCssdDet(
     @Query("SID") int sid,
   );
@@ -110,5 +111,11 @@ abstract class ApiClient {
   @POST(ApiLinks.acceptRequest)
   Future<AcceptRequest> acceptRequest(@Query("SID") int sid);
 
+  @GET(ApiLinks.getMachineName)
+  Future<GetMachineName> getMachineName();
+
+  @GET(ApiLinks.getProcessName)
+  Future<GetProcessName> getProcessName(
+    @Query("process") String process,
+  );
 }
- 

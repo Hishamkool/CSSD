@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:cssd/app/api/dio_interceptors/dio_interceptor.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_det_model.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/get_cssd_list_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/dashboard_models/get_cssd_det_model.dart';
+import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/dashboard_models/get_cssd_list_model.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:flutter/foundation.dart';
 

@@ -4,6 +4,7 @@ import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/request_
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/endDrawer.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/model/sampleRequestList.dart';
 import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/view/widgets/pickup_widgets/items_list_card_container_widget.dart';
+import 'package:cssd/main.dart';
 import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
@@ -31,16 +32,13 @@ class _RequestDetailsViewCssdCussCssLoginState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final requestId = ModalRoute.of(context)?.settings.arguments as int;
-      context
-          .read<RequestControler>()
-          .getCssdRequestListDetails(requestId); // eg: , [11]
+      context.read<RequestControler>().getCssdRequestListDetails(requestId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final requestId =
-        ModalRoute.of(context)!.settings.arguments as List; // eg: , [11]
+    final requestId = ModalRoute.of(context)!.settings.arguments as int;
 
     return Scaffold(
         backgroundColor: StaticColors.scaffoldBackgroundcolor,
@@ -95,10 +93,12 @@ class _RequestDetailsViewCssdCussCssLoginState
                 final requestController =
                     Provider.of<RequestControler>(context, listen: false);
                 bool ifAccepted =
-                    await requestController.acceptCurrentRequest(requestId[0]);
+                    await requestController.acceptCurrentRequest(requestId);
 
                 if (ifAccepted) {
-                  Navigator.pushNamed(context, Routes.sterilizationViewCssdCussCssdLogin ,arguments: requestId);
+                  navigatorKey.currentState!.pushNamed(
+                      Routes.sterilizationViewCssdCussCssdLogin,
+                      arguments: requestId);
                 }
               },
               label: const Text(
@@ -128,10 +128,10 @@ class _RequestDetailsViewCssdCussCssLoginState
               children: [
                 //request title
                 Consumer<RequestControler>(
-                    builder: (context, requestsConsumer, child) {
-                  final requestDetailsList =
-                      requestsConsumer.requestDetailsDataList.first;
-                  final requestedTime = requestDetailsList.rTime;
+                    builder: (context, requestConsumer, child) {
+                  final requestDetails =
+                      requestConsumer.requestDetailsDataList.first;
+                  final requestedTime = requestDetails.rTime;
                   String formatedTime =
                       DateFormat('hh:mm a').format(requestedTime);
                   String formatedDate =
@@ -145,16 +145,16 @@ class _RequestDetailsViewCssdCussCssLoginState
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Request ID :  ${requestId[0]}",
+                              "Request ID :  $requestId",
                               style: FontStyles.bodyPieTitleStyle,
                             ),
-                            Text("Priority :  ${requestDetailsList.priority}"),
+                            Text("Priority :  ${requestDetails.priority}"),
                           ],
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Department : ${requestDetailsList.sub}"),
+                            Text("Department : ${requestDetails.sub}"),
                             Text("$formatedDate "),
                           ],
                         ),
@@ -162,7 +162,7 @@ class _RequestDetailsViewCssdCussCssLoginState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Requested By :  ${requestDetailsList.ruser}"),
+                            Text("Requested By :  ${requestDetails.ruser}"),
                             Text("$formatedTime "),
                           ],
                         ),
