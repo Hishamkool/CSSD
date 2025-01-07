@@ -5,7 +5,6 @@ import 'package:cssd/Widgets/custom_dialog.dart';
 import 'package:cssd/Widgets/custom_textfield.dart';
 import 'package:cssd/Widgets/typehead_dropdown_search.dart';
 import 'package:cssd/app/modules/Cssd_User/controller/request_provider.dart';
-import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_machine_name_model.dart';
 import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_process_name_model.dart';
 import 'package:cssd/app/modules/Cssd_User/view/endDrawer.dart';
 import 'package:cssd/Widgets/rounded_container.dart';
@@ -17,7 +16,6 @@ import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -50,7 +48,7 @@ class _SterilizationViewCssdCussCssdLoginState
     final requestId = ModalRoute.of(context)?.settings.arguments;
 
     final mediaQuery = MediaQuery.of(context).size;
-    var isMobile = mediaQuery.width <= 500;
+    // var isMobile = mediaQuery.width <= 500;
     return Scaffold(
       backgroundColor: StaticColors.scaffoldBackgroundcolor,
       endDrawer: endDrawer(context),

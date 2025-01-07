@@ -57,8 +57,8 @@ class _DashboardViewCssdCssCssdLoginState
       body: Stack(
         clipBehavior: Clip.none,
         children: [
-          ListView(
-            // mainAxisSize: MainAxisSize.max,
+          Column(
+             mainAxisSize: MainAxisSize.max,
             children: [
               AppBar(
                 title: Padding(
@@ -225,6 +225,7 @@ class _DashboardViewCssdCssCssdLoginState
                               const Expanded(
                                 child: TabBarDashboard(),
                               ),
+                              
                             ],
                           ),
                         ),

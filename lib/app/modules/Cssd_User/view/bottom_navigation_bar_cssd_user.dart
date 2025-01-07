@@ -3,10 +3,8 @@ import 'package:cssd/app/modules/Cssd_User/controller/dashboard_controller.dart'
 import 'package:cssd/app/modules/Cssd_User/view/dashboard_view.dart';
 import 'package:cssd/app/modules/Cssd_User/view/issue_view.dart';
 import 'package:cssd/app/modules/Cssd_User/view/pickup_page.dart';
-import 'package:cssd/app/modules/Cssd_User/view/requests_view.dart';
 import 'package:cssd/app/modules/Cssd_User/view/sterilization_view.dart';
 import 'package:cssd/app/modules/Cssd_User/view/timeline_view.dart';
-import 'package:cssd/app/modules/login_module/view/widgets/logout_popup.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/local_storage_manager.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';

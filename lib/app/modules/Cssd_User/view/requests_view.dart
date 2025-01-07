@@ -19,7 +19,7 @@ class SearchRequestsViewCssdCussCssdLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size mediaQuery = MediaQuery.of(context).size;
-    final isMobile = mediaQuery.width <= 500;
+    // final isMobile = mediaQuery.width <= 500;
     final requestControler =
         Provider.of<RequestControler>(context, listen: false);
 

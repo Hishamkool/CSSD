@@ -78,7 +78,7 @@ class Routes {
     dashboardViewCssdCussDeptUser: (context) =>
         const DashboardViewCssdCussDeptUser(), //home
     sterilizationRequestViewCssdCussDeptUser: (context) =>
-        const SterilizationRequestViewCssdCussDeptUser(),
+        const SendToCssdViewCssdCussDeptUser(),
     /* requestDetailsViewCssdCussDeptUser: (context) =>
         RequestDetailsViewCssdCussDeptUser(), */
 

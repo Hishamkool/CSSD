@@ -19,6 +19,7 @@ import 'package:easy_loading_button/easy_loading_button.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
@@ -117,11 +118,7 @@ class _DashboardViewCssdCussDeptUserState
                 height: 12.h,
               ),
               //department dropdown
-              SizedBox(
-                width: mediaQuery.width,
-                height: 50,
-                child: const DepartmentSelectionDashboardWidget(),
-              )
+              const DepartmentSelectionDashboardWidget()
             ],
           ),
           automaticallyImplyLeading: false,
@@ -286,7 +283,7 @@ class _DashboardViewCssdCussDeptUserState
                               RichText(
                                 text: TextSpan(
                                   text: 'My Requests ',
-                                  style: const TextStyle(
+                                  style: GoogleFonts.plusJakartaSans(
                                       fontSize: 25.0,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w600),
@@ -305,26 +302,32 @@ class _DashboardViewCssdCussDeptUserState
                               ),
                               Text(
                                 "requested to cssd",
-                                style: TextStyle(
+                                style: GoogleFonts.aBeeZee(
                                     color: Colors.grey.shade300, fontSize: 14),
                               ),
                             ],
                           ),
                           EasyButton(
-                            idleStateWidget: const Icon(
-                              Icons.refresh,
-                              color: Colors.white,
-                            ),
-                            loadingStateWidget: const CircularProgressIndicator(
-                              strokeWidth: 3.0,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
+                            idleStateWidget: const Center(
+                              child:  Icon(
+                                Icons.refresh,
+                                color: Colors.white,
                               ),
                             ),
-                            useEqualLoadingStateWidgetDimension: true,
-                            useWidthAnimation: false,
-                            width: 100,
-                            height: 30,
+                            loadingStateWidget: const SizedBox(
+                              width: 15,
+                              height: 15,
+                              child:  CircularProgressIndicator(
+                                strokeWidth: 3.0, 
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                            ),
+                            width: 40,
+                            height: 40,
+                            useEqualLoadingStateWidgetDimension: false,
+                            useWidthAnimation: true,
                             borderRadius: 4.0,
                             elevation: 2.0,
                             contentGap: 6.0,
@@ -526,9 +529,11 @@ class _DashboardViewCssdCussDeptUserState
                                                                 .redAccent),
                                                       ),
                                                 request.isAccepted == true
-                                                    ? Text(
-                                                        "Accepted By: ${request.acceptedUser}",
-                                                      )
+                                                    ? FittedBox(
+                                                      child: Text(
+                                                          "Accepted By: ${request.acceptedUser}",
+                                                        ),
+                                                    )
                                                     : const SizedBox.shrink(),
                                               ],
                                             )),
@@ -545,7 +550,7 @@ class _DashboardViewCssdCussDeptUserState
                   ),
                 );
               }),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 500.0),
             ],
           ),
         ),

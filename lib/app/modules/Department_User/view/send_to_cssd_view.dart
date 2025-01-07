@@ -31,16 +31,16 @@ List<DropdownMenuEntry<String>> priorityDropdownEntries = const [
   ),
 ];
 
-class SterilizationRequestViewCssdCussDeptUser extends StatefulWidget {
-  const SterilizationRequestViewCssdCussDeptUser({super.key});
+class SendToCssdViewCssdCussDeptUser extends StatefulWidget {
+  const SendToCssdViewCssdCussDeptUser({super.key});
 
   @override
-  State<SterilizationRequestViewCssdCussDeptUser> createState() =>
-      _SterilizationRequestViewCssdCussDeptUserState();
+  State<SendToCssdViewCssdCussDeptUser> createState() =>
+      _SendToCssdViewCssdCussDeptUserState();
 }
 
-class _SterilizationRequestViewCssdCussDeptUserState
-    extends State<SterilizationRequestViewCssdCussDeptUser> {
+class _SendToCssdViewCssdCussDeptUserState
+    extends State<SendToCssdViewCssdCussDeptUser> {
   @override
   void initState() {
     final selectedDepartment = context
@@ -83,7 +83,10 @@ class _SterilizationRequestViewCssdCussDeptUserState
           padding: const EdgeInsets.only(top: 8.0),
           child: Form(
             key: _formKey,
-            child: Column(mainAxisSize: MainAxisSize.max, children: [
+            child: ListView(
+              
+              //mainAxisSize: MainAxisSize.max,
+               children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -99,7 +102,7 @@ class _SterilizationRequestViewCssdCussDeptUserState
                             Provider.of<DashboardControllerCssdCussDeptUser>(
                                 context,
                                 listen: false);
-
+            
                         // fetching selected department from dashboard
                         String selectedDepartment =
                             dashboardController.getSelectedDepartment;
@@ -119,7 +122,8 @@ class _SterilizationRequestViewCssdCussDeptUserState
                                     msg: "selected item is null");
                               }
                             },
-                            futureRequestDelay: const Duration(milliseconds: 0),
+                            futureRequestDelay:
+                                const Duration(milliseconds: 0),
                             futureRequest: (stringItem) async {
                               // api calling to get the item name
                               if (selectedDepartment == "") {
@@ -137,7 +141,8 @@ class _SterilizationRequestViewCssdCussDeptUserState
                             },
                             headerBuilder: (context, selectedItem, enabled) {
                               if (sterilizationConsumer
-                                      .getSelectedUsedItemModel?.productName ==
+                                      .getSelectedUsedItemModel
+                                      ?.productName ==
                                   null) {
                                 // clear the header when itemmodel is null - set when department in changed from dropdown
                                 return const Text("");
@@ -156,7 +161,8 @@ class _SterilizationRequestViewCssdCussDeptUserState
                             closedHeaderPadding: const EdgeInsets.symmetric(
                                 vertical: 11.0, horizontal: 10.0),
                             decoration: CustomDropdownDecoration(
-                              closedBorder: Border.all(color: StaticColors.lightContainerborder),
+                              closedBorder: Border.all(
+                                  color: StaticColors.lightContainerborder),
                             ),
                             hintText: "Items",
                             searchHintText: "Search used items",
@@ -173,7 +179,7 @@ class _SterilizationRequestViewCssdCussDeptUserState
                   SizedBox(
                     width: 10.w,
                   ),
-
+            
                   // quantity textfield
                   Flexible(child:
                       Consumer<SendToCssdControllerCssdCussDeptUser>(
@@ -189,26 +195,27 @@ class _SterilizationRequestViewCssdCussDeptUserState
                         keyboardType: TextInputType.number,
                         textFieldSize: const Size(double.infinity, 80.0),
                         label: const FittedBox(child: Text("Quantity")),
-                        controller: sterilizationController.quantityController,
+                        controller:
+                            sterilizationController.quantityController,
                         validator: (enteredQuantity) {
                           final avalilableQuantity = sterilizationConsumer
                                   .getSelectedUsedItemModel?.usedQty ??
                               0;
-
+            
                           if (enteredQuantity == null ||
                               enteredQuantity.isEmpty) {
                             showToast(context, "Enter a valid number");
                             return 'empty';
                           }
-
+            
                           try {
                             final quantity = int.parse(enteredQuantity);
-
+            
                             if (quantity <= 0) {
                               showToast(context, "Enter valid quantity");
                               return 'negative / zero';
                             }
-
+            
                             if (quantity > avalilableQuantity) {
                               showSnackBarNoContext(
                                   isError: true,
@@ -216,13 +223,13 @@ class _SterilizationRequestViewCssdCussDeptUserState
                                       "Entered quantity exceeds available quantity : $avalilableQuantity");
                               return 'Exceeds limit';
                             }
-
+            
                             // Quantity is valid
                             return null;
                           } catch (e) {
                             log("quantity exception $e");
                             showToast(context, "Enter a valid number");
-
+            
                             return 'Enter a valid number ';
                           }
                         },
@@ -263,93 +270,91 @@ class _SterilizationRequestViewCssdCussDeptUserState
                 height: 12.h,
               ),
               //listing added items
-              Flexible(
-                child: Consumer<SendToCssdControllerCssdCussDeptUser>(
-                    builder: (context, sterilizationConsumer, child) {
-                  return Scrollbar(
-                    child: ListView.builder(
-                      itemCount: sterilizationConsumer
-                          .getSelectedItemsQuantityList.length,
-                      itemBuilder: (context, index) {
-                        final item = sterilizationConsumer
-                            .getSelectedItemsQuantityList[index];
-                        return CupertinoContextMenu(
-                          actions: [
-                            CupertinoContextMenuAction(
-                              onPressed: () {
-                                sterilizationConsumer
-                                    .deleteCurrentItemFromList(item);
-                                Navigator.pop(context);
-                              },
-                              isDestructiveAction: true,
-                              trailingIcon: CupertinoIcons.delete,
-                              child: const Text("Delete"),
-                            )
-                          ],
-                          enableHapticFeedback: true,
-                          child: Card(
-                            color: Colors.lightBlue.shade100,
-                            elevation: 2,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10.0, vertical: 15),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+              Consumer<SendToCssdControllerCssdCussDeptUser>(
+                  builder: (context, sterilizationConsumer, child) {
+                return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: sterilizationConsumer
+                      .getSelectedItemsQuantityList.length,
+                  itemBuilder: (context, index) {
+                    final item = sterilizationConsumer
+                        .getSelectedItemsQuantityList[index];
+                    return CupertinoContextMenu(
+                      actions: [
+                        CupertinoContextMenuAction(
+                          onPressed: () {
+                            sterilizationConsumer
+                                .deleteCurrentItemFromList(item);
+                            Navigator.pop(context);
+                          },
+                          isDestructiveAction: true,
+                          trailingIcon: CupertinoIcons.delete,
+                          child: const Text("Delete"),
+                        )
+                      ],
+                      enableHapticFeedback: true,
+                      child: Card(
+                        color: Colors.lightBlue.shade50,
+                        elevation: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0, vertical: 15),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  Row(
                                     children: [
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            'Item:',
-                                            overflow: TextOverflow.visible,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          SizedBox(
-                                            width: 4.w,
-                                          ),
-                                          Text(item.productname)
-                                        ],
+                                      const Text(
+                                        'Item:',
+                                        overflow: TextOverflow.visible,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
                                       ),
-                                      Row(
-                                        children: [
-                                          const Text(
-                                            'Quantity:',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(' ${item.qty}'),
-                                        ],
+                                      SizedBox(
+                                        width: 4.w,
                                       ),
+                                      Text(item.productname)
                                     ],
                                   ),
-                                  IconButton(
-                                      onPressed: () {
-                                        sterilizationConsumer
-                                            .deleteCurrentItemFromList(item);
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.black,
-                                      ))
+                                  Row(
+                                    children: [
+                                      const Text(
+                                        'Quantity:',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(' ${item.qty}'),
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ),
+                              IconButton(
+                                  onPressed: () {
+                                    sterilizationConsumer
+                                        .deleteCurrentItemFromList(item);
+                                  },
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.black,
+                                  ))
+                            ],
                           ),
-                        );
-                      },
-                    ),
-                  );
-                }),
-              ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
               //Priority radio button
               Consumer<SendToCssdControllerCssdCussDeptUser>(
                   builder: (context, sterilizationConsumer, child) {
@@ -362,7 +367,8 @@ class _SterilizationRequestViewCssdCussDeptUserState
                     children: [
                       Flexible(
                         child: RadioListTile(
-                          visualDensity: const VisualDensity(horizontal: -4.0),
+                          visualDensity:
+                              const VisualDensity(horizontal: -4.0),
                           contentPadding: EdgeInsets.zero,
                           title: const Text("High"),
                           value: "High",
@@ -377,7 +383,8 @@ class _SterilizationRequestViewCssdCussDeptUserState
                       Flexible(
                         child: RadioListTile(
                           title: const Text("Medium"),
-                          visualDensity: const VisualDensity(horizontal: -4.0),
+                          visualDensity:
+                              const VisualDensity(horizontal: -4.0),
                           contentPadding: EdgeInsets.zero,
                           value: "Medium",
                           groupValue: sterilizationConsumer.getPriority,
@@ -390,7 +397,8 @@ class _SterilizationRequestViewCssdCussDeptUserState
                       ),
                       Flexible(
                         child: RadioListTile(
-                          visualDensity: const VisualDensity(horizontal: -4.0),
+                          visualDensity:
+                              const VisualDensity(horizontal: -4.0),
                           contentPadding: EdgeInsets.zero,
                           title: const Text("Low"),
                           value: "Low",
@@ -406,7 +414,7 @@ class _SterilizationRequestViewCssdCussDeptUserState
                   ),
                 );
               }),
-
+            
               //remarks container
               InputDecorator(
                 decoration: const InputDecoration(
@@ -431,16 +439,19 @@ class _SterilizationRequestViewCssdCussDeptUserState
               ),
               //send to cssd button / slider
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0, vertical: 10),
                 child: SlideAction(
+                  height: 50,
+                  sliderRotate: false,
                   sliderButtonIcon: const Icon(
                     FluentIcons.vehicle_truck_profile_16_filled,
+                    size: 25,
                     color: StaticColors.scaffoldBackgroundcolor,
                   ),
                   outerColor: StaticColors.scaffoldBackgroundcolor,
-                  text: "Slide to send to cssd",
-                  sliderButtonIconPadding: 10,
+                  text: "Slide to send to cssd ->",
+                  sliderButtonIconPadding: 5,
                   onSubmit: () {
                     return sterilizationController
                         .sendUsedItemsToCssd(
