@@ -1,5 +1,5 @@
 import 'package:cssd/Widgets/custom_dialog.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/dashboard_controller_dept.dart';
+import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
 import 'package:cssd/app/modules/login_module/controller/login_controller.dart';
 import 'package:cssd/util/app_routes.dart';
 import 'package:flutter/material.dart';

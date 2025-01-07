@@ -1,6 +1,4 @@
-
-
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class DynamicSearchField<T> extends StatefulWidget {
@@ -58,9 +56,7 @@ class _DynamicSearchFieldState<T> extends State<DynamicSearchField<T>> {
   }
 }
 
-
-
-Padding itemSearchField(
+itemSearchField(
   BuildContext context, {
   String? hintText,
   String? labelText,
@@ -77,68 +73,66 @@ Padding itemSearchField(
   Function? onchange,
   VoidCallback? clearDetails,
 }) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 10),
-    child: SizedBox(
-       
-      child: TextFormField(
-        enabled: enabled,
-        obscureText: password ?? false,
-        onTapOutside: (event) => focusNode?.unfocus(),
-        keyboardType: textInputType,
-        controller: controller,
-        focusNode: focusNode,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter item name';
-          }
-          return null;
-        },
-        decoration: InputDecoration(
-          labelText: labelText /* ?? 'Search here..' */,
-          border: const OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)), borderSide: BorderSide(color: Colors.grey)),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-          // contentPadding: EdgeInsets.zero,
-          hintText: hintText,
-          prefixIcon: const Icon(Icons.search),
-          prefixIconColor: Colors.black,
-          suffixIcon: IconButton(
-              onPressed: () {
-                controller?.clear();
-                focusNode?.unfocus();
-                if (clearDetails != null) {
-                  clearDetails();
-                }
-              },
-              icon: const Icon(Icons.close)),
-          suffixIconColor: sufcolor,
-          // disabledBorder: OutlineInputBorder(
-          //   borderSide:
-          //       const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
-          //   borderRadius: BorderRadius.circular(16.0),
-          // ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-                color: borderColor ?? Colors.grey), //<-- SEE HERE
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide:
-                const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          // errorBorder: OutlineInputBorder(
-          //   borderSide:
-          //       const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
-          //   borderRadius: BorderRadius.circular(16.0),
-          // ),
-          // focusedErrorBorder: OutlineInputBorder(
-          //   borderSide:
-          //       const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
-          //   borderRadius: BorderRadius.circular(16.0),
-          // ),
+  return InputDecorator(
+    decoration:  InputDecoration(
+        label: Text("$labelText"), border: InputBorder.none),
+    child: TextFormField(
+      enabled: enabled,
+      obscureText: password ?? false,
+      onTapOutside: (event) => focusNode?.unfocus(),
+      keyboardType: textInputType,
+      controller: controller,
+      focusNode: focusNode,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter item name';
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        // labelText: labelText /* ?? 'Search here..' */,
+        border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(color: Colors.grey)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+        // contentPadding: EdgeInsets.zero,
+        hintText: hintText,
+        prefixIcon: const Icon(Icons.search),
+        prefixIconColor: Colors.black,
+        suffixIcon: IconButton(
+            onPressed: () {
+              controller?.clear();
+              focusNode?.unfocus();
+              if (clearDetails != null) {
+                clearDetails();
+              }
+            },
+            icon: const Icon(Icons.close)),
+        suffixIconColor: sufcolor,
+        // disabledBorder: OutlineInputBorder(
+        //   borderSide:
+        //       const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
+        //   borderRadius: BorderRadius.circular(16.0),
+        // ),
+        focusedBorder: OutlineInputBorder(
+          borderSide:
+              BorderSide(color: borderColor ?? Colors.grey.shade200), //<-- SEE HERE
+          borderRadius: BorderRadius.circular(15.0),
         ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        // errorBorder: OutlineInputBorder(
+        //   borderSide:
+        //       const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
+        //   borderRadius: BorderRadius.circular(16.0),
+        // ),
+        // focusedErrorBorder: OutlineInputBorder(
+        //   borderSide:
+        //       const BorderSide(color: Color(0xffE7E7E7)), //<-- SEE HERE
+        //   borderRadius: BorderRadius.circular(16.0),
+        // ),
       ),
     ),
   );

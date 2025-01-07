@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/dashboard_controller_dept.dart';
+import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
 import 'package:cssd/app/modules/login_module/model/login_model.dart';
 import 'package:cssd/app/modules/login_module/model/pre_login_authentication_model.dart';
 import 'package:cssd/util/app_routes.dart';

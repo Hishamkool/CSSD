@@ -63,4 +63,7 @@ class StaticColors {
 
   // doctor image background
   static const doctorImageBackgroundColor = Color(0xff22549B);
+
+  //container colors
+  static const lightContainerborder =  Color(0xffE7E7E7);
 }

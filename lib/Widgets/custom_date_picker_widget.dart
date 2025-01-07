@@ -1,3 +1,4 @@
+import 'package:cssd/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -42,15 +43,20 @@ class CustomDatePicker extends StatelessWidget {
       readOnly: true, // Disable keyboard input
       controller: controller,
       decoration: InputDecoration(
+        isDense: true, 
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey.shade300),
         constraints: BoxConstraints(maxWidth: maxWidth ?? 1.sw / 2.5),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.lightBlue),
+          borderSide:  BorderSide(color: Colors.grey.shade200),
+          borderRadius: BorderRadius.circular(15),
+        ),
+         enabledBorder: OutlineInputBorder(
+          borderSide:  BorderSide(color: Colors.grey.shade200),
           borderRadius: BorderRadius.circular(15),
         ),
         border: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey),
+          borderSide: const BorderSide(color: StaticColors.lightContainerborder),
           borderRadius: BorderRadius.circular(15),
         ),
         label: FittedBox(
@@ -61,10 +67,8 @@ class CustomDatePicker extends StatelessWidget {
             ],
           ),
         ),
-        labelStyle: const TextStyle(
-          color: Colors.grey,
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
+        labelStyle: const  TextStyle(
+          color: Colors.grey,  
         ),
       ),
     );

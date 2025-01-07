@@ -1,3 +1,4 @@
+import 'package:cssd/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -31,7 +32,7 @@ class CustomTextFormField extends StatelessWidget {
       this.hintText,
       this.prefixIcon,
       this.controller,
-      this.validator,
+      this.validator, 
       this.keyboardType,
       this.obscureText = false,
       this.labelText,
@@ -49,10 +50,11 @@ class CustomTextFormField extends StatelessWidget {
       this.minLines,
       this.maxLines,
       this.scrollPadding,
-       this.hintStyle});
+      this.hintStyle});
 
   @override
   Widget build(BuildContext context) {
+     
     return ConstrainedBox(
       constraints: BoxConstraints(
         maxHeight: textFieldSize?.height ?? 48.0,
@@ -73,10 +75,11 @@ class CustomTextFormField extends StatelessWidget {
         keyboardType: keyboardType,
         obscureText: obscureText,
         decoration: InputDecoration(
+          isDense: true,
           counterText: '', //shows the count of maxlength , disbling it 4 now
           suffixIcon: suffix,
           hintStyle: hintStyle,
-          label: label,
+          // label: label,
           labelText: labelText,
           hintText: hintText,
           prefixIcon: prefixIcon != null
@@ -88,7 +91,7 @@ class CustomTextFormField extends StatelessWidget {
                   ),
                 )
               : null,
-
+      
           border: textfieldBorder == false
               ? InputBorder.none
               : OutlineInputBorder(
@@ -97,11 +100,13 @@ class CustomTextFormField extends StatelessWidget {
                       const BorderSide(color: Colors.black, width: 1.0)),
           filled: true,
           fillColor: Colors.white,
+          floatingLabelStyle: TextStyle(color: StaticColors.scaffoldBackgroundcolor,),
           enabledBorder: textfieldBorder == true
               ? OutlineInputBorder(
                   borderRadius: borderRadius,
                   borderSide: const BorderSide(
-                    color: Colors.grey, // Border when the field is not focused
+                    color: StaticColors
+                        .lightContainerborder, // Border when the field is not focused
                     width: 1.0,
                   ),
                 )
@@ -109,7 +114,7 @@ class CustomTextFormField extends StatelessWidget {
           focusedBorder: textfieldBorder == true
               ? OutlineInputBorder(
                   borderRadius: borderRadius,
-                  borderSide: const BorderSide(color: Colors.blue, width: 1.5))
+                  borderSide:  BorderSide(color: Colors.grey.shade200, width: 1.5))
               : InputBorder.none,
           errorBorder: textfieldBorder == true
               ? OutlineInputBorder(

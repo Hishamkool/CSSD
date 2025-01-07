@@ -31,7 +31,7 @@ class ButtonWidget extends StatelessWidget {
           padding: buttonPadding,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(borderRadius))),
-          elevation: 5,
+          elevation: 0,
           backgroundColor: buttonColor),
       onPressed: onPressed,
       child: childWidget ??

@@ -1,12 +1,12 @@
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/dashboard_controller.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/dashboard_controller_dept.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/send_to_cssd_controller.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Department_User/controller/used_item_entry_controller.dart';
+import 'package:cssd/app/modules/Cssd_User/controller/dashboard_controller.dart';
+import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
+import 'package:cssd/app/modules/Department_User/controller/send_to_cssd_controller.dart';
+import 'package:cssd/app/modules/Department_User/controller/used_item_entry_controller.dart';
 import 'package:cssd/app/modules/login_module/controller/login_controller.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/pickup_provider.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/request_provider.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/sterilization_provider.dart';
-import 'package:cssd/app/modules/cssd_as_custodian/Cssd_User/controller/timeline_provider.dart';
+import 'package:cssd/app/modules/Cssd_User/controller/pickup_provider.dart';
+import 'package:cssd/app/modules/Cssd_User/controller/request_provider.dart';
+import 'package:cssd/app/modules/Cssd_User/controller/sterilization_provider.dart';
+import 'package:cssd/app/modules/Cssd_User/controller/timeline_provider.dart';
 import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/local_storage_manager.dart';
@@ -21,8 +21,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalStorageManager.init();
   runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    // enabled: false,
+    // enabled: !kReleaseMode,
+    enabled: false,
     builder: (context) => const MyApp(),
   ));
 }
