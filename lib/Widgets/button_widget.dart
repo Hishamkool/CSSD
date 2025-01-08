@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ButtonWidget extends StatelessWidget {
   final String? buttonLabel;
   final Color buttonColor;
-  final Function() onPressed;
+  final Function()? onPressed;
   final double? buttonTextSize;
   final EdgeInsetsGeometry? buttonPadding;
   final Size? buttonSize;
@@ -14,7 +14,7 @@ class ButtonWidget extends StatelessWidget {
   const ButtonWidget(
       {super.key,
       this.buttonLabel,
-      required this.onPressed,
+       this.onPressed,
       this.buttonColor = StaticColors.defaultButton,
       this.buttonTextSize = 20,
       this.borderRadius = 10,

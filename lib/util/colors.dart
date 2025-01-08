@@ -1,12 +1,12 @@
+import 'package:cssd/util/hex_to_color_with_opacity.dart';
 import 'package:flutter/material.dart';
 
 class GradientColors {
-  
   static List<Color> splashGradient = const [
     Color.fromRGBO(30, 106, 159, 100),
     Color(0xff1e6a9f),
     Color(0xff6c9dc0),
-  ]; 
+  ];
 
   static List<Color> backgroundGradient = const [
     StaticColors.scaffoldBackgroundcolor, // Dark Blue
@@ -19,19 +19,19 @@ class GradientColors {
     Color(0xff091e3a),
     Color(0xff2f80ed),
     Color(0xff2d9ee0),
-  ]; 
+  ];
 
   static List<Color> greyGraient = const [
     Color(0xff536976),
-    Color(0xff292e49), 
+    Color(0xff292e49),
   ];
 }
 
 class StaticColors {
-  static Color transparentGlassContainer = const  Color.fromRGBO(71, 225, 252, 0.32);
+  static Color transparentGlassContainer =
+      const Color.fromRGBO(71, 225, 252, 0.32);
   //app background color
   static const scaffoldBackgroundcolor = Color(0xFF044B7F);
-
 
   static const blueLight = Color(0xFFDCDBFE);
   static const textwhiteLight = Color(0xFFFFFFFF);
@@ -65,5 +65,7 @@ class StaticColors {
   static const doctorImageBackgroundColor = Color(0xff22549B);
 
   //container colors
-  static const lightContainerborder =  Color(0xffE7E7E7);
+  static const lightContainerborder = Color(0xffE7E7E7);
+  static const lightTextColorForBlueContainer = Color(0xFF7DA0CA);
+  static const darkTextColorForBlueContainer = Color.fromARGB(255, 30, 63, 104);
 }

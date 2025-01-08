@@ -42,13 +42,13 @@ class _SterilizationViewCssdCussCssdLoginState
     });
   }
 
-  TextEditingController machineNameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final requestId = ModalRoute.of(context)?.settings.arguments;
 
     final mediaQuery = MediaQuery.of(context).size;
-    // var isMobile = mediaQuery.width <= 500;
+    final isMobile = mediaQuery.width <= 500;
+
     return Scaffold(
       backgroundColor: StaticColors.scaffoldBackgroundcolor,
       endDrawer: endDrawer(context),
@@ -152,7 +152,7 @@ class _SterilizationViewCssdCussCssdLoginState
                     })),
                   ),
                 ),
-                //insert textfields 
+                //insert textfields
                 Container(
                   padding: EdgeInsets.only(left: 10.w, right: 10.w, top: 10.w),
                   child: Column(
@@ -209,9 +209,9 @@ class _SterilizationViewCssdCussCssdLoginState
                               return DynamicSearchField<GetProcessNameData>(
                                 labelText: "Process name",
                                 clearDetails: () {},
-                                hintText: "",
-                                /*  focusNode: PharmacyBillService().medicineSearchFocus, */
-                                controller: machineNameController,
+                                hintText: "Search process name",
+                                controller:
+                                    sterilizationConsumer.processNameController,
                                 suggestionsCallback: (query) async {
                                   if (query.isNotEmpty) {
                                     return await sterilizationConsumer
@@ -228,7 +228,10 @@ class _SterilizationViewCssdCussCssdLoginState
                                         Text("pressuer : ${product.pressure} "),
                                   );
                                 },
-                                onSelected: (process) {},
+                                onSelected: (process) {
+                                  sterilizationConsumer.processNameController
+                                      .text = process.processName;
+                                },
                               );
                             }),
                           ),
@@ -248,7 +251,7 @@ class _SterilizationViewCssdCussCssdLoginState
                                     vertical: 11.0, horizontal: 10.0),
                                 decoration: CustomDropdownDecoration(
                                   closedBorder: Border.all(
-                                      color: const Color(0xffE7E7E7)),
+                                      color: StaticColors.lightContainerborder),
                                 ),
                                 hintText: "Items",
                                 searchHintText: "Search items",
@@ -280,26 +283,30 @@ class _SterilizationViewCssdCussCssdLoginState
                               ),
                             ),
                           ),
-                          SizedBox(width: 10.w),
+                          const SizedBox(width: 10),
                           const Expanded(
                             child: InputDecorator(
                               decoration: InputDecoration(
                                   label: Text("Batch number"),
                                   border: InputBorder.none),
                               child: CustomTextFormField(
+                                keyboardType: TextInputType.number,
                                 label: Text("Batch number"),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10.w),
-                          Expanded(
-                            child: ButtonWidget(
-                              useFitterBox: true,
-                              // borderRadius: 10,
-                              buttonLabel: 'Add to list',
-                              onPressed: () {
-                                // Add item to the list
-                              },
+                          const SizedBox(width: 10),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 10.0),
+                              child: ButtonWidget(
+                                useFitterBox: true,
+                                borderRadius: 10,
+                                buttonLabel: isMobile ? 'Add' : 'Add to list',
+                                onPressed: () {
+                                  // Add item to the list
+                                },
+                              ),
                             ),
                           )
                         ],
@@ -309,16 +316,18 @@ class _SterilizationViewCssdCussCssdLoginState
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, ),
+                    horizontal: 8.0,
+                  ),
                   child: Theme(
-                    data: Theme.of(context)
-                        .copyWith(dividerColor: Colors.transparent),
+                    data: Theme.of(context).copyWith(
+                      dividerColor: Colors.transparent,
+                    ),
                     child: Consumer<SterilizationProvider>(
                         builder: (context, sterilizationProvider, child) {
                       return Card(
+                        shadowColor: Colors.transparent,
                         color: Colors.white,
                         child: ExpansionTile(
-                          
                           onExpansionChanged: (value) {
                             sterilizationProvider
                                 .updateExpansionTileStatus(value);
@@ -342,7 +351,6 @@ class _SterilizationViewCssdCussCssdLoginState
                                 return const Column(
                                   children: [
                                     SterilizationItemsCardWidget(),
-                                    
                                   ],
                                 );
                               },
@@ -352,6 +360,9 @@ class _SterilizationViewCssdCussCssdLoginState
                       );
                     }),
                   ),
+                ),
+                SizedBox(
+                  height: 10.0.h,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -389,6 +400,7 @@ class _SterilizationViewCssdCussCssdLoginState
                     })
                   ],
                 ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

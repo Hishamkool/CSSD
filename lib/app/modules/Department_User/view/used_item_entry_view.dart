@@ -12,6 +12,7 @@ import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +63,20 @@ class _UsedItemEntryViewCssdCussDeptUserState
       backgroundColor: StaticColors.scaffoldBackgroundcolor,
       appBar: AppBar(
         title: Text('Used Item Entry', style: FontStyles.appBarTitleStyle),
+        actions: [
+          Tooltip(
+            message: "List all used items",
+            child: ButtonWidget(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.savedUsedItemsList);
+              },
+              childWidget: const Icon(
+                FluentIcons.stack_16_filled,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Form(
         key: _formKey,
@@ -83,10 +98,9 @@ class _UsedItemEntryViewCssdCussDeptUserState
               ),
               Wrap(
                 alignment: WrapAlignment.start,
-                runAlignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.start,
+                runAlignment: WrapAlignment.end,
+                crossAxisAlignment: WrapCrossAlignment.end,
                 spacing: 10.0,
-                runSpacing: 10.0,
                 children: [
                   //select department dropdown
                   SizedBox(
@@ -103,91 +117,106 @@ class _UsedItemEntryViewCssdCussDeptUserState
                             .map((dept) => dept.subName)
                             .toList();
 
-                        return CustomDropdown.search(
-                          validator: (selectedDepartement) {
-                            if (selectedDepartement == null ||
-                                selectedDepartement.isEmpty) {
-                              return 'Select Department';
-                            } else {
-                              return null;
-                            }
-                          },
-                          decoration: CustomDropdownDecoration(
-                              closedBorder: Border.all(color: Colors.grey)),
-                          initialItem:
-                              dashboardConsumer.getSelectedDepartment == ''
-                                  ? null
-                                  : dashboardConsumer.getSelectedDepartment,
-                          hintText: "Department name",
-                          searchHintText: "Search department name",
-                          items: departmentNames,
-                          onChanged: (selectedDepartment) {
-                            //clear items and quantity
-                            usedItemsController.quantityController.clear();
-                            usedItemsController.setSelectedItemModel = null;
-                            log("cleared items model , now the item name is: ${usedItemsController.getSelectedItemModel?.productName}");
+                        return InputDecorator(
+                          decoration: const InputDecoration(
+                              label: Text("Select Department"),
+                              border: InputBorder.none),
+                          child: CustomDropdown.search(
+                            closedHeaderPadding: const EdgeInsets.symmetric(
+                                vertical: 11.0, horizontal: 10.0),
+                            validator: (selectedDepartement) {
+                              if (selectedDepartement == null ||
+                                  selectedDepartement.isEmpty) {
+                                return 'Select Department';
+                              } else {
+                                return null;
+                              }
+                            },
+                            decoration: CustomDropdownDecoration(
+                              closedBorder: Border.all(
+                                  color: StaticColors.lightContainerborder),
+                            ),
+                            initialItem:
+                                dashboardConsumer.getSelectedDepartment == ''
+                                    ? null
+                                    : dashboardConsumer.getSelectedDepartment,
+                            hintText: "Department name",
+                            searchHintText: "Search department name",
+                            items: departmentNames,
+                            onChanged: (selectedDepartment) {
+                              //clear items and quantity
+                              usedItemsController.quantityController.clear();
+                              usedItemsController.setSelectedItemModel = null;
+                              log("cleared items model , now the item name is: ${usedItemsController.getSelectedItemModel?.productName}");
 
-                            if (selectedDepartment != null) {
-                              dashboardConsumer
-                                  .updateSelectedDepartment(selectedDepartment);
-                            } else {
-                              showToast(context, "Select department");
-                            }
-                          },
+                              if (selectedDepartment != null) {
+                                dashboardConsumer.updateSelectedDepartment(
+                                    selectedDepartment);
+                              } else {
+                                showToast(context, "Select department");
+                              }
+                            },
+                          ),
                         );
                       })),
                   FetchItemsForSelectedDepartment(
                       dashboardController: dashboardController),
-                  CustomTextFormField(
-                    // quantity dropdown
-                    maxLines: 1,
-                    keyboardType: TextInputType.number,
-                    textFieldSize: const Size(80.0, 80.0),
-                    label: const Text(
-                      "Quantity",
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    onFieldSubmitted: (quantity) {
-                      if (usedItemsController.getSelectedItemModel == null &&
-                          selectedDepartment == null) {
-                        showSnackBarNoContext(
-                            isError: true, msg: "Select Dept / item first");
-                        log("No items selected");
-                      } else {
-                        usedItemsController.qtyValidation(
-                          isPckg:
-                              usedItemsController.getSelectedItemModel!.pckg ==
-                                      1
-                                  ? true
-                                  : false,
-                          location: selectedDepartment!,
-                          productid:
-                              usedItemsController.getSelectedItemModel!.pid!,
-                          qty: int.parse(
-                            quantity,
-                          ),
-                        );
-                        log("isPckg: ${usedItemsController.getSelectedItemModel!.pckg == 1}");
-                        log("location: $selectedDepartment");
-                        log("productid: ${usedItemsController.getSelectedItemModel!.pid!}");
-                        log("qty: ${int.parse(quantity)}");
-                      }
-                    },
-                    validator: (quantity) {
-                      if (quantity == null || quantity.isEmpty) {
-                        return "Enter quantity";
-                      }
+                  InputDecorator(
+                    decoration: const InputDecoration(
+                        label: Text("Quanity"),
+                        border: InputBorder.none,
+                        constraints: BoxConstraints(maxWidth: 80)),
+                    child: CustomTextFormField(
+                      // quantity dropdown
+                      maxLines: 1,
+                      keyboardType: TextInputType.number,
+                      textFieldSize: const Size(80.0, 80.0),
+                      label: const Text(
+                        "Quantity",
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      onFieldSubmitted: (quantity) {
+                        if (usedItemsController.getSelectedItemModel == null &&
+                            selectedDepartment == null) {
+                          showSnackBarNoContext(
+                              isError: true, msg: "Select Dept / item first");
+                          log("No items selected");
+                        } else {
+                          usedItemsController.qtyValidation(
+                            isPckg: usedItemsController
+                                        .getSelectedItemModel!.pckg ==
+                                    1
+                                ? true
+                                : false,
+                            location: selectedDepartment!,
+                            productid:
+                                usedItemsController.getSelectedItemModel!.pid!,
+                            qty: int.parse(
+                              quantity,
+                            ),
+                          );
+                          log("isPckg: ${usedItemsController.getSelectedItemModel!.pckg == 1}");
+                          log("location: $selectedDepartment");
+                          log("productid: ${usedItemsController.getSelectedItemModel!.pid!}");
+                          log("qty: ${int.parse(quantity)}");
+                        }
+                      },
+                      validator: (quantity) {
+                        if (quantity == null || quantity.isEmpty) {
+                          return "Enter quantity";
+                        }
 
-                      if (usedItemsController.getSelectedItemModel == null) {
-                        return "item null";
-                      }
-                      return null;
-                    },
-                    controller: usedItemsController.quantityController,
+                        if (usedItemsController.getSelectedItemModel == null) {
+                          return "item null";
+                        }
+                        return null;
+                      },
+                      controller: usedItemsController.quantityController,
+                    ),
                   ),
                   //add item button
                   ButtonWidget(
-                      buttonSize: const Size(0.0, 55.0),
+                      buttonSize: const Size(0.0, 50),
                       buttonLabel: "Add item",
                       buttonTextSize: 14,
                       onPressed: () async {
@@ -251,17 +280,7 @@ class _UsedItemEntryViewCssdCussDeptUserState
                           showSnackBarNoContext(
                               isError: true, msg: "Some fields are missing");
                         }
-                      }
-                      /* }, */
-                      ),
-                  ButtonWidget(
-                    onPressed: () {
-                      Navigator.pushNamed(context, Routes.savedUsedItemsList);
-                    },
-                    buttonSize: const Size(0.0, 55.0),
-                    buttonTextSize: 14,
-                    buttonLabel: "Used items list",
-                  ),
+                      }),
                 ],
               ),
               SizedBox(height: 10.0.h),
@@ -342,7 +361,7 @@ class _UsedItemEntryViewCssdCussDeptUserState
                   );
                 }
               }),
-
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

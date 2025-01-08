@@ -47,85 +47,93 @@ class _FetchItemsForSelectedDepartmentState
               listen: false);
 
       selectedDepartment = dashboardController.getSelectedDepartment;
-      return CustomDropdown.searchRequest(
-        onChanged: (selectedItemModel) {
-          if (selectedItemModel != null) {
-            // if package show bottom sheet
-            if (selectedItemModel.pckg == 1) {
-              log('currently selected package : ${selectedItemModel.productName}');
-              usedItemEntryConsumer.setSelectedItemModel = selectedItemModel;
-              final department = context
-                  .read<DashboardControllerCssdCussDeptUser>()
-                  .getSelectedDepartment;
-              final usedItemsController =
-                  Provider.of<UsedItemEntryController>(context, listen: false);
-              final itemModel = usedItemsController.getSelectedItemModel;
-              /*  context.read<UsedItemEntryController>().fetchItemsWithPackage(
-                  department: department, pckid: itemModel!.pid ?? 0);
-              _showPackageListingBottomSheet(
-                  context: context,
-                  department: department,
-                  itemModel: itemModel,
-                  usedItemsController: usedItemsController); */
-              if (itemModel != null) {
-                // Check if itemModel is not null
-                context.read<UsedItemEntryController>().fetchItemsWithPackage(
-                    department: department, pckid: itemModel.pid ?? 0);
+      return InputDecorator(
+                              decoration: const InputDecoration(
+                                  label: Text("Search items"),
+                                  border: InputBorder.none),
+        child: CustomDropdown.searchRequest(
+           closedHeaderPadding: const EdgeInsets.symmetric(
+                                      vertical: 11.0, horizontal: 10.0),
+          onChanged: (selectedItemModel) {
+            if (selectedItemModel != null) {
+              // if package show bottom sheet
+              if (selectedItemModel.pckg == 1) {
+                log('currently selected package : ${selectedItemModel.productName}');
+                usedItemEntryConsumer.setSelectedItemModel = selectedItemModel;
+                final department = context
+                    .read<DashboardControllerCssdCussDeptUser>()
+                    .getSelectedDepartment;
+                final usedItemsController =
+                    Provider.of<UsedItemEntryController>(context, listen: false);
+                final itemModel = usedItemsController.getSelectedItemModel;
+                /*  context.read<UsedItemEntryController>().fetchItemsWithPackage(
+                    department: department, pckid: itemModel!.pid ?? 0);
                 _showPackageListingBottomSheet(
                     context: context,
                     department: department,
                     itemModel: itemModel,
-                    usedItemsController: usedItemsController);
+                    usedItemsController: usedItemsController); */
+                if (itemModel != null) {
+                  // Check if itemModel is not null
+                  context.read<UsedItemEntryController>().fetchItemsWithPackage(
+                      department: department, pckid: itemModel.pid ?? 0);
+                  _showPackageListingBottomSheet(
+                      context: context,
+                      department: department,
+                      itemModel: itemModel,
+                      usedItemsController: usedItemsController);
+                } else {
+                  // Handle null itemModel here, show an error or fallback
+                  showSnackBarNoContext(isError: true, msg: "Item model is null");
+                }
               } else {
-                // Handle null itemModel here, show an error or fallback
-                showSnackBarNoContext(isError: true, msg: "Item model is null");
+                // updating the selected item model
+                log('currently selected item : ${selectedItemModel.productName}');
+                usedItemEntryConsumer.setSelectedItemModel = selectedItemModel;
               }
             } else {
-              // updating the selected item model
-              log('currently selected item : ${selectedItemModel.productName}');
-              usedItemEntryConsumer.setSelectedItemModel = selectedItemModel;
+              showSnackBarNoContext(isError: true, msg: "selected item is null");
             }
-          } else {
-            showSnackBarNoContext(isError: true, msg: "selected item is null");
-          }
-        },
-        futureRequestDelay: const Duration(milliseconds: 0),
-        futureRequest: (stringItem) async {
-          if (selectedDepartment == null) {
-            showSnackBarNoContext(
-                isError: true, msg: "Select department to list items");
-          } else {
-            await usedItemEntryConsumer.fetchItems(
-                itemname: stringItem, department: selectedDepartment!);
-          }
-          /*  await usedItemEntryConsumer.fetchItems(
-              itemname: stringItem,
-              department: dashboardController.getSelectedDepartment!); */
-
-          return usedItemEntryConsumer.getItemsList;
-        },
-        headerBuilder: (context, selectedItem, enabled) {
-          if (usedItemEntryConsumer.getSelectedItemModel?.productName == null) {
-            return const Text("");
-          }
-          log("item model is ${usedItemEntryConsumer.getSelectedItemModel?.productName}");
-          return Text(selectedItem.productName ?? "");
-        },
-        listItemBuilder: (context, item, isSelected, onItemSelect) => ListTile(
-          title: Text(item.productName ?? ""),
+          },
+          futureRequestDelay: const Duration(milliseconds: 0),
+          futureRequest: (stringItem) async {
+            if (selectedDepartment == null) {
+              showSnackBarNoContext(
+                  isError: true, msg: "Select department to list items");
+            } else {
+              await usedItemEntryConsumer.fetchItems(
+                  itemname: stringItem, department: selectedDepartment!);
+            }
+            /*  await usedItemEntryConsumer.fetchItems(
+                itemname: stringItem,
+                department: dashboardController.getSelectedDepartment!); */
+        
+            return usedItemEntryConsumer.getItemsList;
+          },
+          headerBuilder: (context, selectedItem, enabled) {
+            if (usedItemEntryConsumer.getSelectedItemModel?.productName == null) {
+              return const Text("");
+            }
+            log("item model is ${usedItemEntryConsumer.getSelectedItemModel?.productName}");
+            return Text(selectedItem.productName ?? "");
+          },
+          listItemBuilder: (context, item, isSelected, onItemSelect) => ListTile(
+            title: Text(item.productName ?? ""),
+          ),
+          decoration: CustomDropdownDecoration(
+          closedBorder: Border.all(
+                                        color: StaticColors.lightContainerborder),
+          ),
+          hintText: "Items",
+          searchHintText: "Search items",
+          hideSelectedFieldWhenExpanded: false,
+          validator: (item) {
+            if (item == null) {
+              return "Choose an item or package";
+            }
+            return null;
+          },
         ),
-        decoration: CustomDropdownDecoration(
-          closedBorder: Border.all(color: Colors.grey),
-        ),
-        hintText: "Items",
-        searchHintText: "Search items",
-        hideSelectedFieldWhenExpanded: false,
-        validator: (item) {
-          if (item == null) {
-            return "Choose an item or package";
-          }
-          return null;
-        },
       );
     });
   }

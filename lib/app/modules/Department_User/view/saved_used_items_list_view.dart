@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
 import 'package:cssd/app/modules/Department_User/controller/used_item_entry_controller.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/fonts.dart';
-import 'package:cssd/util/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -58,8 +55,11 @@ class _SavedUsedItemsListState extends State<SavedUsedItemsList> {
                   .toList();
 
               return CustomDropdown.search(
-                decoration: CustomDropdownDecoration(
-                    closedBorder: Border.all(color: Colors.grey)),
+                decoration: const CustomDropdownDecoration(
+                    closedSuffixIcon: Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.black,
+                )),
                 initialItem: dashboardConsumer.getSelectedDepartment == ""
                     ? null
                     : dashboardConsumer.getSelectedDepartment,

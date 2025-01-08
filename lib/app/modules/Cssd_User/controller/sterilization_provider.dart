@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 class SterilizationProvider extends ChangeNotifier {
   TextEditingController startTimeController = TextEditingController();
   TextEditingController endTimeController = TextEditingController();
+  TextEditingController processNameController = TextEditingController();
+
 
   String? selectedMachine;
   bool _expansionTileExpanded = true;

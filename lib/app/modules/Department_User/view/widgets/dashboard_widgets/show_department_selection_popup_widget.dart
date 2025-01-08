@@ -36,6 +36,7 @@ Future showAlertDialog(BuildContext context) async {
         content: Consumer<DashboardControllerCssdCussDeptUser>(
             builder: (context, dashboardConsumer, child) {
           return CustomDropdown.search(
+             closedHeaderPadding:const EdgeInsets.symmetric(vertical: 11.0, horizontal: 10.0),
             decoration: CustomDropdownDecoration(
                 closedBorder: Border.all(color: Colors.grey.shade100)),
             hintText: "Department name",

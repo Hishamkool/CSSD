@@ -34,6 +34,7 @@ class _DynamicSearchFieldState<T> extends State<DynamicSearchField<T>> {
   @override
   Widget build(BuildContext context) {
     return TypeAheadField<T>(
+      
       //showOnFocus: false,
       hideOnUnfocus: false,
       focusNode: widget.focusNode,
@@ -142,7 +143,7 @@ itemSearchField(
 
 
 
-/* 
+/*  usage
 
   DynamicSearchField<Medicines>(
           labelText: "Search medicines",

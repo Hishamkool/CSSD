@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:cssd/Widgets/notification_icon.dart';
-import 'package:cssd/Widgets/rounded_container.dart';
 import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
 import 'package:cssd/app/modules/Department_User/view/widgets/dashboard_widgets/build_floating_actions_widget.dart';
 import 'package:cssd/app/modules/Department_User/view/widgets/dashboard_widgets/dahboard_buttons_widget.dart';
@@ -10,7 +9,6 @@ import 'package:cssd/app/modules/Department_User/view/widgets/dashboard_widgets/
 import 'package:cssd/app/modules/Department_User/view/widgets/dashboard_widgets/show_department_selection_popup_widget.dart';
 import 'package:cssd/app/modules/login_module/view/widgets/logout_popup.dart';
 import 'package:cssd/util/app_routes.dart';
-import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
 import 'package:cssd/util/hex_to_color_with_opacity.dart';
@@ -73,6 +71,27 @@ class _DashboardViewCssdCussDeptUserState
     LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "dept");
   }
 
+// for refresh inficator
+  Future<void> refreshFunctions() async {
+    final dashboardController =
+        Provider.of<DashboardControllerCssdCussDeptUser>(context,
+            listen: false);
+    //fetch currently selected department and department lists
+    selectedDepartment = dashboardController.getSelectedDepartment;
+    if (selectedDepartment != "") {
+      //if department is selection is available then get pie data and its details
+      dashboardController.pieChartData.clear();
+      dashboardController.getPieChartData(selectedDepartment!);
+      dashboardController.fetchRequestDetails(selectedDepartment!);
+      dashboardController.fetchMyRequests(selectedDepartment!);
+    } else if (selectedDepartment == "") {
+      // if department is not selected the show the popup
+      log("no selected department : $selectedDepartment so showing popup");
+      showAlertDialog(context);
+      dashboardController.pieChartData.clear();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     log("dashboard page build");
@@ -125,153 +144,183 @@ class _DashboardViewCssdCussDeptUserState
         ),
         body: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(horizontal: 10.0.h, vertical: 10.0.h),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(25),
                 topRight: Radius.circular(25),
               ),
               color: Colors.white),
-          child: ListView(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        //pie chart
-                        Consumer<DashboardControllerCssdCussDeptUser>(
-                            builder: (context, dashboardConsumer, child) {
-                          final isDataAvailable =
-                              dashboardConsumer.hasValidData;
-                          return Visibility(
-                            visible: isDataAvailable ? true : false,
-                            replacement: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                const Text("Send Requests to load Stats"),
-                                SizedBox(
-                                  width: 10.w,
-                                ),
-                                SizedBox(
-                                  width: 140,
-                                  child: Lottie.asset(
-                                      'assets/lottie/PieAnimation - 1731912508343.json'),
-                                ),
-                              ],
-                            ),
-                            //syncfusion pie chart
-                            child: SizedBox(
-                              height: 180,
-                              child: SfCircularChart(
-                                /* onChartTouchInteractionDown:
-                                    (ChartTouchInteractionArgs args) {
-                                  log("${args.position.dy} : ${args.position.dy}");
-                                  Navigator.pushNamed(
-                                      context,
-                                      Routes
-                                          .requestDetailsViewCssdCussDeptUser);
-                                }, */
-                                palette: [
-                                  //colors of the pie chart in order
-                                  hexToColorWithOpacity(hexColor: "#ff6361"),
-                                  hexToColorWithOpacity(hexColor: "#58508d"),
-                                  hexToColorWithOpacity(hexColor: "#bc5090"),
-                                  hexToColorWithOpacity(hexColor: "#003f5c"),
-                                  hexToColorWithOpacity(hexColor: "#ffa600"),
-                                ],
-                                title: const ChartTitle(
-                                    alignment: ChartAlignment.near,
-                                    text: 'Request Details',
-                                    textStyle: TextStyle(
+          child: RefreshIndicator(
+            onRefresh: refreshFunctions,
+            child: ListView(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //pie chart
+                          Consumer<DashboardControllerCssdCussDeptUser>(
+                              builder: (context, dashboardConsumer, child) {
+                            final isDataAvailable =
+                                dashboardConsumer.hasValidData;
+                            return Visibility(
+                              visible: isDataAvailable ? true : false,
+                              replacement: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Request Details",
+                                    style: GoogleFonts.plusJakartaSans(
+                                        fontSize: 20.0,
                                         color: Colors.black,
-                                        fontWeight: FontWeight.bold)),
-                                legend: const Legend(
-                                    //its the indications of the chart
-                                    isVisible: true,
-                                    textStyle: TextStyle(color: Colors.black),
-                                    position: LegendPosition.right),
-                                onTooltipRender: (TooltipArgs args) {},
-                                series: <PieSeries<Map<String, dynamic>,
-                                    String>>[
-                                  PieSeries<Map<String, dynamic>, String>(
-                                    dataSource: dashboardConsumer.pieChartData,
-                                    explode: true,
-                                    explodeIndex: 0,
-                                    xValueMapper:
-                                        (Map<String, dynamic> data, _) =>
-                                            data.keys.first,
-                                    yValueMapper:
-                                        (Map<String, dynamic> data, _) =>
-                                            data.values.first,
-                                    dataLabelSettings: const DataLabelSettings(
-                                      isVisible: true,
-                                    ),
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        width: 140,
+                                        child: LottieBuilder.asset(
+                                            repeat: true,
+                                            reverse: true,
+                                            'assets/lottie/PieAnimation - 1731912508343.json'),
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      SizedBox(
+                                          width: mediaQuery.width / 3.5,
+                                          child: const Text(
+                                              "Send Requests to load Stats")),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ),
-                          );
-                        }),
-                      ],
+                              //syncfusion pie chart
+                              child: SizedBox(
+                                height: 180,
+                                child: SfCircularChart(
+                                  /* onChartTouchInteractionDown:
+                                      (ChartTouchInteractionArgs args) {
+                                    log("${args.position.dy} : ${args.position.dy}");
+                                    Navigator.pushNamed(
+                                        context,
+                                        Routes
+                                            .requestDetailsViewCssdCussDeptUser);
+                                  }, */
+                                  palette: [
+                                    //colors of the pie chart in order
+                                    /*         hexToColorWithOpacity(hexColor: "#ff6361"),
+                                    hexToColorWithOpacity(hexColor: "#58508d"),
+                                    hexToColorWithOpacity(hexColor: "#bc5090"),
+                                    hexToColorWithOpacity(hexColor: "#003f5c"),
+                                    hexToColorWithOpacity(hexColor: "#ffa600"), */
+
+                                    hexToColorWithOpacity(hexColor: "#7DA0CA"),
+                                    hexToColorWithOpacity(hexColor: "#052659"),
+                                  ],
+                                  title: ChartTitle(
+                                      alignment: ChartAlignment.near,
+                                      text: 'Request Details',
+                                      textStyle: GoogleFonts.plusJakartaSans(
+                                          fontSize: 20.0,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600)),
+                                  legend: const Legend(
+                                      //its the indications of the chart
+                                      isVisible: true,
+                                      textStyle: TextStyle(color: Colors.black),
+                                      position: LegendPosition.right),
+                                  onTooltipRender: (TooltipArgs args) {},
+                                  series: <PieSeries<Map<String, dynamic>,
+                                      String>>[
+                                    PieSeries<Map<String, dynamic>, String>(
+                                      dataSource:
+                                          dashboardConsumer.pieChartData,
+                                      explode: true,
+                                      explodeIndex: 0,
+                                      xValueMapper:
+                                          (Map<String, dynamic> data, _) =>
+                                              data.keys.first,
+                                      yValueMapper:
+                                          (Map<String, dynamic> data, _) =>
+                                              data.values.first,
+                                      dataLabelSettings:
+                                          const DataLabelSettings(
+                                        isVisible: true,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 15.0,
+                ),
+                //navigation buttons
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    DashboardButtons(
+                      icon: FluentIcons.tray_item_add_20_filled,
+                      iconName: "Used Item Entry",
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, Routes.usedItemEntryViewCssdCussDeptUser);
+                      },
+                    ),
+                    DashboardButtons(
+                      icon: FluentIcons.send_16_filled,
+                      iconName: "Send To Cssd",
+                      onTap: () {
+                        Navigator.pushNamed(context,
+                            Routes.sterilizationRequestViewCssdCussDeptUser);
+                      },
+                    ),
+                    const DashboardButtons(
+                      icon: FluentIcons.news_16_filled,
+                      iconName: "Reports",
+                    ),
+                    // DashboardButtons(
+                    //   icon: FluentIcons.timeline_20_filled,
+                    //   iconName: "Timeline",
+                    // ),
+                    DashboardButtons(
+                      icon: FluentIcons.stack_16_filled,
+                      iconName: "Stock in Dept",
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, Routes.departmentStockDetailsView);
+                      },
                     )
                   ],
                 ),
-              ),
-
-              //navigation buttons
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  DashboardButtons(
-                    icon: FluentIcons.tray_item_add_20_filled,
-                    iconName: "Used Item Entry",
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, Routes.usedItemEntryViewCssdCussDeptUser);
-                    },
-                  ),
-                  DashboardButtons(
-                    icon: FluentIcons.send_16_filled,
-                    iconName: "Send To Cssd",
-                    onTap: () {
-                      Navigator.pushNamed(context,
-                          Routes.sterilizationRequestViewCssdCussDeptUser);
-                    },
-                  ),
-                  const DashboardButtons(
-                    icon: FluentIcons.news_16_filled,
-                    iconName: "Reports",
-                  ),
-                  // DashboardButtons(
-                  //   icon: FluentIcons.timeline_20_filled,
-                  //   iconName: "Timeline",
-                  // ),
-                  DashboardButtons(
-                    icon: FluentIcons.stack_16_filled,
-                    iconName: "Stock in Dept",
-                    onTap: () {
-                      Navigator.pushNamed(
-                          context, Routes.departmentStockDetailsView);
-                    },
-                  )
-                ],
-              ),
-
-              //request listing
-              Consumer<DashboardControllerCssdCussDeptUser>(
-                  builder: (context, dashboardConsumer, child) {
-                return RoundedContainer(
-                  containerBody: Column(
+                const SizedBox(
+                  height: 20.0,
+                ),
+                //request listing
+                Consumer<DashboardControllerCssdCussDeptUser>(
+                    builder: (context, dashboardConsumer, child) {
+                  return Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -309,7 +358,7 @@ class _DashboardViewCssdCussDeptUserState
                           ),
                           EasyButton(
                             idleStateWidget: const Center(
-                              child:  Icon(
+                              child: Icon(
                                 Icons.refresh,
                                 color: Colors.white,
                               ),
@@ -317,8 +366,8 @@ class _DashboardViewCssdCussDeptUserState
                             loadingStateWidget: const SizedBox(
                               width: 15,
                               height: 15,
-                              child:  CircularProgressIndicator(
-                                strokeWidth: 3.0, 
+                              child: CircularProgressIndicator(
+                                strokeWidth: 3.0,
                                 valueColor: AlwaysStoppedAnimation<Color>(
                                   Colors.white,
                                 ),
@@ -357,7 +406,10 @@ class _DashboardViewCssdCussDeptUserState
                             child: CircularProgressIndicator(),
                           );
                         }
-
+                        if (dashboardConsumer.getMyRequestList.isEmpty) {
+                          return LottieBuilder.asset(
+                              "assets/lottie/Free search empty Animation.json");
+                        }
                         return ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -413,29 +465,41 @@ class _DashboardViewCssdCussDeptUserState
                                     },
                                   );
                                 },
-                                child: Card(
-                                  elevation: 2,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      border: Border.all(
+                                        color: Colors.grey.shade100,
+                                      ),
+                                      color: const Color.fromARGB(
+                                          255, 240, 249, 255)),
                                   /* color: hexToColorWithOpacity(
                                     hexColor: "#FAF7F0",
                                   ), */
-                                  color: const Color(0XFFf8f9fa),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        // id
-                                        Flexible(
-                                            flex: 1,
-                                            child: Container(
+                                  // color: const Color(0XFFf8f9fa),
+                                  /*  Banner(
+                                      color: request.isAccepted == true
+                                          ? Colors.green
+                                          : Colors.red,
+                                      location: BannerLocation.topEnd,
+                                      message: request.isAccepted == true
+                                          ? "Accepted"
+                                          : "Pending", */
+                                  child: Stack(
+                                    clipBehavior: Clip.hardEdge,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            // id
+                                            Container(
                                               padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 2.0),
+                                                  const EdgeInsets.all(12.0),
                                               height: 40,
                                               decoration: BoxDecoration(
                                                 color: hexToColorWithOpacity(
-                                                    hexColor: "DD403A"),
+                                                    hexColor: "##042558"),
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                               ),
@@ -450,14 +514,12 @@ class _DashboardViewCssdCussDeptUserState
                                                   ),
                                                 ),
                                               ),
-                                            )),
-                                        SizedBox(
-                                          width: 8.0.w,
-                                        ),
-                                        //requested by and time
-                                        Expanded(
-                                            flex: 3,
-                                            child: Column(
+                                            ),
+                                            SizedBox(
+                                              width: 8.0.w,
+                                            ),
+                                            //requested by and time
+                                            Column(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               crossAxisAlignment:
@@ -466,31 +528,88 @@ class _DashboardViewCssdCussDeptUserState
                                               children: [
                                                 Text(
                                                   "Requested by : ${request.requser}",
+                                                  style: GoogleFonts.varela(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: StaticColors
+                                                          .darkTextColorForBlueContainer),
                                                   overflow: TextOverflow.fade,
                                                 ),
-                                                Text("Date : $formatedDate"),
-                                                Text("Time : $formatedTime"),
-                                              ],
-                                            )),
-                                        SizedBox(
-                                          width: 2.0.w,
-                                        ),
-                                        // accecpted ? by who
-                                        Expanded(
-                                            flex: 2,
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
+                                                request.isAccepted == true
+                                                    ? Row(
+                                                        children: [
+                                                          const Icon(
+                                                            Icons.verified,
+                                                            size: 15,
+                                                            color: Colors.green,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 5.0,
+                                                          ),
+                                                          Text(
+                                                            "${request.acceptedUser}",
+                                                            style:
+                                                                const TextStyle(
+                                                                    color: Colors
+                                                                        .green),
+                                                          ),
+                                                        ],
+                                                      )
+                                                    : const SizedBox.shrink(),
                                                 Row(
+                                                  children: [
+                                                    const Icon(
+                                                      FluentIcons
+                                                          .calendar_12_filled,
+                                                      size: 15,
+                                                      color: StaticColors
+                                                          .lightTextColorForBlueContainer,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5.0,
+                                                    ),
+                                                    Text(
+                                                      formatedDate,
+                                                      style: const TextStyle(
+                                                          color: StaticColors
+                                                              .lightTextColorForBlueContainer,
+                                                          fontSize: 12),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    const Icon(
+                                                      FluentIcons
+                                                          .clock_12_filled,
+                                                      size: 15,
+                                                      color: StaticColors
+                                                          .lightTextColorForBlueContainer,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 5.0,
+                                                    ),
+                                                    Text(
+                                                      formatedTime,
+                                                      style: const TextStyle(
+                                                          color: StaticColors
+                                                              .lightTextColorForBlueContainer,
+                                                          fontSize: 12),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+
+                                            // accecpted ? by who
+                                            /* Expanded(
+                                                flex: 2,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.end,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
                                                   children: [
-                                                    const Text("Status : "),
                                                     Container(
                                                       padding:
                                                           const EdgeInsets.all(
@@ -511,34 +630,73 @@ class _DashboardViewCssdCussDeptUserState
                                                         maxRadius: 4.0,
                                                       ),
                                                     ),
+                                                    /* request.isAccepted == true
+                                                        ? const Text(
+                                                            "Accepted",
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color:
+                                                                    Colors.green),
+                                                          )
+                                                        : const Text(
+                                                            "Not Accepted",
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .redAccent),
+                                                          ), */
                                                   ],
-                                                ),
-                                                request.isAccepted == true
-                                                    ? const Text(
+                                                )) ,*/
+                                          ],
+                                        ),
+                                      ),
+                                      Positioned(
+                                          top: 0,
+                                          right: 0,
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0, vertical: 2.0),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        bottomLeft:
+                                                            Radius.circular(10),
+                                                        topRight:
+                                                            Radius.circular(
+                                                                10)),
+                                                color:
+                                                    request.isAccepted == true
+                                                        ? Colors.green
+                                                        : Colors.red),
+                                            child: request.isAccepted == true
+                                                ? const Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.verified,
+                                                        size: 15,
+                                                        color: Colors.white,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 5.0,
+                                                      ),
+                                                      Text(
                                                         "Accepted",
                                                         style: TextStyle(
-                                                            fontSize: 10,
-                                                            color:
-                                                                Colors.green),
-                                                      )
-                                                    : const Text(
-                                                        "Not Accepted",
-                                                        style: TextStyle(
-                                                            fontSize: 10,
-                                                            color: Colors
-                                                                .redAccent),
-                                                      ),
-                                                request.isAccepted == true
-                                                    ? FittedBox(
-                                                      child: Text(
-                                                          "Accepted By: ${request.acceptedUser}",
+                                                          fontSize: 10,
+                                                          color: Colors.white,
                                                         ),
-                                                    )
-                                                    : const SizedBox.shrink(),
-                                              ],
-                                            )),
-                                      ],
-                                    ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                : const Text(
+                                                    "Pending",
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                          ))
+                                    ],
                                   ),
                                 ),
                               ),
@@ -547,11 +705,11 @@ class _DashboardViewCssdCussDeptUserState
                         );
                       }),
                     ],
-                  ),
-                );
-              }),
-              const SizedBox(height: 500.0),
-            ],
+                  );
+                }),
+                const SizedBox(height: 500.0),
+              ],
+            ),
           ),
         ),
       ),

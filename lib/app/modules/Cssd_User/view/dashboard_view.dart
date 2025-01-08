@@ -32,13 +32,12 @@ class _DashboardViewCssdCssCssdLoginState
 
   @override
   void initState() {
-    LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
     //check if you need to define it in bottomnav and dashboard also
-    hasPrivileges =
-        LocalStorageManager.getBool(StorageKeys.privilegeFlagCssdAndDept);
+    LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
+    hasPrivileges = LocalStorageManager.getBool(StorageKeys.privilegeFlagCssdAndDept);
     userName = LocalStorageManager.getString(StorageKeys.loggedinUser);
-    final dashboardController =
-        Provider.of<DashboardController>(context, listen: false);
+    final dashboardController = Provider.of<DashboardController>(context, listen: false);
+    dashboardController.clearRequestList();
     dashboardController.getCssdRequestList();
     super.initState();
   }
@@ -58,7 +57,7 @@ class _DashboardViewCssdCssCssdLoginState
         clipBehavior: Clip.none,
         children: [
           Column(
-             mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.max,
             children: [
               AppBar(
                 title: Padding(
@@ -162,6 +161,7 @@ class _DashboardViewCssdCssCssdLoginState
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
+                              // title of sterilizations tabbar
                               FittedBox(
                                 child: Row(
                                   mainAxisAlignment:
@@ -178,7 +178,8 @@ class _DashboardViewCssdCssCssdLoginState
                                                   hexColor: "1C170D")),
                                         ),
                                         Consumer<DashboardController>(builder:
-                                            (context, dashboardProvider, child) {
+                                            (context, dashboardProvider,
+                                                child) {
                                           return Text(
                                             "(${dashboardProvider.highPriorityRequestList.length + dashboardProvider.mediumPriorityRequestList.length + dashboardProvider.lowPriorityRequestList.length})",
                                             style: TextStyle(
@@ -191,21 +192,45 @@ class _DashboardViewCssdCssCssdLoginState
                                         })
                                       ],
                                     ),
-                                    IconButton(
-                                        hoverColor: Colors.amber,
-                                        tooltip: "Search Requests",
-                                        onPressed: () {
-                                          Navigator.pushNamed(
-                                              context,
-                                              Routes
-                                                  .searchRequestsViewCssdCussCssdLogin);
-                                        },
-                                        icon: Icon(
-                                          FluentIcons.search_12_filled,
-                                          color: hexToColorWithOpacity(
-                                              hexColor: "#003f5c"),
-                                        ))
-                                     
+                                    Visibility(
+                                      visible: isMobile,
+                                      replacement: TextButton(
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context,
+                                                Routes
+                                                    .searchRequestsViewCssdCussCssdLogin);
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                FluentIcons.search_12_filled,
+                                                color: hexToColorWithOpacity(
+                                                    hexColor: "#003f5c"),
+                                              ),
+                                              const Text(
+                                                "Search Requests",
+                                                style: TextStyle(
+                                                    color: StaticColors
+                                                        .scaffoldBackgroundcolor),
+                                              )
+                                            ],
+                                          )),
+                                      child: IconButton(
+                                          hoverColor: Colors.amber,
+                                          tooltip: "Search Requests",
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context,
+                                                Routes
+                                                    .searchRequestsViewCssdCussCssdLogin);
+                                          },
+                                          icon: Icon(
+                                            FluentIcons.search_12_filled,
+                                            color: hexToColorWithOpacity(
+                                                hexColor: "#003f5c"),
+                                          )),
+                                    )
                                   ],
                                 ),
                               ),
@@ -225,7 +250,6 @@ class _DashboardViewCssdCssCssdLoginState
                               const Expanded(
                                 child: TabBarDashboard(),
                               ),
-                              
                             ],
                           ),
                         ),
