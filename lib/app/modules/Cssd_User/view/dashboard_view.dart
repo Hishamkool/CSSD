@@ -15,6 +15,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class DashboardViewCssdCssCssdLogin extends StatefulWidget {
@@ -29,14 +30,16 @@ class _DashboardViewCssdCssCssdLoginState
     extends State<DashboardViewCssdCssCssdLogin> {
   bool? hasPrivileges;
   String? userName;
-
+  bool isLoadingRequestsApi = false;
   @override
   void initState() {
     //check if you need to define it in bottomnav and dashboard also
     LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
-    hasPrivileges = LocalStorageManager.getBool(StorageKeys.privilegeFlagCssdAndDept);
+    hasPrivileges =
+        LocalStorageManager.getBool(StorageKeys.privilegeFlagCssdAndDept);
     userName = LocalStorageManager.getString(StorageKeys.loggedinUser);
-    final dashboardController = Provider.of<DashboardController>(context, listen: false);
+    final dashboardController =
+        Provider.of<DashboardController>(context, listen: false);
     dashboardController.clearRequestList();
     dashboardController.getCssdRequestList();
     super.initState();
@@ -161,37 +164,80 @@ class _DashboardViewCssdCssCssdLoginState
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
                             children: [
-                              // title of sterilizations tabbar
+                              // title of sterilizations tabbar -- main row
                               FittedBox(
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "Today's Sterilization Requests ",
-                                          style: GoogleFonts.plusJakartaSans(
+                                    Consumer<DashboardController>(builder:
+                                        (context, dashboardProvider, child) {
+                                      // to get the text width
+                                      const titleForRequests =
+                                          "Today's Sterilization request";
+
+                                      final titleForRequestsStyle =
+                                          GoogleFonts.plusJakartaSans(
                                               fontSize: 22,
                                               fontWeight: FontWeight.bold,
                                               color: hexToColorWithOpacity(
-                                                  hexColor: "1C170D")),
-                                        ),
-                                        Consumer<DashboardController>(builder:
-                                            (context, dashboardProvider,
-                                                child) {
-                                          return Text(
-                                            "(${dashboardProvider.highPriorityRequestList.length + dashboardProvider.mediumPriorityRequestList.length + dashboardProvider.lowPriorityRequestList.length})",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: hexToColorWithOpacity(
-                                                  hexColor: "#003f5c"),
+                                                  hexColor: "1C170D"));
+                                      final textSpan = TextSpan(
+                                          text: titleForRequests,
+                                          style: titleForRequestsStyle);
+
+                                      final textPainter = TextPainter(
+                                          text: textSpan,
+                                          textDirection: TextDirection.ltr)
+                                        ..layout();
+
+                                      final textWidth = textPainter.width;
+                                      final textHeight = textPainter.height;
+                                      //
+                                      return GestureDetector(
+                                        onTap: () {
+                                          dashboardProvider
+                                              .getCssdRequestList();
+                                        },
+                                        child: Visibility(
+                                          visible: dashboardProvider
+                                                  .isLoadingRequestsApi ==
+                                              false,
+                                          replacement: ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                              maxHeight: textHeight,
+                                              minWidth: textWidth,
                                             ),
-                                          );
-                                        })
-                                      ],
-                                    ),
+                                            child: FittedBox(
+                                              child: LottieBuilder.asset(
+                                                "assets/lottie/dot_loading_animation.json",
+                                                alignment: Alignment.center,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                titleForRequests,
+                                                style: titleForRequestsStyle,
+                                              ),
+                                              Text(
+                                                "(${dashboardProvider.highPriorityRequestList.length + dashboardProvider.mediumPriorityRequestList.length + dashboardProvider.lowPriorityRequestList.length})",
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: hexToColorWithOpacity(
+                                                      hexColor: "#003f5c"),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }),
+
+                                    // to search request based on from and to date -- search button
                                     Visibility(
                                       visible: isMobile,
                                       replacement: TextButton(
@@ -234,16 +280,7 @@ class _DashboardViewCssdCssCssdLoginState
                                   ],
                                 ),
                               ),
-                              /* const Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 8.0, bottom: 2.0),
-                                  child: Text(
-                                    "Priority : ",
-                                  ),
-                                ),
-                              ), */
+
                               SizedBox(
                                 height: 10.h,
                               ),

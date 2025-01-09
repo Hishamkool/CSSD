@@ -46,10 +46,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => PickupProvider()),
         ChangeNotifierProvider(create: (context) => TimelineController()),
         // department user providers
-        ChangeNotifierProvider(
-            create: (context) => SendToCssdControllerCssdCussDeptUser()),
-        ChangeNotifierProvider(
-            create: (context) => DashboardControllerCssdCussDeptUser()),
+        ChangeNotifierProvider(create: (context) => SendToCssdControllerCssdCussDeptUser()),
+        ChangeNotifierProvider(create: (context) => DashboardControllerCssdCussDeptUser()),
         ChangeNotifierProvider(create: (context) => UsedItemEntryController()),
       ],
       child: ScreenUtilInit(

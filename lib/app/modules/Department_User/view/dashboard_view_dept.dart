@@ -198,7 +198,7 @@ class _DashboardViewCssdCussDeptUserState
                                             'assets/lottie/PieAnimation - 1731912508343.json'),
                                       ),
                                       SizedBox(
-                                        width: 10.w,
+                                        width: 10.w,  
                                       ),
                                       SizedBox(
                                           width: mediaQuery.width / 3.5,

@@ -5,6 +5,7 @@ import 'package:cssd/app/modules/Cssd_User/view/widgets/dashboard_widgets/tabbar
 import 'package:cssd/util/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class TabBarDashboard extends StatelessWidget {
@@ -53,7 +54,7 @@ class TabBarDashboard extends StatelessWidget {
                 tabs: [
                   DashboardTabBarHead(
                     titleText: isMobile ? 'High ' : 'High Priority',
-                    countText: dashboardConsumer.highPriorityRequestList.length
+                    countText: dashboardConsumer.highPriorityRequestList.length 
                         .toString(),
                     tabIndex: 0,
                   ),
@@ -91,6 +92,12 @@ class TabBarDashboard extends StatelessWidget {
   Widget _highPriorityTabView() {
     return Consumer<DashboardController>(
         builder: (context, dashboardProvider, child) {
+      if (dashboardProvider.isLoadingRequestsApi) {
+        return LottieBuilder.asset(
+          "assets/lottie/dot_loading_animation.json",
+          alignment: Alignment.center,
+        );
+      }
       return ListView.builder(
           itemCount: dashboardProvider.highPriorityRequestList.length,
           itemBuilder: (context, index) {
@@ -121,6 +128,12 @@ class TabBarDashboard extends StatelessWidget {
 Widget _mediumPriorityTabView() {
   return Consumer<DashboardController>(
       builder: (context, dashboardProvider, child) {
+    if (dashboardProvider.isLoadingRequestsApi) {
+      return LottieBuilder.asset(
+        "assets/lottie/dot_loading_animation.json",
+        alignment: Alignment.center,
+      );
+    }
     return ListView.builder(
         itemCount: dashboardProvider.mediumPriorityRequestList.length,
         itemBuilder: (context, index) {
@@ -151,6 +164,12 @@ Widget _mediumPriorityTabView() {
 Widget _lowPriorityTabView() {
   return Consumer<DashboardController>(
       builder: (context, dashboardProvider, child) {
+    if (dashboardProvider.isLoadingRequestsApi) {
+      return LottieBuilder.asset(
+        "assets/lottie/dot_loading_animation.json",
+        alignment: Alignment.center,
+      );
+    }
     return ListView.builder(
         itemCount: dashboardProvider.lowPriorityRequestList.length,
         itemBuilder: (context, index) {

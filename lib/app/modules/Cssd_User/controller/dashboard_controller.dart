@@ -47,8 +47,23 @@ class DashboardController extends ChangeNotifier {
   List<HighMedLowReqModel> get lowPriorityRequestList =>
       _lowPriorityRequestList;
 
+  bool _isLoadingRequestsApi = false;
+
+  bool get isLoadingRequestsApi => _isLoadingRequestsApi;
+
+  // for loading indication
+  void setReqLoading(bool value) {
+    _isLoadingRequestsApi = value;
+    notifyListeners();
+  }
+
   Future<void> getCssdRequestList() async {
     clearRequestList();
+    setReqLoading(true);
+
+    // artificial delay #remove #check #delete 
+     await Future.delayed(const Duration(seconds: 2));  
+
     final client = await DioUtilAuthorized.createApiClient();
     final response = await client.getCSSDList();
     try {
@@ -64,6 +79,7 @@ class DashboardController extends ChangeNotifier {
     } catch (e) {
       log("excetion while getting request list : $e");
     }
+    setReqLoading(false);
     notifyListeners();
   }
 
@@ -74,8 +90,4 @@ class DashboardController extends ChangeNotifier {
     _mediumPriorityRequestList.clear();
     _lowPriorityRequestList.clear();
   }
-
-
-
-  
 }
