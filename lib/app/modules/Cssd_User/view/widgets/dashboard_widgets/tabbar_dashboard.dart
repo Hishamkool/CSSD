@@ -54,7 +54,7 @@ class TabBarDashboard extends StatelessWidget {
                 tabs: [
                   DashboardTabBarHead(
                     titleText: isMobile ? 'High ' : 'High Priority',
-                    countText: dashboardConsumer.highPriorityRequestList.length 
+                    countText: dashboardConsumer.highPriorityRequestList.length
                         .toString(),
                     tabIndex: 0,
                   ),
@@ -94,7 +94,14 @@ class TabBarDashboard extends StatelessWidget {
         builder: (context, dashboardProvider, child) {
       if (dashboardProvider.isLoadingRequestsApi) {
         return LottieBuilder.asset(
-          "assets/lottie/dot_loading_animation.json",
+          "assets/lottie/injections_animation.json",
+          height: 150 ,
+          width: 150,
+        );
+      }
+      if (dashboardProvider.highPriorityRequestList.isEmpty) {
+        return LottieBuilder.asset(
+          "assets/lottie/Free Empty State Animation.json",
           alignment: Alignment.center,
         );
       }
@@ -130,7 +137,14 @@ Widget _mediumPriorityTabView() {
       builder: (context, dashboardProvider, child) {
     if (dashboardProvider.isLoadingRequestsApi) {
       return LottieBuilder.asset(
-        "assets/lottie/dot_loading_animation.json",
+        "assets/lottie/injections_animation.json",
+        height: 60,
+        width: 60,
+      );
+    }
+    if (dashboardProvider.mediumPriorityRequestList.isEmpty) {
+      return LottieBuilder.asset(
+        "assets/lottie/Free Empty State Animation.json",
         alignment: Alignment.center,
       );
     }
@@ -166,7 +180,14 @@ Widget _lowPriorityTabView() {
       builder: (context, dashboardProvider, child) {
     if (dashboardProvider.isLoadingRequestsApi) {
       return LottieBuilder.asset(
-        "assets/lottie/dot_loading_animation.json",
+        "assets/lottie/injections_animation.json",
+        height: 60,
+        width: 60,
+      );
+    }
+    if (dashboardProvider.lowPriorityRequestList.isEmpty) {
+      return LottieBuilder.asset(
+        "assets/lottie/Free Empty State Animation.json",
         alignment: Alignment.center,
       );
     }

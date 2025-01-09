@@ -33,16 +33,18 @@ class _DashboardViewCssdCssCssdLoginState
   bool isLoadingRequestsApi = false;
   @override
   void initState() {
-    //check if you need to define it in bottomnav and dashboard also
-    LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
+    super.initState();
     hasPrivileges =
         LocalStorageManager.getBool(StorageKeys.privilegeFlagCssdAndDept);
+    LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
     userName = LocalStorageManager.getString(StorageKeys.loggedinUser);
-    final dashboardController =
-        Provider.of<DashboardController>(context, listen: false);
-    dashboardController.clearRequestList();
-    dashboardController.getCssdRequestList();
-    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      //check if you need to define it in bottomnav and dashboard also
+      final dashboardController =
+          Provider.of<DashboardController>(context, listen: false);
+      dashboardController.clearRequestList();
+      dashboardController.getCssdRequestList();
+    });
   }
 
   @override
@@ -196,7 +198,13 @@ class _DashboardViewCssdCssCssdLoginState
                                       //
                                       return GestureDetector(
                                         onTap: () {
-                                          dashboardProvider
+                                          final dashboardController =
+                                              Provider.of<DashboardController>(
+                                                  context,
+                                                  listen: false);
+                                          dashboardController
+                                              .clearRequestList();
+                                          dashboardController
                                               .getCssdRequestList();
                                         },
                                         child: Visibility(
@@ -208,12 +216,10 @@ class _DashboardViewCssdCssCssdLoginState
                                               maxHeight: textHeight,
                                               minWidth: textWidth,
                                             ),
-                                            child: FittedBox(
-                                              child: LottieBuilder.asset(
-                                                "assets/lottie/dot_loading_animation.json",
-                                                alignment: Alignment.center,
-                                                fit: BoxFit.fill,
-                                              ),
+                                            child: LottieBuilder.asset(
+                                              "assets/lottie/dot_loading_animation.json",
+                                              alignment: Alignment.center,
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
                                           child: Row(
