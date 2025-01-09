@@ -12,7 +12,7 @@ class ApiLinks{
   static const String acceptRequest = "/Home/AcceptRequest";  // cssd dashboard accepting the whole request using requestId
   static const String getMachineName = "/Home/GetMachineName"; // to get machine names for sterilization
   static const String getProcessName = "/Home/GetProcessName";  // to get the sterilization process names with queery for dropdown
-
+  static const String getAcceptedItemList = "/Home/GetAcceptedItem_List"; // to get items for sterilization page items search
 
 
   //department user

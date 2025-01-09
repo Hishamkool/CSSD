@@ -164,7 +164,7 @@ class _SterilizationViewCssdCussCssdLoginState
                           Flexible(
                             flex: 1,
                             child: Consumer<SterilizationProvider>(builder:
-                                (context, sterilizationController, child) {
+                                (context, sterilizationConsumer, child) {
                               return FormField(
                                 builder: (field) {
                                   return InputDecorator(
@@ -177,7 +177,7 @@ class _SterilizationViewCssdCussCssdLoginState
                                               vertical: 11.0, horizontal: 10.0),
                                       onChanged: (value) {
                                         if (value != null) {
-                                          sterilizationController
+                                          sterilizationConsumer
                                               .updateSelectedMachine(value);
                                         } else {
                                           showSnackBarNoContext(
@@ -185,7 +185,7 @@ class _SterilizationViewCssdCussCssdLoginState
                                               msg: "Selected value is null");
                                         }
                                       },
-                                      items: sterilizationController
+                                      items: sterilizationConsumer
                                           .getmachinesList
                                           .map((item) => item.machineName)
                                           .toList(),
@@ -254,12 +254,33 @@ class _SterilizationViewCssdCussCssdLoginState
                                       color: StaticColors.lightContainerborder),
                                 ),
                                 hintText: "Items",
+                                listItemBuilder:
+                                    (context, item, isSelected, onItemSelect) {
+                                  return ListTile(
+                                    title: Text(
+                                      item.productName,
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    subtitle: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Quantity : ${item.qty}"),
+                                        Text("Request id : ${item.sid}"),
+                                      ],
+                                    ),
+                                  );
+                                },
                                 searchHintText: "Search items",
                                 futureRequestDelay:
                                     const Duration(milliseconds: 0),
                                 futureRequest: (String searchQuerry) async {
-                                  // implement the response for search in controller
-                                  return [];
+                                  final sterilizationController =
+                                      Provider.of<SterilizationProvider>(
+                                          context,
+                                          listen: false);
+                                  return await sterilizationController
+                                      .getItemsForSterilization(searchQuerry);
                                 },
                                 onChanged: (item) {},
                               ),

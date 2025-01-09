@@ -3,6 +3,7 @@ import 'package:cssd/app/api/model/general_response_model.dart';
 import 'package:cssd/app/modules/Cssd_User/model/request_models/accept_request_model.dart';
 import 'package:cssd/app/modules/Cssd_User/model/dashboard_models/get_cssd_det_model.dart';
 import 'package:cssd/app/modules/Cssd_User/model/dashboard_models/get_cssd_list_model.dart';
+import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_accepted_items_list_model.dart';
 import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_machine_name_model.dart';
 import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_process_name_model.dart';
 import 'package:cssd/app/modules/Department_User/model/dahboard_models/get_cssd_send_requests.dart';
@@ -22,7 +23,7 @@ import 'package:cssd/app/modules/Department_User/model/used_item_model/used_item
 import 'package:cssd/app/modules/login_module/model/login_model.dart';
 import 'package:cssd/app/modules/login_module/model/pre_login_authentication_model.dart';
 import 'package:dio/dio.dart';
-import 'package:retrofit/retrofit.dart'; 
+import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 @RestApi(baseUrl: "")
@@ -117,5 +118,10 @@ abstract class ApiClient {
   @GET(ApiLinks.getProcessName)
   Future<GetProcessName> getProcessName(
     @Query("process") String process,
+  );
+
+  @GET(ApiLinks.getAcceptedItemList)
+  Future<GetAcceptedItemList> getAcceptedItemList(
+    @Query("itemname") String itemname,
   );
 }

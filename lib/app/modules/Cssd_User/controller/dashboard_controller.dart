@@ -58,16 +58,14 @@ class DashboardController extends ChangeNotifier {
   }
 
   Future<void> getCssdRequestList() async {
-    clearRequestList();
     setReqLoading(true);
-
-   
+    clearRequestList();
 
     final client = await DioUtilAuthorized.createApiClient();
     final response = await client.getCSSDList();
     try {
       if (response.status == 200) {
-         _requestList.add(response.data); 
+        _requestList.add(response.data);
         _highPriorityRequestList.addAll(response.data.high);
         _mediumPriorityRequestList.addAll(response.data.medium);
         _lowPriorityRequestList.addAll(response.data.low);

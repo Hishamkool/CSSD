@@ -47,10 +47,10 @@ class RequestCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 8),
                       decoration: const BoxDecoration(
-                        color:  Color(0xffF0F5FA),
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(10),
-                            topLeft: Radius.circular(12)),
+                        color: Color(0xffF0F5FA),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
                       ),
                       child: Text(
                         request.sid.toString(),
