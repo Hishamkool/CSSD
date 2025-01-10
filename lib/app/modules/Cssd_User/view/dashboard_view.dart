@@ -350,15 +350,22 @@ class _DashboardViewCssdCssCssdLoginState
     }
     // Return the floating action button if the privilege flag is true
     return Container(
+      width: 130,
+      height: 50,
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.blue.shade100, width: 0.2),
+          // border: Border.all(color: Colors.blue.shade100, width: 0.2),
           borderRadius: BorderRadius.circular(15)),
-      child: FloatingActionButton.extended(
+      child: FloatingActionButton(
         elevation: 9,
         backgroundColor: StaticColors.scaffoldBackgroundcolor,
-        label: const Text(
-          "Switch to department",
-          style: TextStyle(color: Colors.white),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+          child: FittedBox(
+            child: Text(
+              "Switch to Dept",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         ),
         onPressed: () {
           Navigator.pushNamedAndRemoveUntil(context,

@@ -9,12 +9,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class SterilizationProvider extends ChangeNotifier {
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController batchNumberController = TextEditingController();
   TextEditingController startTimeController = TextEditingController();
   TextEditingController endTimeController = TextEditingController();
-  TextEditingController processNameController = TextEditingController();
-
-  TextEditingController acceptedItemsQuantityController =
-      TextEditingController();
+  TextEditingController processNameController = TextEditingController(); 
 
   String? selectedMachine;
   bool _expansionTileExpanded = true;
@@ -115,13 +114,20 @@ class SterilizationProvider extends ChangeNotifier {
   // adding items list before sterilization
   final List<GetAcceptedItemListData> _addedAcceptedItemsList = [];
   List<GetAcceptedItemListData> get addedAcceptedItemsList =>
-      _addedAcceptedItemsList; 
+      _addedAcceptedItemsList;
   void addAcceptedItemsToList(GetAcceptedItemListData itemModel) {
     _addedAcceptedItemsList.add(GetAcceptedItemListData(
         productId: itemModel.productId,
         sid: itemModel.sid,
         productName: itemModel.productName,
-        qty: itemModel.qty)); 
-    showSnackBarNoContext(isError: false, msg: "Successfully added items"); 
+        qty: itemModel.qty));
+    showSnackBarNoContext(isError: false, msg: "Successfully added items");
+    notifyListeners();
+  }
+
+  // function to delete or remove items from the list of added accepted items
+  void deleteAddedAccepedItemsList(int index) {
+    _addedAcceptedItemsList.removeAt(index);
+    notifyListeners();
   }
 }

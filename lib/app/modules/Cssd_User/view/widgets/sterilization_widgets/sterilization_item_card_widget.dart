@@ -20,7 +20,7 @@ class SterilizationItemsCardWidget extends StatelessWidget {
     ));
     return Card(
       color: hexToColorWithOpacity(hexColor: "EBF9FF"),
-      child: Padding(
+      child: Padding( 
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,7 +70,7 @@ class SterilizationItemsCardWidget extends StatelessWidget {
                 )
               ],
             ),
-            const Row(
+              Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
@@ -78,8 +78,8 @@ class SterilizationItemsCardWidget extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("ID : 45 "),
-                        Text("Dept: Operation theator"),
+                        Text("Product Id : ${item.productId} "),
+                        Text("From Request : ${item.sid} "),
                       ],
                     ),
                   ],
@@ -89,8 +89,8 @@ class SterilizationItemsCardWidget extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Quantity : 4 "),
-                        Text("Batch Number : 100152"),
+                        Text("Quantity : ${item.qty}  "),
+                        const Text("Batch Number : test  "),
                       ],
                     ),
                   ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cssd/Widgets/button_widget.dart';
 import 'package:cssd/Widgets/custom_date_picker_widget.dart';
@@ -16,6 +18,8 @@ import 'package:cssd/app/modules/Cssd_User/view/widgets/sterilization_widgets/st
 import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/fonts.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -307,9 +311,21 @@ class _SterilizationViewCssdCussCssdLoginState
                                         .getItemsForSterilization(searchQuerry);
                                   },
                                   onChanged: (selectedItemModel) {
-                                    sterilizationController
-                                            .setSelectedAcceptedItemsModel =
-                                        selectedItemModel;
+                                    if (selectedItemModel != null) {
+
+                                      sterilizationController
+                                              .setSelectedAcceptedItemsModel =
+                                          selectedItemModel;
+
+                                      // setting default quantity in textfield
+                                      sterilizationController
+                                              .quantityController.text =
+                                          selectedItemModel.qty.toString();
+                                    }else{
+                                      if (kDebugMode) {
+                                        log("Selected items is null, so not updatind the selected items model and also not setting value in quantity controller");
+                                      }
+                                    }
                                   },
                                 ),
                               ),
@@ -329,7 +345,7 @@ class _SterilizationViewCssdCussCssdLoginState
                                 child: CustomTextFormField(
                                   textFieldSize: const Size(80.0, 80.0),
                                   controller: sterilizationController
-                                      .acceptedItemsQuantityController,
+                                      .quantityController,
                                   //label: Text("Quantity"),
                                   validator: (quantity) {
                                     if (quantity!.isEmpty || quantity == "") {
@@ -338,6 +354,14 @@ class _SterilizationViewCssdCussCssdLoginState
                                             .selectedAcceptedItemModel ==
                                         null) {
                                       return "Item not selected";
+                                    } else if (int.parse(quantity) >
+                                        sterilizationController
+                                            .selectedAcceptedItemModel!.qty) {
+                                      showToast(
+                                          context: context,
+                                          message:
+                                              "Quantity greater than available in selected request id ${sterilizationController.selectedAcceptedItemModel!.sid}");
+                                      return "Exceeds limit";
                                     }
                                     return null;
                                   },
@@ -352,6 +376,8 @@ class _SterilizationViewCssdCussCssdLoginState
                                     label: Text("Batch number"),
                                     border: InputBorder.none),
                                 child: CustomTextFormField(
+                                  controller: sterilizationController
+                                      .batchNumberController,
                                   keyboardType: TextInputType.number,
                                   label: const Text("Batch number"),
                                   textFieldSize: const Size(80.0, 80.0),
@@ -418,15 +444,16 @@ class _SterilizationViewCssdCussCssdLoginState
                             },
                             controlAffinity: ListTileControlAffinity.leading,
                             initiallyExpanded: true,
-                            title:
-                                sterilizationProvider.expansionTileExpanded ==
-                                        true
-                                    ? Text(
-                                        "Hide Added Items",
-                                        style: FontStyles.bodyPieTitleStyle,
-                                      )
-                                    : Text("Show Added Items",
-                                        style: FontStyles.bodyPieTitleStyle),
+                            title: sterilizationProvider
+                                        .expansionTileExpanded ==
+                                    true
+                                ? Text(
+                                    "Hide Added Items (${sterilizationProvider.addedAcceptedItemsList.length})",
+                                    style: FontStyles.bodyPieTitleStyle,
+                                  )
+                                : Text(
+                                    "Show Added Items (${sterilizationProvider.addedAcceptedItemsList.length})",
+                                    style: FontStyles.bodyPieTitleStyle),
                             children: [
                               ListView.builder(
                                 shrinkWrap: true,
@@ -434,13 +461,70 @@ class _SterilizationViewCssdCussCssdLoginState
                                 itemCount: sterilizationProvider
                                     .addedAcceptedItemsList.length,
                                 itemBuilder: (context, index) {
-                                   List<GetAcceptedItemListData> item =
+                                  List<GetAcceptedItemListData> item =
                                       sterilizationProvider
                                           .addedAcceptedItemsList;
                                   return Column(
                                     children: [
-                                      SterilizationItemsCardWidget(
-                                        item: item[index],
+                                      Dismissible(
+                                        key: ValueKey(item[index]),
+                                        background: Container(
+                                          alignment: Alignment.centerLeft,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          color: Colors.red,
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Icon(
+                                                FluentIcons.delete_12_filled,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(
+                                                width: 8.0,
+                                              ),
+                                              Text(
+                                                "Delete",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        secondaryBackground: Container(
+                                          alignment: Alignment.centerRight,
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          color: Colors.red,
+                                          child: const Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Icon(
+                                                FluentIcons.delete_12_filled,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(
+                                                width: 8.0,
+                                              ),
+                                              Text(
+                                                "Delete",
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        direction: DismissDirection.horizontal,
+                                        child: SterilizationItemsCardWidget(
+                                          item: item[index],
+                                        ),
+                                        onDismissed: (direction) {
+                                          sterilizationProvider
+                                              .deleteAddedAccepedItemsList(
+                                                  index);
+                                        },
                                       ),
                                     ],
                                   );

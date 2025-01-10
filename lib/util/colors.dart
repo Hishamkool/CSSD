@@ -66,6 +66,7 @@ class StaticColors {
 
   //container colors
   static const lightContainerborder = Color(0xffE7E7E7);
+  static const lightBgContainer = Color.fromARGB(255, 240, 249, 255);
   static const lightTextColorForBlueContainer = Color(0xFF7DA0CA);
   static const darkTextColorForBlueContainer = Color.fromARGB(255, 30, 63, 104);
 }

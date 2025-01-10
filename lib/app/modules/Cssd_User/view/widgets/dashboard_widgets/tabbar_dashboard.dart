@@ -24,9 +24,9 @@ class TabBarDashboard extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(40)),
-              color: Color(0xffDBEBF5),
+            decoration:  BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
+              color: Colors.blue.shade100,
             ),
             child: Consumer<DashboardController>(
                 builder: (context, dashboardConsumer, child) {
@@ -95,7 +95,7 @@ class TabBarDashboard extends StatelessWidget {
       if (dashboardProvider.isLoadingRequestsApi) {
         return LottieBuilder.asset(
           "assets/lottie/injections_animation.json",
-          height: 150 ,
+          height: 150,
           width: 150,
         );
       }

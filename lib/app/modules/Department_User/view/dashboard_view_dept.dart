@@ -198,7 +198,7 @@ class _DashboardViewCssdCussDeptUserState
                                             'assets/lottie/PieAnimation - 1731912508343.json'),
                                       ),
                                       SizedBox(
-                                        width: 10.w,  
+                                        width: 10.w,
                                       ),
                                       SizedBox(
                                           width: mediaQuery.width / 3.5,
@@ -235,7 +235,7 @@ class _DashboardViewCssdCussDeptUserState
                                       alignment: ChartAlignment.near,
                                       text: 'Request Details',
                                       textStyle: GoogleFonts.plusJakartaSans(
-                                          fontSize: 20.0,
+                                          fontSize: 15.0,
                                           color: Colors.black,
                                           fontWeight: FontWeight.w600)),
                                   legend: const Legend(
@@ -333,7 +333,7 @@ class _DashboardViewCssdCussDeptUserState
                                 text: TextSpan(
                                   text: 'My Requests ',
                                   style: GoogleFonts.plusJakartaSans(
-                                      fontSize: 25.0,
+                                      fontSize: 20.0,
                                       color: Colors.black,
                                       fontWeight: FontWeight.w600),
                                   children: [
@@ -471,8 +471,7 @@ class _DashboardViewCssdCussDeptUserState
                                       border: Border.all(
                                         color: Colors.grey.shade100,
                                       ),
-                                      color: const Color.fromARGB(
-                                          255, 240, 249, 255)),
+                                      color: StaticColors.lightBgContainer),
                                   /* color: hexToColorWithOpacity(
                                     hexColor: "#FAF7F0",
                                   ), */
