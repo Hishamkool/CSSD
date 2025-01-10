@@ -21,7 +21,7 @@ class GetAcceptedItemList {
 }
 
 @JsonSerializable()
-class GetAcceptedItemListData {
+class   GetAcceptedItemListData {
   @JsonKey(name: "Product_ID")
   int productId;
   @JsonKey(name: "SID")

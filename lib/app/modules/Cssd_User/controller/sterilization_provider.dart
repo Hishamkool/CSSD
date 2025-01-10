@@ -13,6 +13,9 @@ class SterilizationProvider extends ChangeNotifier {
   TextEditingController endTimeController = TextEditingController();
   TextEditingController processNameController = TextEditingController();
 
+  TextEditingController acceptedItemsQuantityController =
+      TextEditingController();
+
   String? selectedMachine;
   bool _expansionTileExpanded = true;
 
@@ -97,5 +100,28 @@ class SterilizationProvider extends ChangeNotifier {
     }
     notifyListeners();
     return [];
+  }
+
+  // to know the currently select items data -- eg for quantity validation , selection from items dropdwon
+  GetAcceptedItemListData? _selectedAcceptedItemModel;
+  GetAcceptedItemListData? get selectedAcceptedItemModel =>
+      _selectedAcceptedItemModel;
+  // update the selected items model
+  set setSelectedAcceptedItemsModel(GetAcceptedItemListData? itemModel) {
+    _selectedAcceptedItemModel = itemModel;
+    notifyListeners();
+  }
+
+  // adding items list before sterilization
+  final List<GetAcceptedItemListData> _addedAcceptedItemsList = [];
+  List<GetAcceptedItemListData> get addedAcceptedItemsList =>
+      _addedAcceptedItemsList; 
+  void addAcceptedItemsToList(GetAcceptedItemListData itemModel) {
+    _addedAcceptedItemsList.add(GetAcceptedItemListData(
+        productId: itemModel.productId,
+        sid: itemModel.sid,
+        productName: itemModel.productName,
+        qty: itemModel.qty)); 
+    showSnackBarNoContext(isError: false, msg: "Successfully added items"); 
   }
 }

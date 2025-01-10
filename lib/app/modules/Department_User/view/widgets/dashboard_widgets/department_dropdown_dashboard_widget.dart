@@ -45,7 +45,7 @@ class DepartmentSelectionDashboardWidget extends StatelessWidget {
             dashboardController.getPieChartData(
                 selectedDepartment); // should not fetch pie chart data while changing dept from pages other than dashboard
           } else {
-            showToast(context, "Select department");
+            showToast(context: context, message:  "Select department");
           }
         },
       );

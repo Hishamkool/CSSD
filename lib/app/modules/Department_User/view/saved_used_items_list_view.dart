@@ -73,7 +73,7 @@ class _SavedUsedItemsListState extends State<SavedUsedItemsList> {
                     usedItemsControler.fetchDepartmentWiseUsedItems(
                         dashboardConsumer.getSelectedDepartment);
                   } else {
-                    showToast(context, "Select department");
+                    showToast(context: context, message: "Select department");
                   }
                 },
               );

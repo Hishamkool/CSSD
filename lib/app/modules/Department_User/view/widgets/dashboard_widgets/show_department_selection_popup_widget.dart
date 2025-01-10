@@ -3,7 +3,6 @@ import 'package:cssd/Widgets/button_widget.dart';
 import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
 import 'package:cssd/app/modules/Department_User/view/department_stock_details_view.dart';
 import 'package:cssd/util/app_util.dart';
-import 'package:cssd/util/local_storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +47,7 @@ Future showAlertDialog(BuildContext context) async {
                 dashboardController
                     .updateSelectedDepartment(selectedDepartment);
               } else {
-                showToast(context, "Select department");
+                showToast(context:  context, message: "Select department");
               }
             },
           );

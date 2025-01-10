@@ -86,7 +86,7 @@ itemSearchField(
       focusNode: focusNode,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return 'Please enter item name';
+          return '$labelText is empty';
         }
         return null;
       },

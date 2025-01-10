@@ -153,7 +153,9 @@ class _UsedItemEntryViewCssdCussDeptUserState
                                 dashboardConsumer.updateSelectedDepartment(
                                     selectedDepartment);
                               } else {
-                                showToast(context, "Select department");
+                                showToast(
+                                    context: context,
+                                    message: "Select department");
                               }
                             },
                           ),
@@ -265,7 +267,7 @@ class _UsedItemEntryViewCssdCussDeptUserState
                                   usedItemsController.quantityController.text,
                                 ),
                               );
-                            } */
+                            } */ 
                             usedItemsController.addToUsedItemsTableBeforeSubmit(
                               context: context,
                               productId: itemModel.iid!,

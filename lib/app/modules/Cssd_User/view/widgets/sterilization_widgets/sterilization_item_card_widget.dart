@@ -1,4 +1,4 @@
-import 'package:cssd/Widgets/button_widget.dart';
+import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_accepted_items_list_model.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:cssd/util/hex_to_color_with_opacity.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -7,9 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SterilizationItemsCardWidget extends StatelessWidget {
   const SterilizationItemsCardWidget({
-    super.key,
+    super.key, required this.item,
   });
-
+  final GetAcceptedItemListData item;
   @override
   Widget build(BuildContext context) {
     final ButtonStyle buttonStyle = ElevatedButton.styleFrom(
@@ -28,7 +28,7 @@ class SterilizationItemsCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("  Item name"),
+                 Text(item.productName),
                 const Spacer(),
                 PopupMenuButton(
                   color: Colors.white,

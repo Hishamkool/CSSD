@@ -109,12 +109,13 @@ class UsedItemEntryController extends ChangeNotifier {
   //for used items entry format
   final List<Uentry> _listMapAddedItem = [];
 
-  List<UsedItemsListModelData> addToUsedItemsTableBeforeSubmit(
-      {required int productId,
-      required String productName,
-      required String location,
-      required int uQty,
-      required BuildContext context}) {
+  List<UsedItemsListModelData> addToUsedItemsTableBeforeSubmit({
+    required int productId,
+    required String productName,
+    required String location,
+    required int uQty,
+    required BuildContext context,
+  }) {
     final existingItemIndex = _usedItemsTableBeforeSubmitList
         .indexWhere((item) => item.productId == productId);
     if (existingItemIndex == -1) {

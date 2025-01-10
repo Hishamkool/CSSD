@@ -84,385 +84,394 @@ class _SendToCssdViewCssdCussDeptUserState
           child: Form(
             key: _formKey,
             child: ListView(
-              
-              //mainAxisSize: MainAxisSize.max,
-               children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                //mainAxisSize: MainAxisSize.max,
                 children: [
-                  Expanded(
-                      flex: 3,
-                      //get used items dropdown
-                      child: Consumer<SendToCssdControllerCssdCussDeptUser>(
-                          // items search suggestions
-                          builder: (context, sterilizationConsumer, child) {
-                        final dashboardController =
-                            Provider.of<DashboardControllerCssdCussDeptUser>(
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          //get used items dropdown
+                          child: Consumer<SendToCssdControllerCssdCussDeptUser>(
+                              // items search suggestions
+                              builder: (context, sterilizationConsumer, child) {
+                            final dashboardController = Provider.of<
+                                    DashboardControllerCssdCussDeptUser>(
                                 context,
                                 listen: false);
-            
-                        // fetching selected department from dashboard
-                        String selectedDepartment =
-                            dashboardController.getSelectedDepartment;
+
+                            // fetching selected department from dashboard
+                            String selectedDepartment =
+                                dashboardController.getSelectedDepartment;
+                            return InputDecorator(
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  label: Text("Search items  ")),
+                              child: CustomDropdown.searchRequest(
+                                onChanged: (selectedItemModel) {
+                                  if (selectedItemModel != null) {
+                                    log('currently selected item : ${selectedItemModel.productName}');
+                                    sterilizationConsumer.setSelectedItemModel =
+                                        selectedItemModel;
+                                  } else {
+                                    showSnackBarNoContext(
+                                        isError: true,
+                                        msg: "selected item is null");
+                                  }
+                                },
+                                futureRequestDelay:
+                                    const Duration(milliseconds: 0),
+                                futureRequest: (stringItem) async {
+                                  // api calling to get the item name
+                                  if (selectedDepartment == "") {
+                                    showSnackBarNoContext(
+                                        isError: true,
+                                        msg:
+                                            "Select department to search items");
+                                  } else {
+                                    await sterilizationConsumer.fetchUsedItems(
+                                        searchQuery: stringItem,
+                                        location: selectedDepartment);
+                                  }
+                                  // list of items for the search query
+                                  return sterilizationConsumer
+                                      .getUsedItemsListForSearch;
+                                },
+                                headerBuilder:
+                                    (context, selectedItem, enabled) {
+                                  if (sterilizationConsumer
+                                          .getSelectedUsedItemModel
+                                          ?.productName ==
+                                      null) {
+                                    // clear the header when itemmodel is null - set when department in changed from dropdown
+                                    return const Text("");
+                                  }
+                                  log("item model is ${sterilizationConsumer.getSelectedUsedItemModel?.productName}");
+                                  return Text(selectedItem.productName);
+                                },
+                                listItemBuilder:
+                                    (context, item, isSelected, onItemSelect) =>
+                                        ListTile(
+                                  title: Text(item.productName),
+                                  subtitle: Text(
+                                    "used quantity : ${item.usedQty}",
+                                  ),
+                                ),
+                                closedHeaderPadding: const EdgeInsets.symmetric(
+                                    vertical: 11.0, horizontal: 10.0),
+                                decoration: CustomDropdownDecoration(
+                                  closedBorder: Border.all(
+                                      color: StaticColors.lightContainerborder),
+                                ),
+                                hintText: "Items",
+                                searchHintText: "Search used items",
+                                hideSelectedFieldWhenExpanded: false,
+                                validator: (item) {
+                                  if (item == null) {
+                                    return "Section required";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            );
+                          })),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+
+                      // quantity textfield
+                      Flexible(child:
+                          Consumer<SendToCssdControllerCssdCussDeptUser>(
+                              builder: (context, sterilizationConsumer, child) {
                         return InputDecorator(
                           decoration: const InputDecoration(
                               border: InputBorder.none,
-                              label: Text("Search items  ")),
-                          child: CustomDropdown.searchRequest(
-                            onChanged: (selectedItemModel) {
-                              if (selectedItemModel != null) {
-                                log('currently selected item : ${selectedItemModel.productName}');
-                                sterilizationConsumer.setSelectedItemModel =
-                                    selectedItemModel;
-                              } else {
-                                showSnackBarNoContext(
-                                    isError: true,
-                                    msg: "selected item is null");
+                              label: Text("Quantity")),
+                          child: CustomTextFormField(
+                            /* inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly, // Restricts input to digits only
+                                        ], */
+                            maxLines: 1,
+                            keyboardType: TextInputType.number,
+                            textFieldSize: const Size(double.infinity, 80.0),
+                            label: const FittedBox(child: Text("Quantity")),
+                            controller:
+                                sterilizationController.quantityController,
+                            validator: (enteredQuantity) {
+                              final avalilableQuantity = sterilizationConsumer
+                                      .getSelectedUsedItemModel?.usedQty ??
+                                  0;
+
+                              if (enteredQuantity == null ||
+                                  enteredQuantity.isEmpty) {
+                                showToast(
+                                    context: context,
+                                    message: "Enter a valid number");
+                                return 'empty';
                               }
-                            },
-                            futureRequestDelay:
-                                const Duration(milliseconds: 0),
-                            futureRequest: (stringItem) async {
-                              // api calling to get the item name
-                              if (selectedDepartment == "") {
-                                showSnackBarNoContext(
-                                    isError: true,
-                                    msg: "Select department to search items");
-                              } else {
-                                await sterilizationConsumer.fetchUsedItems(
-                                    searchQuery: stringItem,
-                                    location: selectedDepartment);
+
+                              try {
+                                final quantity = int.parse(enteredQuantity);
+
+                                if (quantity <= 0) {
+                                  showToast(
+                                      context: context,
+                                      message: "Enter valid quantity");
+                                  return 'negative / zero';
+                                }
+
+                                if (quantity > avalilableQuantity) {
+                                  showSnackBarNoContext(
+                                      isError: true,
+                                      msg:
+                                          "Entered quantity exceeds available quantity : $avalilableQuantity");
+                                  return 'Exceeds limit';
+                                }
+
+                                // Quantity is valid
+                                return null;
+                              } catch (e) {
+                                log("quantity exception $e");
+                                showToast(
+                                    context: context,
+                                    message: "Enter a valid number");
+
+                                return 'Enter a valid number ';
                               }
-                              // list of items for the search query
-                              return sterilizationConsumer
-                                  .getUsedItemsListForSearch;
-                            },
-                            headerBuilder: (context, selectedItem, enabled) {
-                              if (sterilizationConsumer
-                                      .getSelectedUsedItemModel
-                                      ?.productName ==
-                                  null) {
-                                // clear the header when itemmodel is null - set when department in changed from dropdown
-                                return const Text("");
-                              }
-                              log("item model is ${sterilizationConsumer.getSelectedUsedItemModel?.productName}");
-                              return Text(selectedItem.productName);
-                            },
-                            listItemBuilder:
-                                (context, item, isSelected, onItemSelect) =>
-                                    ListTile(
-                              title: Text(item.productName),
-                              subtitle: Text(
-                                "used quantity : ${item.usedQty}",
-                              ),
-                            ),
-                            closedHeaderPadding: const EdgeInsets.symmetric(
-                                vertical: 11.0, horizontal: 10.0),
-                            decoration: CustomDropdownDecoration(
-                              closedBorder: Border.all(
-                                  color: StaticColors.lightContainerborder),
-                            ),
-                            hintText: "Items",
-                            searchHintText: "Search used items",
-                            hideSelectedFieldWhenExpanded: false,
-                            validator: (item) {
-                              if (item == null) {
-                                return "Section required";
-                              }
-                              return null;
                             },
                           ),
                         );
                       })),
-                  SizedBox(
-                    width: 10.w,
+                    ],
                   ),
-            
-                  // quantity textfield
-                  Flexible(child:
-                      Consumer<SendToCssdControllerCssdCussDeptUser>(
-                          builder: (context, sterilizationConsumer, child) {
-                    return InputDecorator(
-                      decoration: const InputDecoration(
-                          border: InputBorder.none, label: Text("Quantity")),
-                      child: CustomTextFormField(
-                        /* inputFormatters: [
-                                          FilteringTextInputFormatter.digitsOnly, // Restricts input to digits only
-                                        ], */
-                        maxLines: 1,
-                        keyboardType: TextInputType.number,
-                        textFieldSize: const Size(double.infinity, 80.0),
-                        label: const FittedBox(child: Text("Quantity")),
-                        controller:
-                            sterilizationController.quantityController,
-                        validator: (enteredQuantity) {
-                          final avalilableQuantity = sterilizationConsumer
-                                  .getSelectedUsedItemModel?.usedQty ??
-                              0;
-            
-                          if (enteredQuantity == null ||
-                              enteredQuantity.isEmpty) {
-                            showToast(context, "Enter a valid number");
-                            return 'empty';
-                          }
-            
-                          try {
-                            final quantity = int.parse(enteredQuantity);
-            
-                            if (quantity <= 0) {
-                              showToast(context, "Enter valid quantity");
-                              return 'negative / zero';
-                            }
-            
-                            if (quantity > avalilableQuantity) {
-                              showSnackBarNoContext(
-                                  isError: true,
-                                  msg:
-                                      "Entered quantity exceeds available quantity : $avalilableQuantity");
-                              return 'Exceeds limit';
-                            }
-            
-                            // Quantity is valid
-                            return null;
-                          } catch (e) {
-                            log("quantity exception $e");
-                            showToast(context, "Enter a valid number");
-            
-                            return 'Enter a valid number ';
-                          }
-                        },
-                      ),
-                    );
-                  })),
-                ],
-              ),
-              //add button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ButtonWidget(
-                      buttonLabel: "Add",
-                      onPressed: () {
-                        final item =
-                            sterilizationController.getSelectedUsedItemModel;
-                        final quantity =
-                            sterilizationController.quantityController.text;
-                        if (item?.productName != null) {
-                          if (_formKey.currentState!.validate()) {
-                            sterilizationController.addItemsToGrid(
-                                item!, int.parse(quantity));
-                            sterilizationController.clearInputsForAdd();
-                          }
-                        } else {
-                          showSnackBarNoContext(
-                              isError: true, msg: "Item is not selected");
-                        }
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              //listing added items
-              Consumer<SendToCssdControllerCssdCussDeptUser>(
-                  builder: (context, sterilizationConsumer, child) {
-                return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: sterilizationConsumer
-                      .getSelectedItemsQuantityList.length,
-                  itemBuilder: (context, index) {
-                    final item = sterilizationConsumer
-                        .getSelectedItemsQuantityList[index];
-                    return CupertinoContextMenu(
-                      actions: [
-                        CupertinoContextMenuAction(
+                  //add button
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ButtonWidget(
+                          buttonLabel: "Add",
                           onPressed: () {
-                            sterilizationConsumer
-                                .deleteCurrentItemFromList(item);
-                            Navigator.pop(context);
+                            final item = sterilizationController
+                                .getSelectedUsedItemModel;
+                            final quantity =
+                                sterilizationController.quantityController.text;
+                            if (item?.productName != null) {
+                              if (_formKey.currentState!.validate()) {
+                                sterilizationController.addItemsToGrid(
+                                    item!, int.parse(quantity));
+                                sterilizationController.clearInputsForAdd();
+                              }
+                            } else {
+                              showSnackBarNoContext(
+                                  isError: true, msg: "Item is not selected");
+                            }
                           },
-                          isDestructiveAction: true,
-                          trailingIcon: CupertinoIcons.delete,
-                          child: const Text("Delete"),
-                        )
-                      ],
-                      enableHapticFeedback: true,
-                      child: Card(
-                        color: Colors.lightBlue.shade50,
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 15),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  //listing added items
+                  Consumer<SendToCssdControllerCssdCussDeptUser>(
+                      builder: (context, sterilizationConsumer, child) {
+                    return ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: sterilizationConsumer
+                          .getSelectedItemsQuantityList.length,
+                      itemBuilder: (context, index) {
+                        final item = sterilizationConsumer
+                            .getSelectedItemsQuantityList[index];
+                        return CupertinoContextMenu(
+                          actions: [
+                            CupertinoContextMenuAction(
+                              onPressed: () {
+                                sterilizationConsumer
+                                    .deleteCurrentItemFromList(item);
+                                Navigator.pop(context);
+                              },
+                              isDestructiveAction: true,
+                              trailingIcon: CupertinoIcons.delete,
+                              child: const Text("Delete"),
+                            )
+                          ],
+                          enableHapticFeedback: true,
+                          child: Card(
+                            color: Colors.lightBlue.shade50,
+                            elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 15),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
-                                        'Item:',
-                                        overflow: TextOverflow.visible,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            'Item:',
+                                            overflow: TextOverflow.visible,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          SizedBox(
+                                            width: 4.w,
+                                          ),
+                                          Text(item.productname)
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 4.w,
+                                      Row(
+                                        children: [
+                                          const Text(
+                                            'Quantity:',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(' ${item.qty}'),
+                                        ],
                                       ),
-                                      Text(item.productname)
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      const Text(
-                                        'Quantity:',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(' ${item.qty}'),
-                                    ],
-                                  ),
+                                  IconButton(
+                                      onPressed: () {
+                                        sterilizationConsumer
+                                            .deleteCurrentItemFromList(item);
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.black,
+                                      ))
                                 ],
                               ),
-                              IconButton(
-                                  onPressed: () {
-                                    sterilizationConsumer
-                                        .deleteCurrentItemFromList(item);
-                                  },
-                                  icon: const Icon(
-                                    Icons.delete,
-                                    color: Colors.black,
-                                  ))
-                            ],
+                            ),
                           ),
-                        ),
+                        );
+                      },
+                    );
+                  }),
+                  //Priority radio button
+                  Consumer<SendToCssdControllerCssdCussDeptUser>(
+                      builder: (context, sterilizationConsumer, child) {
+                    return InputDecorator(
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          label: Text("Choose request priority")),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Flexible(
+                            child: RadioListTile(
+                              visualDensity:
+                                  const VisualDensity(horizontal: -4.0),
+                              contentPadding: EdgeInsets.zero,
+                              title: const Text("High"),
+                              value: "High",
+                              groupValue: sterilizationConsumer.getPriority,
+                              onChanged: (priority) {
+                                if (priority != null) {
+                                  sterilizationConsumer.setPriority(priority);
+                                }
+                              },
+                            ),
+                          ),
+                          Flexible(
+                            child: RadioListTile(
+                              title: const Text("Medium"),
+                              visualDensity:
+                                  const VisualDensity(horizontal: -4.0),
+                              contentPadding: EdgeInsets.zero,
+                              value: "Medium",
+                              groupValue: sterilizationConsumer.getPriority,
+                              onChanged: (priority) {
+                                if (priority != null) {
+                                  sterilizationConsumer.setPriority(priority);
+                                }
+                              },
+                            ),
+                          ),
+                          Flexible(
+                            child: RadioListTile(
+                              visualDensity:
+                                  const VisualDensity(horizontal: -4.0),
+                              contentPadding: EdgeInsets.zero,
+                              title: const Text("Low"),
+                              value: "Low",
+                              groupValue: sterilizationConsumer.getPriority,
+                              onChanged: (priority) {
+                                if (priority != null) {
+                                  sterilizationConsumer.setPriority(priority);
+                                }
+                              },
+                            ),
+                          )
+                        ],
                       ),
                     );
-                  },
-                );
-              }),
-              //Priority radio button
-              Consumer<SendToCssdControllerCssdCussDeptUser>(
-                  builder: (context, sterilizationConsumer, child) {
-                return InputDecorator(
-                  decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      label: Text("Choose request priority")),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Flexible(
-                        child: RadioListTile(
-                          visualDensity:
-                              const VisualDensity(horizontal: -4.0),
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text("High"),
-                          value: "High",
-                          groupValue: sterilizationConsumer.getPriority,
-                          onChanged: (priority) {
-                            if (priority != null) {
-                              sterilizationConsumer.setPriority(priority);
-                            }
-                          },
+                  }),
+
+                  //remarks container
+                  InputDecorator(
+                    decoration: const InputDecoration(
+                        label: Text("Remarks"), border: InputBorder.none),
+                    child: ConstrainedBox(
+                      constraints:
+                          const BoxConstraints(maxWidth: 600, maxHeight: 400),
+                      child: RoundedContainer(
+                        containerHeight: 100,
+                        containerBody: CustomTextFormField(
+                          minLines: 1,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                          controller: sterilizationController.remarksController,
+                          label: const Text("Remarks"),
+                          hintText: "Remarks for cssd user",
+                          hintStyle: const TextStyle(color: Colors.white24),
+                          textfieldBorder: false,
                         ),
                       ),
-                      Flexible(
-                        child: RadioListTile(
-                          title: const Text("Medium"),
-                          visualDensity:
-                              const VisualDensity(horizontal: -4.0),
-                          contentPadding: EdgeInsets.zero,
-                          value: "Medium",
-                          groupValue: sterilizationConsumer.getPriority,
-                          onChanged: (priority) {
-                            if (priority != null) {
-                              sterilizationConsumer.setPriority(priority);
-                            }
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: RadioListTile(
-                          visualDensity:
-                              const VisualDensity(horizontal: -4.0),
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text("Low"),
-                          value: "Low",
-                          groupValue: sterilizationConsumer.getPriority,
-                          onChanged: (priority) {
-                            if (priority != null) {
-                              sterilizationConsumer.setPriority(priority);
-                            }
-                          },
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }),
-            
-              //remarks container
-              InputDecorator(
-                decoration: const InputDecoration(
-                    label: Text("Remarks"), border: InputBorder.none),
-                child: ConstrainedBox(
-                  constraints:
-                      const BoxConstraints(maxWidth: 600, maxHeight: 400),
-                  child: RoundedContainer(
-                    containerHeight: 100,
-                    containerBody: CustomTextFormField(
-                      minLines: 1,
-                      maxLines: null,
-                      keyboardType: TextInputType.multiline,
-                      controller: sterilizationController.remarksController,
-                      label: const Text("Remarks"),
-                      hintText: "Remarks for cssd user",
-                      hintStyle: const TextStyle(color: Colors.white24),
-                      textfieldBorder: false,
                     ),
                   ),
-                ),
-              ),
-              //send to cssd button / slider
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, vertical: 10),
-                child: SlideAction(
-                  height: 50,
-                  sliderRotate: false,
-                  sliderButtonIcon: const Icon(
-                    FluentIcons.vehicle_truck_profile_16_filled,
-                    size: 25,
-                    color: StaticColors.scaffoldBackgroundcolor,
+                  //send to cssd button / slider
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10),
+                    child: SlideAction(
+                      height: 50,
+                      sliderRotate: false,
+                      sliderButtonIcon: const Icon(
+                        FluentIcons.vehicle_truck_profile_16_filled,
+                        size: 25,
+                        color: StaticColors.scaffoldBackgroundcolor,
+                      ),
+                      outerColor: StaticColors.scaffoldBackgroundcolor,
+                      text: "Slide to send to cssd ->",
+                      sliderButtonIconPadding: 5,
+                      onSubmit: () {
+                        return sterilizationController
+                            .sendUsedItemsToCssd(
+                                dashboardController.getSelectedDepartment)
+                            .then((_) {
+                          sterilizationController.clearAllInputs();
+                        });
+                      },
+                    ),
                   ),
-                  outerColor: StaticColors.scaffoldBackgroundcolor,
-                  text: "Slide to send to cssd ->",
-                  sliderButtonIconPadding: 5,
-                  onSubmit: () {
-                    return sterilizationController
-                        .sendUsedItemsToCssd(
-                            dashboardController.getSelectedDepartment)
-                        .then((_) {
-                      sterilizationController.clearAllInputs();
-                    });
-                  },
-                ),
-              ),
-            ]),
+                ]),
           ),
         ),
       ),

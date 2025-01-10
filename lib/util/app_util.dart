@@ -4,6 +4,7 @@ import 'package:cssd/app/api/model/api_links.dart';
 import 'package:cssd/main.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:dio/dio.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
@@ -36,7 +37,6 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
    */
 
 class AppUtil {
-  
   //api client
   static Future<ApiClient> createApiClient() async {
     String baseUrl = ApiLinks.baseIp;
@@ -96,25 +96,28 @@ showSnackBar(
           Row(
             children: [
               const Icon(
-                Icons.add_alert,
+                FluentIcons.alert_12_filled,
                 color: Colors.white,
+                size: 14,
               ),
               const SizedBox(
                 width: 10,
               ),
-              Text(isError == true ? errorHead ?? "" : "Error" ,
+              Text(isError == true ? errorHead ?? "Error" : "Success",
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.white,
                   )),
             ],
           ),
-          Text(msg,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ))
+          Center(
+            child: Text(msg,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                )),
+          )
         ],
       )));
 }
@@ -135,11 +138,11 @@ void showSnackBarNoContext({
   }
 }
 
-void showToast(BuildContext context, String message) {
+void showToast({required BuildContext context, required String message}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
-      duration: Duration(seconds: 2), // Duration the message is visible
+      duration: const Duration(seconds: 2), // Duration the message is visible
       behavior: SnackBarBehavior.floating, // Makes it float above other UI
       backgroundColor: Colors.black, // Background color of the snack bar
       // Text color
