@@ -6,6 +6,7 @@ import 'package:cssd/Widgets/custom_date_picker_widget.dart';
 import 'package:cssd/Widgets/custom_dialog.dart';
 import 'package:cssd/Widgets/custom_textfield.dart';
 import 'package:cssd/Widgets/typehead_dropdown_search.dart';
+import 'package:cssd/app/modules/Cssd_User/controller/dashboard_controller.dart';
 import 'package:cssd/app/modules/Cssd_User/controller/request_provider.dart';
 import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_accepted_items_list_model.dart';
 import 'package:cssd/app/modules/Cssd_User/model/sterilization_models/get_process_name_model.dart';
@@ -312,7 +313,6 @@ class _SterilizationViewCssdCussCssdLoginState
                                   },
                                   onChanged: (selectedItemModel) {
                                     if (selectedItemModel != null) {
-
                                       sterilizationController
                                               .setSelectedAcceptedItemsModel =
                                           selectedItemModel;
@@ -321,7 +321,7 @@ class _SterilizationViewCssdCussCssdLoginState
                                       sterilizationController
                                               .quantityController.text =
                                           selectedItemModel.qty.toString();
-                                    }else{
+                                    } else {
                                       if (kDebugMode) {
                                         log("Selected items is null, so not updatind the selected items model and also not setting value in quantity controller");
                                       }

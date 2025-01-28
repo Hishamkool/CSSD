@@ -23,8 +23,7 @@ class Routes {
   // static const String switchBetweenCssdAndDepartment = '/SwitchBetweenCssdAndDepartment';
 
   /*cssd pages  -- cssd custodian ------------------------------------------------------------------------*/
-  static const String bottomNavBarDashboardCssdUser =
-      '/BottomNavigationBarDashboardCssdUser';
+  static const String bottomNavBarDashboardCssdUser = '/BottomNavigationBarDashboardCssdUser';
   static const String dashboardViewCssdCssCssdLogin =
       '/DashboardViewCssdCssCssdLogin';
   static const String alertViewCssdCusCssdLogin = '/AlertViewCssdCusCssdLogin';

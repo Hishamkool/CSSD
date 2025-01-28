@@ -31,23 +31,12 @@ class DashboardTabBarHead extends StatelessWidget {
               children: [
                 Text(
                   titleText,
-                  style: isSelected
-                      ? GoogleFonts.plusJakartaSans(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14)
-                      : GoogleFonts.plusJakartaSans(
-                          color: const Color(0xff307AB0)),
                 ),
                 Visibility(
-                  // visible: int.parse(countText) == 0 ? false : true,
+                  /*  visible: int.parse(countText) == 0 ? false : true, */
                   visible: dashboardConsumer.isLoadingRequestsApi == false,
                   child: Text(
                     "( $countText )",
-                    style: GoogleFonts.plusJakartaSans(
-                        color: isSelected
-                            ? Colors.black
-                            : const Color(0xff307AB0)),
                   ),
                 )
               ],

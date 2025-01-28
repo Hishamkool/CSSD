@@ -61,9 +61,9 @@ class DashboardController extends ChangeNotifier {
     setReqLoading(true);
     clearRequestList();
 
-    final client = await DioUtilAuthorized.createApiClient();
-    final response = await client.getCSSDList();
     try {
+      final client = await DioUtilAuthorized.createApiClient();
+      final response = await client.getCSSDList();
       if (response.status == 200) {
         _requestList.add(response.data);
         _highPriorityRequestList.addAll(response.data.high);

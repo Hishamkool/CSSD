@@ -102,7 +102,7 @@ class RequestControler extends ChangeNotifier {
     notifyListeners();
   }
 
-  // function to get details of the request list -- request details page
+  // function to get details of the request list -- request details page    
   final List<GetCssdDetData> _requestDetailsDataList = [];
   List<GetCssdDetData> get requestDetailsDataList => _requestDetailsDataList;
   Future<void> getCssdRequestListDetails(int requestID) async {
@@ -126,6 +126,8 @@ class RequestControler extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  
 
   // function to accept the current request
   final List<AcceptRequestData> _acceptedRequest = [];

@@ -82,7 +82,7 @@ class _UsedItemEntryViewCssdCussDeptUserState
         key: _formKey,
         child: Container(
           width: double.infinity,
-          height: double.infinity,
+        
           padding: EdgeInsets.symmetric(horizontal: 10.0.h, vertical: 10.0.h),
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -267,7 +267,7 @@ class _UsedItemEntryViewCssdCussDeptUserState
                                   usedItemsController.quantityController.text,
                                 ),
                               );
-                            } */ 
+                            } */
                             usedItemsController.addToUsedItemsTableBeforeSubmit(
                               context: context,
                               productId: itemModel.iid!,

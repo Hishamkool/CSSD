@@ -34,15 +34,15 @@ class _DashboardViewCssdCssCssdLoginState
   @override
   void initState() {
     super.initState();
+    final dashboardController =
+        Provider.of<DashboardController>(context, listen: false);
+    log("length of high priority : ${dashboardController.highPriorityRequestList.length}");
+    // dashboardController.clearRequestList();
     hasPrivileges =
         LocalStorageManager.getBool(StorageKeys.privilegeFlagCssdAndDept);
     LocalStorageManager.setString(StorageKeys.lastOpenedIsCssd, "cssd");
     userName = LocalStorageManager.getString(StorageKeys.loggedinUser);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      //check if you need to define it in bottomnav and dashboard also
-      final dashboardController =
-          Provider.of<DashboardController>(context, listen: false);
-      dashboardController.clearRequestList();
       dashboardController.getCssdRequestList();
     });
   }
@@ -346,15 +346,13 @@ class _DashboardViewCssdCssCssdLoginState
 
     // Check if the user does not have the required privilege
     if (!hasPrivileges) {
-      return const SizedBox.shrink(); // Return an empty widget if no privileges
+      // Return an empty widget if no privileges
+      return const SizedBox.shrink();
     }
     // Return the floating action button if the privilege flag is true
-    return Container(
+    return SizedBox(
       width: 130,
       height: 50,
-      decoration: BoxDecoration(
-          // border: Border.all(color: Colors.blue.shade100, width: 0.2),
-          borderRadius: BorderRadius.circular(15)),
       child: FloatingActionButton(
         elevation: 9,
         backgroundColor: StaticColors.scaffoldBackgroundcolor,

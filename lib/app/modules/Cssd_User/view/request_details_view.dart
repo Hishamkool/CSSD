@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cssd/Widgets/button_widget.dart';
 import 'package:cssd/Widgets/rounded_container.dart';
+import 'package:cssd/app/modules/Cssd_User/controller/dashboard_controller.dart';
 import 'package:cssd/app/modules/Cssd_User/controller/request_provider.dart';
 import 'package:cssd/app/modules/Cssd_User/view/endDrawer.dart';
 import 'package:cssd/app/modules/Cssd_User/model/sampleRequestList.dart';
@@ -30,6 +33,7 @@ class _RequestDetailsViewCssdCussCssLoginState
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final requestId = ModalRoute.of(context)?.settings.arguments as int;
       context.read<RequestControler>().getCssdRequestListDetails(requestId);
@@ -76,8 +80,7 @@ class _RequestDetailsViewCssdCussCssLoginState
               heroTag: "cancelRequest",
               backgroundColor: StaticColors.scaffoldBackgroundcolor,
               onPressed: () {
-                Navigator.pushNamed(
-                    context, Routes.bottomNavBarDashboardCssdUser);
+                Navigator.pop(context);
               },
               label: const Text(
                 "Back",
@@ -129,69 +132,78 @@ class _RequestDetailsViewCssdCussCssLoginState
                 //request title
                 Consumer<RequestControler>(
                     builder: (context, requestConsumer, child) {
-                  final requestDetails =
-                      requestConsumer.requestDetailsDataList.first;
-                  final requestedTime = requestDetails.rTime;
-                  String formatedTime =
-                      DateFormat('hh:mm a').format(requestedTime);
-                  String formatedDate =
-                      DateFormat('dd/MMM/yyy').format(requestedTime);
-                  return RoundedContainer(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 10.0),
-                    containerBody: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Request ID :  $requestId",
-                              style: FontStyles.bodyPieTitleStyle,
-                            ),
-                            Text("Priority :  ${requestDetails.priority}"),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Department : ${requestDetails.sub}"),
-                            Text("$formatedDate "),
-                          ],
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Requested By :  ${requestDetails.ruser}"),
-                            Text("$formatedTime "),
-                          ],
-                        ),
-                        //remarks expanded tile
-                        ExpansionTile(
-                          shape: Border.all(color: Colors.transparent),
-                          tilePadding: const EdgeInsets.all(0.0),
-                          title: Text(
-                            "Remarks",
-                            style: FontStyles.bodyPieTitleStyle,
-                            textAlign: TextAlign.left,
+                  // load data if list is not empty
+                  if (requestConsumer.requestDetailsDataList.isNotEmpty) {
+                    final requestDetails =
+                        requestConsumer.requestDetailsDataList.first;
+                    final requestedTime = requestDetails.rTime;
+                    String formatedTime =
+                        DateFormat('hh:mm a').format(requestedTime);
+                    String formatedDate =
+                        DateFormat('dd/MMM/yyy').format(requestedTime);
+                    return RoundedContainer(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 10.0),
+                      containerBody: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Request ID :  $requestId",
+                                style: FontStyles.bodyPieTitleStyle,
+                              ),
+                              Text("Priority :  ${requestDetails.priority}"),
+                            ],
                           ),
-                          expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                          expandedAlignment: Alignment.centerLeft,
-                          childrenPadding: const EdgeInsets.only(left: 20.0),
-                          children: [
-                            SizedBox(
-                              height: 10.h,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Department : ${requestDetails.sub}"),
+                              Text("$formatedDate "),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Requested By :  ${requestDetails.ruser}"),
+                              Text("$formatedTime "),
+                            ],
+                          ),
+                          //remarks expanded tile
+                          ExpansionTile(
+                            shape: Border.all(color: Colors.transparent),
+                            tilePadding: const EdgeInsets.all(0.0),
+                            title: Text(
+                              "Remarks",
+                              style: FontStyles.bodyPieTitleStyle,
+                              textAlign: TextAlign.left,
                             ),
-                            Consumer<RequestControler>(
-                                builder: (context, requestsConsumer, child) {
-                              return Text(requestsConsumer
-                                  .requestDetailsDataList.first.remarks);
-                            })
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
+                            expandedCrossAxisAlignment:
+                                CrossAxisAlignment.start,
+                            expandedAlignment: Alignment.centerLeft,
+                            childrenPadding: const EdgeInsets.only(left: 20.0),
+                            children: [
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Consumer<RequestControler>(
+                                  builder: (context, requestsConsumer, child) {
+                                return Text(requestsConsumer
+                                    .requestDetailsDataList.first.remarks);
+                              })
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return const SizedBox(
+                      height: 140,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
                 }),
 
                 //items list
@@ -294,6 +306,7 @@ class _RequestDetailsViewCssdCussCssLoginState
                             );
                           });
                     }),
+
                     SizedBox(
                       height: 15.h,
                     ),

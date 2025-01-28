@@ -1,5 +1,6 @@
 import 'package:cssd/app/modules/Cssd_User/model/dashboard_models/get_cssd_list_model.dart';
 import 'package:cssd/util/colors.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -65,45 +66,97 @@ class RequestCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          request.sub, //department name
-                          style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: StaticColors.darkTextColorForBlueContainer,
-                          ),
+                        //department name
+                        Row(
+                          children: [
+                            const Icon(
+                              FluentIcons.building_16_filled,
+                              color: StaticColors.darkTextColorForBlueContainer,
+                              size: 20,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              request.sub,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color:
+                                    StaticColors.darkTextColorForBlueContainer,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 4),
                         // requested user
-                        Text(
-                          request.ruser,
-                          style: GoogleFonts.roboto(
-                            fontSize: 12,
-                            color: StaticColors.darkTextColorForBlueContainer,
-                          ),
+                        Row(
+                          children: [
+                            const Icon(
+                              FluentIcons.person_12_filled,
+                              color:
+                                  StaticColors.darkTextColorForBlueContainer,
+                              size: 20,
+                            ),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              request.ruser,
+                              style: GoogleFonts.roboto(
+                                fontSize: 12,
+                                color:
+                                    StaticColors.darkTextColorForBlueContainer,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                   // Date and Time
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        formatedTime,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: StaticColors.darkTextColorForBlueContainer,
-                        ),
+                      Row(
+                        children: [
+                          const Icon(
+                            FluentIcons.clock_12_filled,
+                            color: StaticColors.darkTextColorForBlueContainer,
+                            size: 14,
+                          ),
+                          const SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            formatedTime,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: StaticColors.darkTextColorForBlueContainer,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        formatedDate,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: StaticColors.darkTextColorForBlueContainer,
-                        ),
+                      Row(
+                        children: [
+                          const Icon(
+                            FluentIcons.calendar_12_filled,
+                            color: StaticColors.darkTextColorForBlueContainer,
+                            size: 14,
+                          ),
+                          const SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                            formatedDate,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: StaticColors.darkTextColorForBlueContainer,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -118,7 +171,8 @@ class RequestCard extends StatelessWidget {
                   data: ThemeData().copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
                     iconColor: StaticColors.lightTextColorForBlueContainer,
-                    collapsedIconColor: StaticColors.lightTextColorForBlueContainer,
+                    collapsedIconColor:
+                        StaticColors.lightTextColorForBlueContainer,
                     minTileHeight: 0,
                     title: Text(
                       "Items count  (${request.productdet.length})",
@@ -142,9 +196,11 @@ class RequestCard extends StatelessWidget {
                           velocity: 40.0,
                           pauseAfterRound: const Duration(seconds: 1),
                           startPadding: 10.0,
-                          accelerationDuration: const Duration(milliseconds: 500),
+                          accelerationDuration:
+                              const Duration(milliseconds: 500),
                           accelerationCurve: Curves.fastLinearToSlowEaseIn,
-                          decelerationDuration: const Duration(milliseconds: 200),
+                          decelerationDuration:
+                              const Duration(milliseconds: 200),
                           decelerationCurve: Curves.easeOut,
                         ),
                       )

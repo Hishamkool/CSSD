@@ -706,7 +706,7 @@ class _DashboardViewCssdCussDeptUserState
                     ],
                   );
                 }),
-                const SizedBox(height: 500.0),
+                const SizedBox(height: 100.0),
               ],
             ),
           ),

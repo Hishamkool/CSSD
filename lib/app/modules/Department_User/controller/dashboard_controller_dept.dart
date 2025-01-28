@@ -78,7 +78,8 @@ class DashboardControllerCssdCussDeptUser extends ChangeNotifier {
   late String _requestString;
   late int _pendingCount;
   late String _pendingString;
-  bool hasValidData = false; // if  request count = 0 & pending count is 0 4 the dept , set false to false to show lottie
+  bool hasValidData =
+      false; // if  request count = 0 & pending count is 0 4 the dept , set false to false to show lottie
 
   Future<void> getPieChartData(String selectedDepartment) async {
     _pieChartData.clear();
@@ -256,7 +257,7 @@ class DashboardControllerCssdCussDeptUser extends ChangeNotifier {
     _departmentRequestList.clear();
     _departmentDropdownItems.clear();
     _pieChartData.clear();
-    _requestDetailsList.clear();  
+    _requestDetailsList.clear();
     _deptStockList.clear();
     _filteredDeptStockList.clear();
     notifyListeners();

@@ -3,6 +3,7 @@ import 'package:cssd/app/modules/Cssd_User/controller/dashboard_controller.dart'
 import 'package:cssd/app/modules/Cssd_User/view/widgets/dashboard_widgets/request_card_widget.dart';
 import 'package:cssd/app/modules/Cssd_User/view/widgets/dashboard_widgets/tabbar_head_dahboard.dart';
 import 'package:cssd/util/app_routes.dart';
+import 'package:cssd/util/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -24,9 +25,10 @@ class TabBarDashboard extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
-            decoration:  BoxDecoration(
-              borderRadius: const BorderRadius.all(Radius.circular(40)),
-              color: Colors.blue.shade100,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(40)),
+              // color: Colors.blue.shade100,
+              color:  Color(0xffF0F5FA),
             ),
             child: Consumer<DashboardController>(
                 builder: (context, dashboardConsumer, child) {
@@ -35,19 +37,19 @@ class TabBarDashboard extends StatelessWidget {
                   dashboardConsumer.updateSelectedIndex(value);
                 },
                 indicatorPadding:
-                    const EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
+                    const EdgeInsets.symmetric(horizontal: -5, vertical: 4.0),
                 indicator: BoxDecoration(
                     border: Border.all(color: Colors.black.withAlpha(10)),
-                    color: const Color(0xffF0F5FA),
+                    color: StaticColors.darkTextColorForBlueContainer,
                     borderRadius: const BorderRadius.all(
                       Radius.circular(20),
                     )),
                 labelStyle: GoogleFonts.plusJakartaSans(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    color: StaticColors.lightBgContainer,
+                    fontWeight: FontWeight.w900,
                     fontSize: 14),
                 unselectedLabelStyle: GoogleFonts.plusJakartaSans(
-                    color: const Color(0xff307AB0),
+                    color: StaticColors.lightTextColorForBlueContainer,
                     fontWeight: FontWeight.bold),
                 indicatorSize: TabBarIndicatorSize.label,
                 dividerColor: Colors.transparent,
@@ -94,7 +96,7 @@ class TabBarDashboard extends StatelessWidget {
         builder: (context, dashboardProvider, child) {
       if (dashboardProvider.isLoadingRequestsApi) {
         return LottieBuilder.asset(
-          "assets/lottie/injections_animation.json",
+          "assets/lottie/loading_lottie.json",
           height: 150,
           width: 150,
         );
@@ -137,7 +139,7 @@ Widget _mediumPriorityTabView() {
       builder: (context, dashboardProvider, child) {
     if (dashboardProvider.isLoadingRequestsApi) {
       return LottieBuilder.asset(
-        "assets/lottie/injections_animation.json",
+        "assets/lottie/loading_lottie.json",
         height: 60,
         width: 60,
       );
@@ -180,7 +182,7 @@ Widget _lowPriorityTabView() {
       builder: (context, dashboardProvider, child) {
     if (dashboardProvider.isLoadingRequestsApi) {
       return LottieBuilder.asset(
-        "assets/lottie/injections_animation.json",
+        "assets/lottie/loading_lottie.json",
         height: 60,
         width: 60,
       );

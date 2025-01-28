@@ -4,7 +4,10 @@ import 'package:cssd/Widgets/custom_textfield.dart';
 import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/colors.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class DepartmentStockDetailsView extends StatefulWidget {
@@ -88,38 +91,38 @@ class _DepartmentStockDetailsViewState
                   padding: const EdgeInsets.all(8.0),
                   child: Consumer<DashboardControllerCssdCussDeptUser>(
                       builder: (context, dashboardConsumer, child) {
+                    if (dashboardConsumer.filteredDeptStockList.isEmpty) {
+                      return const Center(child: Text("No item found"));
+                    }
                     return GridView.builder(
                       itemCount: dashboardConsumer.filteredDeptStockList.length,
                       gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
-                              mainAxisExtent: 70),
+                              maxCrossAxisExtent: 400, mainAxisExtent: 70),
                       itemBuilder: (context, index) {
                         final product =
                             dashboardConsumer.filteredDeptStockList[index];
                         return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
+                          color: Colors.white,
+                          child: ListTile(
+                            leading: Image.asset(
+                                "assets/images/surgical-instrument.png"),
+                            title: Text(
+                              product.productName,
+                              style: const TextStyle(
+                                  fontSize: 13, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(product.productName),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      "${product.stock}",
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ))
+                                const Text("count :"),
+                                Text(
+                                  " ${product.stock}",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                )
                               ],
                             ),
                           ),
