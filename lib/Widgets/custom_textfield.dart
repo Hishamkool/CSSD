@@ -100,7 +100,7 @@ class CustomTextFormField extends StatelessWidget {
                       const BorderSide(color: Colors.black, width: 1.0)),
           filled: true,
           fillColor: Colors.white,
-          floatingLabelStyle: TextStyle(color: StaticColors.scaffoldBackgroundcolor,),
+          floatingLabelStyle: const TextStyle(color: StaticColors.scaffoldBackgroundcolor,),
           enabledBorder: textfieldBorder == true
               ? OutlineInputBorder(
                   borderRadius: borderRadius,

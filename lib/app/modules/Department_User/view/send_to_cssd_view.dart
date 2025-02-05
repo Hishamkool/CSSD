@@ -171,7 +171,7 @@ class _SendToCssdViewCssdCussDeptUserState
                                 hideSelectedFieldWhenExpanded: false,
                                 validator: (item) {
                                   if (item == null) {
-                                    return "Section required";
+                                    return "Slection required";
                                   }
                                   return null;
                                 },

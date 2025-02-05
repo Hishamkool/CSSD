@@ -11,6 +11,7 @@ import 'package:cssd/app/modules/Department_User/view/saved_used_items_list_view
 import 'package:cssd/app/modules/Department_User/view/dashboard_view_dept.dart';
 import 'package:cssd/app/modules/Department_User/view/department_stock_details_view.dart';
 import 'package:cssd/app/modules/Department_User/view/send_to_cssd_view.dart';
+import 'package:cssd/app/modules/Department_User/view/stock_entry_dept_view.dart';
 import 'package:cssd/app/modules/Department_User/view/used_item_entry_view.dart';
 import 'package:cssd/app/modules/login_module/view/login_screen.dart';
 import 'package:cssd/app/modules/login_module/view/splash_screen.dart';
@@ -23,16 +24,23 @@ class Routes {
   // static const String switchBetweenCssdAndDepartment = '/SwitchBetweenCssdAndDepartment';
 
   /*cssd pages  -- cssd custodian ------------------------------------------------------------------------*/
-  static const String bottomNavBarDashboardCssdUser = '/BottomNavigationBarDashboardCssdUser';
+  static const String bottomNavBarDashboardCssdUser =
+      '/BottomNavigationBarDashboardCssdUser';
   static const String dashboardViewCssdCssCssdLogin =
       '/DashboardViewCssdCssCssdLogin';
   static const String alertViewCssdCusCssdLogin = '/AlertViewCssdCusCssdLogin';
-  static const String searchRequestsViewCssdCussCssdLogin = '/SearchRequestsViewCssdCussCssdLogin';
-  static const String requestDetailsViewCssdCussCssLogin = '/RequestDetailsViewCssdCussCssLogin';
-  static const String sterilizationViewCssdCussCssdLogin = '/SterilizationViewCssdCussCssdLogin';
-  static const String pickupPageCssdCussCssdLogin = '/PickupPageCssdCussCssdLogin';
-  static const String issueViewCssdCussCssdLogin = '/IssueViewCssdCussCssdLogin';
-  static const String timelineViewCssdCussCssdLogin = '/TimelineViewCssdCussCssdLogin';
+  static const String searchRequestsViewCssdCussCssdLogin =
+      '/SearchRequestsViewCssdCussCssdLogin';
+  static const String requestDetailsViewCssdCussCssLogin =
+      '/RequestDetailsViewCssdCussCssLogin';
+  static const String sterilizationViewCssdCussCssdLogin =
+      '/SterilizationViewCssdCussCssdLogin';
+  static const String pickupPageCssdCussCssdLogin =
+      '/PickupPageCssdCussCssdLogin';
+  static const String issueViewCssdCussCssdLogin =
+      '/IssueViewCssdCussCssdLogin';
+  static const String timelineViewCssdCussCssdLogin =
+      '/TimelineViewCssdCussCssdLogin';
 
   /*Department pages  -- cssd custodian--------------------------------------------------------------*/
   static const String dashboardViewCssdCussDeptUser =
@@ -46,8 +54,8 @@ class Routes {
       "/DepartmentStockDetailsView";
   static const String usedItemEntryViewCssdCussDeptUser =
       "/UsedItemEntryViewCssdCussDeptUser";
-
   static const String savedUsedItemsList = "/SavedUsedItemsList";
+  static const String stockEntryDepartmentView = "/StockEntryDepartmentView";
   /* ################################################################################################################# */
 
   static final Map<String, WidgetBuilder> routes = {
@@ -85,6 +93,7 @@ class Routes {
     usedItemEntryViewCssdCussDeptUser: (context) =>
         const UsedItemEntryViewCssdCussDeptUser(),
     savedUsedItemsList: (context) => const SavedUsedItemsList(),
+    stockEntryDepartmentView: (context) =>  StockEntryDepartmentView(),
   };
 }
 

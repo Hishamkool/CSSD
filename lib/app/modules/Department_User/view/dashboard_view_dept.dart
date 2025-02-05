@@ -209,60 +209,66 @@ class _DashboardViewCssdCussDeptUserState
                                 ],
                               ),
                               //syncfusion pie chart
-                              child: SizedBox(
-                                height: 180,
-                                child: SfCircularChart(
-                                  /* onChartTouchInteractionDown:
-                                      (ChartTouchInteractionArgs args) {
-                                    log("${args.position.dy} : ${args.position.dy}");
-                                    Navigator.pushNamed(
-                                        context,
-                                        Routes
-                                            .requestDetailsViewCssdCussDeptUser);
-                                  }, */
-                                  palette: [
-                                    //colors of the pie chart in order
-                                    /*         hexToColorWithOpacity(hexColor: "#ff6361"),
-                                    hexToColorWithOpacity(hexColor: "#58508d"),
-                                    hexToColorWithOpacity(hexColor: "#bc5090"),
-                                    hexToColorWithOpacity(hexColor: "#003f5c"),
-                                    hexToColorWithOpacity(hexColor: "#ffa600"), */
+                              child: Flexible(
+                                fit: FlexFit.tight,
+                                child: SizedBox(
+                                  height: 180,
+                                  child: SfCircularChart(
+                                    /* onChartTouchInteractionDown:
+                                        (ChartTouchInteractionArgs args) {
+                                      log("${args.position.dy} : ${args.position.dy}");
+                                      Navigator.pushNamed(
+                                          context,
+                                          Routes
+                                              .requestDetailsViewCssdCussDeptUser);
+                                    }, */
+                                    palette: [
+                                      //colors of the pie chart in order
+                                      /*         hexToColorWithOpacity(hexColor: "#ff6361"),
+                                      hexToColorWithOpacity(hexColor: "#58508d"),
+                                      hexToColorWithOpacity(hexColor: "#bc5090"),
+                                      hexToColorWithOpacity(hexColor: "#003f5c"),
+                                      hexToColorWithOpacity(hexColor: "#ffa600"), */
 
-                                    hexToColorWithOpacity(hexColor: "#7DA0CA"),
-                                    hexToColorWithOpacity(hexColor: "#052659"),
-                                  ],
-                                  title: ChartTitle(
-                                      alignment: ChartAlignment.near,
-                                      text: 'Request Details',
-                                      textStyle: GoogleFonts.plusJakartaSans(
-                                          fontSize: 15.0,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.w600)),
-                                  legend: const Legend(
-                                      //its the indications of the chart
-                                      isVisible: true,
-                                      textStyle: TextStyle(color: Colors.black),
-                                      position: LegendPosition.right),
-                                  onTooltipRender: (TooltipArgs args) {},
-                                  series: <PieSeries<Map<String, dynamic>,
-                                      String>>[
-                                    PieSeries<Map<String, dynamic>, String>(
-                                      dataSource:
-                                          dashboardConsumer.pieChartData,
-                                      explode: true,
-                                      explodeIndex: 0,
-                                      xValueMapper:
-                                          (Map<String, dynamic> data, _) =>
-                                              data.keys.first,
-                                      yValueMapper:
-                                          (Map<String, dynamic> data, _) =>
-                                              data.values.first,
-                                      dataLabelSettings:
-                                          const DataLabelSettings(
+                                      hexToColorWithOpacity(
+                                          hexColor: "#7DA0CA"),
+                                      hexToColorWithOpacity(
+                                          hexColor: "#052659"),
+                                    ],
+                                    title: ChartTitle(
+                                        alignment: ChartAlignment.near,
+                                        text: 'Request Details',
+                                        textStyle: GoogleFonts.plusJakartaSans(
+                                            fontSize: 15.0,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.w600)),
+                                    legend: const Legend(
+                                        //its the indications of the chart
                                         isVisible: true,
+                                        textStyle:
+                                            TextStyle(color: Colors.black),
+                                        position: LegendPosition.right),
+                                    onTooltipRender: (TooltipArgs args) {},
+                                    series: <PieSeries<Map<String, dynamic>,
+                                        String>>[
+                                      PieSeries<Map<String, dynamic>, String>(
+                                        dataSource:
+                                            dashboardConsumer.pieChartData,
+                                        explode: true,
+                                        explodeIndex: 0,
+                                        xValueMapper:
+                                            (Map<String, dynamic> data, _) =>
+                                                data.keys.first,
+                                        yValueMapper:
+                                            (Map<String, dynamic> data, _) =>
+                                                data.values.first,
+                                        dataLabelSettings:
+                                            const DataLabelSettings(
+                                          isVisible: true,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
@@ -296,10 +302,18 @@ class _DashboardViewCssdCussDeptUserState
                             Routes.sterilizationRequestViewCssdCussDeptUser);
                       },
                     ),
-                    const DashboardButtons(
+                    DashboardButtons(
+                      icon: FluentIcons.arrow_download_16_filled,
+                      iconName: "Stock Entry",
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, Routes.stockEntryDepartmentView);
+                      },
+                    ),
+                    /*  const DashboardButtons(
                       icon: FluentIcons.news_16_filled,
                       iconName: "Reports",
-                    ),
+                    ), */
                     // DashboardButtons(
                     //   icon: FluentIcons.timeline_20_filled,
                     //   iconName: "Timeline",
@@ -449,14 +463,16 @@ class _DashboardViewCssdCussDeptUserState
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: Text(
-                                                "Items under the Request : ${request.reqId}",
+                                                "Items send under req : ${request.reqId}",
                                                 style: const TextStyle(
                                                     fontSize: 20,
                                                     fontWeight:
                                                         FontWeight.bold),
                                               ),
                                             ),
-
+                                            const SizedBox(
+                                              height: 15,
+                                            ),
                                             //request details list
                                             const RequestDetailsTable()
                                           ],

@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SterilizationItemsCardWidget extends StatelessWidget {
   const SterilizationItemsCardWidget({
-    super.key, required this.item,
+    super.key,
+    required this.item,
   });
   final GetAcceptedItemListData item;
   @override
@@ -20,7 +21,7 @@ class SterilizationItemsCardWidget extends StatelessWidget {
     ));
     return Card(
       color: hexToColorWithOpacity(hexColor: "EBF9FF"),
-      child: Padding( 
+      child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -28,7 +29,7 @@ class SterilizationItemsCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                 Text(item.productName),
+                Text(item.productName),
                 const Spacer(),
                 PopupMenuButton(
                   color: Colors.white,
@@ -70,7 +71,7 @@ class SterilizationItemsCardWidget extends StatelessWidget {
                 )
               ],
             ),
-              Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
