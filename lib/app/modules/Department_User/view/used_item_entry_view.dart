@@ -67,6 +67,7 @@ class _UsedItemEntryViewCssdCussDeptUserState
           Tooltip(
             message: "List all used items",
             child: ButtonWidget(
+              buttonLabel: "Used items",
               onPressed: () {
                 Navigator.pushNamed(context, Routes.savedUsedItemsList);
               },

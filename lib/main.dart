@@ -1,6 +1,7 @@
 import 'package:cssd/app/modules/Cssd_User/controller/dashboard_controller.dart';
 import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
 import 'package:cssd/app/modules/Department_User/controller/send_to_cssd_controller.dart';
+import 'package:cssd/app/modules/Department_User/controller/stock_controller_dept.dart';
 import 'package:cssd/app/modules/Department_User/controller/used_item_entry_controller.dart';
 import 'package:cssd/app/modules/login_module/controller/login_controller.dart';
 import 'package:cssd/app/modules/Cssd_User/controller/pickup_provider.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SendToCssdControllerCssdCussDeptUser()),
         ChangeNotifierProvider(create: (context) => DashboardControllerCssdCussDeptUser()),
         ChangeNotifierProvider(create: (context) => UsedItemEntryController()),
+        ChangeNotifierProvider(create: (context) => StockControllerDepartment()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(390, 844),

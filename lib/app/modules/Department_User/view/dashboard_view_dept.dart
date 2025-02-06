@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:cssd/Widgets/notification_icon.dart';
 import 'package:cssd/app/modules/Department_User/controller/dashboard_controller_dept.dart';
+import 'package:cssd/app/modules/Department_User/view/stock_entry_dept_view.dart';
 import 'package:cssd/app/modules/Department_User/view/widgets/dashboard_widgets/build_floating_actions_widget.dart';
 import 'package:cssd/app/modules/Department_User/view/widgets/dashboard_widgets/dahboard_buttons_widget.dart';
 import 'package:cssd/app/modules/Department_User/view/widgets/dashboard_widgets/department_dropdown_dashboard_widget.dart';
@@ -306,8 +307,11 @@ class _DashboardViewCssdCussDeptUserState
                       icon: FluentIcons.arrow_download_16_filled,
                       iconName: "Stock Entry",
                       onTap: () {
-                        Navigator.pushNamed(
-                            context, Routes.stockEntryDepartmentView);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const StockEntryDepartmentView(),
+                            ));
                       },
                     ),
                     /*  const DashboardButtons(
@@ -459,16 +463,28 @@ class _DashboardViewCssdCussDeptUserState
                                             SizedBox(
                                               height: 10.h,
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Items send under req : ${request.reqId}",
-                                                style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  "Request ${request.reqId}",
+                                                  style: const TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            const Text(
+                                              "Items within the request",
+                                              textAlign: TextAlign.start,
                                             ),
                                             const SizedBox(
                                               height: 15,

@@ -2,9 +2,9 @@ import 'package:cssd/util/colors.dart';
 import 'package:flutter/material.dart';
 
 class ButtonWidget extends StatelessWidget {
-  final String? buttonLabel;
+  final String buttonLabel;
   final Color buttonColor;
-  final Function()? onPressed;
+  final Function() onPressed;
   final double? buttonTextSize;
   final EdgeInsetsGeometry? buttonPadding;
   final Size? buttonSize;
@@ -13,8 +13,8 @@ class ButtonWidget extends StatelessWidget {
   final Widget? childWidget;
   const ButtonWidget(
       {super.key,
-      this.buttonLabel,
-       this.onPressed,
+      required this.buttonLabel,
+      required this.onPressed,
       this.buttonColor = StaticColors.defaultButton,
       this.buttonTextSize = 20,
       this.borderRadius = 10,
@@ -39,7 +39,7 @@ class ButtonWidget extends StatelessWidget {
               ? FittedBox(
                   child: Text(
                     textAlign: TextAlign.center,
-                    buttonLabel!,
+                    buttonLabel,
                     style: TextStyle(
                         color: StaticColors.textwhiteLight,
                         fontSize: buttonTextSize),
@@ -47,7 +47,7 @@ class ButtonWidget extends StatelessWidget {
                 )
               : Text(
                   textAlign: TextAlign.center,
-                  buttonLabel!,
+                  buttonLabel,
                   style: TextStyle(
                       color: StaticColors.textwhiteLight,
                       fontSize: buttonTextSize),

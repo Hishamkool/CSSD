@@ -55,7 +55,7 @@ class Routes {
   static const String usedItemEntryViewCssdCussDeptUser =
       "/UsedItemEntryViewCssdCussDeptUser";
   static const String savedUsedItemsList = "/SavedUsedItemsList";
-  static const String stockEntryDepartmentView = "/StockEntryDepartmentView";
+  static const String stockEntryDepartmentView = '/StockEntryDepartmentView'; 
   /* ################################################################################################################# */
 
   static final Map<String, WidgetBuilder> routes = {
@@ -64,36 +64,24 @@ class Routes {
     // switchBetweenCssdAndDepartment: (context) => const SwitchBetweenCssdAndDepartment(), //removed
 
     /*cssd pages -- cssd custodian-----------------------------------------------------------------------*/
-    bottomNavBarDashboardCssdUser: (context) =>
-        const BottomNavigationBarDashboardCssdUser(), //home page of cssd
-    dashboardViewCssdCssCssdLogin: (context) =>
-        const DashboardViewCssdCssCssdLogin(),
+    bottomNavBarDashboardCssdUser: (context) =>const BottomNavigationBarDashboardCssdUser(), //home page of cssd
+    dashboardViewCssdCssCssdLogin: (context) =>const DashboardViewCssdCssCssdLogin(),
     alertViewCssdCusCssdLogin: (context) => const AlertViewCssdCusCssdLogin(),
-    searchRequestsViewCssdCussCssdLogin: (context) =>
-        const SearchRequestsViewCssdCussCssdLogin(),
-    requestDetailsViewCssdCussCssLogin: (context) =>
-        const RequestDetailsViewCssdCussCssLogin(),
-    sterilizationViewCssdCussCssdLogin: (context) =>
-        const SterilizationViewCssdCussCssdLogin(),
-    pickupPageCssdCussCssdLogin: (context) =>
-        const PickupPageCssdCussCssdLogin(),
+    searchRequestsViewCssdCussCssdLogin: (context) =>const SearchRequestsViewCssdCussCssdLogin(),
+    requestDetailsViewCssdCussCssLogin: (context) =>const RequestDetailsViewCssdCussCssLogin(),
+    sterilizationViewCssdCussCssdLogin: (context) =>const SterilizationViewCssdCussCssdLogin(),
+    pickupPageCssdCussCssdLogin: (context) =>const PickupPageCssdCussCssdLogin(),
     issueViewCssdCussCssdLogin: (context) => const IssueViewCssdCussCssdLogin(),
-    timelineViewCssdCussCssdLogin: (context) =>
-        const TimelineViewCssdCussCssdLogin(),
+    timelineViewCssdCussCssdLogin: (context) =>const TimelineViewCssdCussCssdLogin(),
 
     /*Department pages  -- cssd custodian-------------------------------------------------------------------*/
-    dashboardViewCssdCussDeptUser: (context) =>
-        const DashboardViewCssdCussDeptUser(), //home
-    sterilizationRequestViewCssdCussDeptUser: (context) =>
-        const SendToCssdViewCssdCussDeptUser(),
-    /* requestDetailsViewCssdCussDeptUser: (context) =>
-        RequestDetailsViewCssdCussDeptUser(), */
-
+    dashboardViewCssdCussDeptUser: (context) => const DashboardViewCssdCussDeptUser(), //home
+    sterilizationRequestViewCssdCussDeptUser: (context) => const SendToCssdViewCssdCussDeptUser(),
+    /* requestDetailsViewCssdCussDeptUser: (context) =>RequestDetailsViewCssdCussDeptUser(), */
     departmentStockDetailsView: (context) => const DepartmentStockDetailsView(),
-    usedItemEntryViewCssdCussDeptUser: (context) =>
-        const UsedItemEntryViewCssdCussDeptUser(),
+    usedItemEntryViewCssdCussDeptUser: (context) =>const UsedItemEntryViewCssdCussDeptUser(),
     savedUsedItemsList: (context) => const SavedUsedItemsList(),
-    stockEntryDepartmentView: (context) =>  StockEntryDepartmentView(),
+    stockEntryDepartmentView : (context) => const StockEntryDepartmentView(),
   };
 }
 

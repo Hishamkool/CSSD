@@ -78,6 +78,17 @@ class AppUtil {
   } */
 }
 
+// usign sized box throughtout the application
+spaceH(double height) => SizedBox(
+      height: height,
+    );
+
+spaceW(double width) => SizedBox(
+      width: width,
+    );
+
+
+// snackbar 
 showSnackBar(
     {required BuildContext context,
     required bool isError,
