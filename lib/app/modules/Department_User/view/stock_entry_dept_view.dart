@@ -58,7 +58,7 @@ class StockEntryDepartmentView extends StatelessWidget {
               },
               onSelected: (process) {},
             ),
-            spaceH(10),
+            spaceH(5),
             DropdownButtonFormField<String>(
               dropdownColor: Colors.amber.shade50,
               decoration: const InputDecoration(
@@ -145,10 +145,44 @@ class StockEntryDepartmentView extends StatelessWidget {
                   onPressed: () {},
                   buttonLabel: "Add Item",
                 ),
-
-                
               ],
             ),
+
+            // listing items
+            ListView.separated(
+              separatorBuilder: (context, index) => spaceH(10),
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                       color: StaticColors.lightBgContainer,
+                      borderRadius: const BorderRadius.all(Radius.circular(15))),
+                  child: const ListTile(
+                    leading: CircleAvatar( 
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      child: Text("1",style: TextStyle(fontWeight: FontWeight.bold),),
+                    ),
+                    title: Text(
+                      "BIOCOMPOSITE INTERFERENCE SCREW 7 X 28 MM ",
+                      softWrap: true,
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    trailing: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Stock : 25"),
+                        Text("Type : CSSD"),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),
