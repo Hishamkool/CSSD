@@ -157,14 +157,17 @@ class StockEntryDepartmentView extends StatelessWidget {
               itemCount: 2,
               itemBuilder: (context, index) {
                 return Container(
-                  decoration: BoxDecoration(
-                       color: StaticColors.lightBgContainer,
-                      borderRadius: const BorderRadius.all(Radius.circular(15))),
+                  decoration: const BoxDecoration(
+                      color: StaticColors.lightBgContainer,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: const ListTile(
-                    leading: CircleAvatar( 
+                    leading: CircleAvatar(
                       backgroundColor: Colors.white,
                       foregroundColor: Colors.black,
-                      child: Text("1",style: TextStyle(fontWeight: FontWeight.bold),),
+                      child: Text(
+                        "1",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                     ),
                     title: Text(
                       "BIOCOMPOSITE INTERFERENCE SCREW 7 X 28 MM ",

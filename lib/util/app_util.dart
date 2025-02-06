@@ -6,6 +6,7 @@ import 'package:cssd/util/colors.dart';
 import 'package:dio/dio.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 /*  
@@ -87,8 +88,7 @@ spaceW(double width) => SizedBox(
       width: width,
     );
 
-
-// snackbar 
+// snackbar
 showSnackBar(
     {required BuildContext context,
     required bool isError,
@@ -159,4 +159,22 @@ void showToast({required BuildContext context, required String message}) {
       // Text color
     ),
   );
+}
+
+showPackageToast(
+    {required String text,
+    Color? textColor,
+    Color? headerColor,
+    bool? webShowClose,
+    Color? backgroundColor}) {
+  Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      webShowClose: webShowClose ?? false,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
+      webPosition: 'bottom',
+      fontSize: 16.0);
 }
