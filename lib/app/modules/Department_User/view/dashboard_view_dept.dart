@@ -310,7 +310,8 @@ class _DashboardViewCssdCussDeptUserState
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const StockEntryDepartmentView(),
+                              builder: (context) =>
+                                  const StockEntryDepartmentView(),
                             ));
                       },
                     ),
@@ -420,8 +421,12 @@ class _DashboardViewCssdCussDeptUserState
                       Consumer<DashboardControllerCssdCussDeptUser>(
                           builder: (context, dashboardConsumer, child) {
                         if (dashboardConsumer.isLoading == true) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
+                          return Center(
+                            child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: LottieBuilder.asset(
+                                    "assets/lottie/loading dots.json")),
                           );
                         }
                         if (dashboardConsumer.getMyRequestList.isEmpty) {

@@ -3,6 +3,7 @@ import 'package:cssd/app/modules/Department_User/controller/dashboard_controller
 import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 class DepartmentSelectionDashboardWidget extends StatelessWidget {
@@ -17,7 +18,10 @@ class DepartmentSelectionDashboardWidget extends StatelessWidget {
     return Consumer<DashboardControllerCssdCussDeptUser>(
         builder: (context, dashboardConsumer, child) {
       if (dashboardConsumer.departmentDropdownItems.isEmpty) {
-        return const Center(child: CircularProgressIndicator());
+        return Center(
+            child: SizedBox(
+              height: 50,width: 100,
+              child: Lottie.asset("assets/lottie/dot_loading_animation.json")));
       }
 
       final departmentNames = dashboardConsumer.departmentDropdownItems
@@ -25,7 +29,6 @@ class DepartmentSelectionDashboardWidget extends StatelessWidget {
           .toList();
 
       return CustomDropdown.search(
-        
         decoration: CustomDropdownDecoration(
             closedBorder: Border.all(color: StaticColors.lightContainerborder),
             closedSuffixIcon: const Icon(
@@ -45,7 +48,7 @@ class DepartmentSelectionDashboardWidget extends StatelessWidget {
             dashboardController.getPieChartData(
                 selectedDepartment); // should not fetch pie chart data while changing dept from pages other than dashboard
           } else {
-            showToast(context: context, message:  "Select department");
+            showToast(context: context, message: "Select department");
           }
         },
       );

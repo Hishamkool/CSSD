@@ -83,8 +83,9 @@ class DashboardControllerCssdCussDeptUser extends ChangeNotifier {
 
   Future<void> getPieChartData(String selectedDepartment) async {
     _pieChartData.clear();
-    final client = await DioUtilAuthorized.createApiClient();
+    notifyListeners();
     try {
+      final client = await DioUtilAuthorized.createApiClient();
       final requestCountResponse =
           await client.getRequestedCount(selectedDepartment);
       final pendingRequestCountResponse =

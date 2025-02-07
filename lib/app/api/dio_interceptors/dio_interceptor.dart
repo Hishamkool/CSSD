@@ -3,12 +3,15 @@ import 'dart:io';
 
 import 'package:cssd/app/api/model/api_client.dart';
 import 'package:cssd/app/api/model/api_links.dart';
+import 'package:cssd/app/modules/login_module/controller/login_controller.dart';
 import 'package:cssd/main.dart';
 import 'package:cssd/util/app_routes.dart';
 import 'package:cssd/util/app_util.dart';
 import 'package:cssd/util/local_storage_manager.dart';
+import 'package:flutter/animation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:dio/dio.dart';
+import 'package:provider/provider.dart';
 
 class DioUtilAuthorized {
   DioUtilAuthorized._internal();
@@ -55,8 +58,15 @@ class DioUtilAuthorized {
           onError: (error, handler) async {
             if (error.response?.statusCode == 401) {
               log('Authorization failed: ${error.response?.statusCode}');
-              showSnackBarNoContext(
-                  isError: true, msg: "Please RELOGIN, authorization failed.");
+              final loginController = Provider.of<LoginController>(
+                  navigatorKey.currentState!.context,
+                  listen: false);
+              await loginController
+                  .logoutFunction(navigatorKey.currentState!.context);
+
+              showPackageToast(
+                  text: "Please relogin, authorization failed.",
+                  backgroundColor: const Color.fromARGB(255, 185, 0, 0));
               // routing back to login screen
               navigatorKey.currentState!.pushNamedAndRemoveUntil(
                 Routes.loginScreen,
@@ -76,7 +86,8 @@ class DioUtilAuthorized {
                   msg: "No internet connection. Please check your network.");
             } else if (error.error == 'No internet connection') {
               log('No internet connection');
-              showSnackBarNoContext(isError: true, msg: "no network connection");
+              showSnackBarNoContext(
+                  isError: true, msg: "no network connection");
             } else {
               log('Server error: ${error.requestOptions.uri}');
             }
