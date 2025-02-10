@@ -13,7 +13,7 @@ class SterilizationProvider extends ChangeNotifier {
   TextEditingController batchNumberController = TextEditingController();
   TextEditingController startTimeController = TextEditingController();
   TextEditingController endTimeController = TextEditingController();
-  TextEditingController processNameController = TextEditingController(); 
+  TextEditingController processNameController = TextEditingController();
 
   String? selectedMachine;
   bool _expansionTileExpanded = true;
@@ -121,13 +121,17 @@ class SterilizationProvider extends ChangeNotifier {
         sid: itemModel.sid,
         productName: itemModel.productName,
         qty: itemModel.qty));
-    showSnackBarNoContext(isError: false, msg: "Successfully added items");
+    showPackageToast(
+      text: "Successfully added",
+      backgroundColor: Colors.green,
+    );
     notifyListeners();
   }
 
   // function to delete or remove items from the list of added accepted items
   void deleteAddedAccepedItemsList(int index) {
     _addedAcceptedItemsList.removeAt(index);
+    showPackageToast(text: "Deleted", backgroundColor: Colors.red);
     notifyListeners();
   }
 }

@@ -467,6 +467,7 @@ class _SterilizationViewCssdCussCssdLoginState
                                   return Column(
                                     children: [
                                       Dismissible(
+                                        behavior: HitTestBehavior.deferToChild,
                                         key: ValueKey(item[index]),
                                         background: Container(
                                           alignment: Alignment.centerLeft,

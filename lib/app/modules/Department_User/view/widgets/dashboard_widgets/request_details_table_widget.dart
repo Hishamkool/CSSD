@@ -53,10 +53,21 @@ class _RequestDetailsTableState extends State<RequestDetailsTable> {
 
               // border: TableBorder.all(),
               columns: const <DataColumn>[
-                DataColumn(label: Text("Sl no.")),
-                DataColumn(label: Text("Product ID")),
-                DataColumn(label: Text("Product name")),
-                DataColumn(label: Text("Quantity")),
+                DataColumn(
+                    label: Text("Sl no."),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    numeric: true),
+                DataColumn(
+                    label: Text("Quantity"),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    numeric: true),
+                DataColumn(
+                    label: Text("Product name"),
+                    headingRowAlignment: MainAxisAlignment.center),
+                DataColumn(
+                    label: Text("Product ID"),
+                    headingRowAlignment: MainAxisAlignment.center,
+                    numeric: true),
               ],
               rows: List<DataRow>.generate(
                 dashboardConsumer.itemsWithinRequestList.length,
@@ -65,11 +76,17 @@ class _RequestDetailsTableState extends State<RequestDetailsTable> {
 
                   return DataRow(
                     cells: [
-                      DataCell(Text('${index + 1}')), // Sl
-                      DataCell(Text('${item.productId}')), // product id
+                      DataCell(Center(child: Text('${index + 1}'))), // Sl
+                      DataCell(Center(
+                        child: Text(
+                          '${item.qty}',
+                        ),
+                      )), // amount of items requested
                       DataCell(Text(item.productName)), // item name
-                      DataCell(
-                          Text('${item.qty}')), // amount of items requested
+                      DataCell(Center(
+                        child: Text('${item.productId}',
+                            textAlign: TextAlign.center),
+                      )), // product id
                     ],
                   );
                 },

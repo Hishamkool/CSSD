@@ -27,6 +27,7 @@ class CustomTextFormField extends StatelessWidget {
   final Function(String)? onChanged;
   final void Function(String)? onFieldSubmitted;
   final TextStyle? hintStyle;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextFormField(
       {super.key,
@@ -52,7 +53,8 @@ class CustomTextFormField extends StatelessWidget {
       this.maxLines,
       this.scrollPadding,
       this.hintStyle,
-      this.useLabel = false});
+      this.useLabel = false,
+      this.inputFormatters});
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class CustomTextFormField extends StatelessWidget {
         maxWidth: textFieldSize?.width ?? double.infinity,
       ),
       child: TextFormField(
+        inputFormatters: inputFormatters,
         scrollPadding:
             scrollPadding ?? const EdgeInsets.symmetric(vertical: 20.0),
         minLines: minLines,

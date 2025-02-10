@@ -459,8 +459,11 @@ class _DashboardViewCssdCussDeptUserState
                                           DashboardControllerCssdCussDeptUser>()
                                       .fetchMyRequestDetails(request.reqId);
                                   showModalBottomSheet(
+                                    backgroundColor: StaticColors.lightBgContainer,
+
                                     context: context,
                                     builder: (context) {
+                                      
                                       return SizedBox.expand(
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,

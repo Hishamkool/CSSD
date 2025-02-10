@@ -46,7 +46,7 @@ class _DepartmentStockDetailsViewState
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         backgroundColor: Colors.transparent,
         title: const Text(
           "Department Stock Details",
@@ -61,7 +61,7 @@ class _DepartmentStockDetailsViewState
                 end: Alignment.bottomLeft,
                 colors: GradientColors.backgroundGradient)),
         child: SafeArea(
-          child: Column(
+          child: ListView(
             children: [
               Consumer<DashboardControllerCssdCussDeptUser>(
                   builder: (context, dashboardConsumer, child) {
@@ -86,51 +86,60 @@ class _DepartmentStockDetailsViewState
                   ),
                 );
               }),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Consumer<DashboardControllerCssdCussDeptUser>(
-                      builder: (context, dashboardConsumer, child) {
-                    if (dashboardConsumer.filteredDeptStockList.isEmpty) {
-                      return const Center(child: Text("No item found"));
-                    }
-                    return GridView.builder(
-                      itemCount: dashboardConsumer.filteredDeptStockList.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 400, mainAxisExtent: 70),
-                      itemBuilder: (context, index) {
-                        final product =
-                            dashboardConsumer.filteredDeptStockList[index];
-                        return Card(
-                          color: Colors.white,
-                          child: ListTile(
-                            leading: Image.asset(
-                                "assets/images/surgical-instrument.png"),
-                            title: Text(
-                              product.productName,
-                              style: const TextStyle(
-                                  fontSize: 13, fontWeight: FontWeight.bold),
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text("count :"),
-                                Text(
-                                  " ${product.stock}",
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Consumer<DashboardControllerCssdCussDeptUser>(
+                    builder: (context, dashboardConsumer, child) {
+                  if (dashboardConsumer.filteredDeptStockList.isEmpty) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          "assets/svg/Empty-bro.svg",
+                          height: 300,
+                        ),
+                        const Text("No item found"),
+                      ],
                     );
-                  }),
-                ),
+                  }
+                  return GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: dashboardConsumer.filteredDeptStockList.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 400, mainAxisExtent: 70),
+                    itemBuilder: (context, index) {
+                      final product =
+                          dashboardConsumer.filteredDeptStockList[index];
+                      return Card(
+                        color: Colors.white,
+                        child: ListTile(
+                          leading: Image.asset(
+                              "assets/images/surgical-instrument.png"),
+                          title: Text(
+                            product.productName,
+                            style: const TextStyle(
+                                fontSize: 13, fontWeight: FontWeight.bold),
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text("count :"),
+                              Text(
+                                " ${product.stock}",
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }),
               ),
             ],
           ),
