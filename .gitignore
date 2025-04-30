@@ -1,0 +1,85 @@
+# Android
+/android/gradle-wrapper.jar
+/android/.gradle/
+/android/local.properties
+/android/**/build/
+/android/**/.cxx/
+/android/app/debug.keystore
+/android/key.properties
+/android/app/profile/
+/android/app/release/
+
+# iOS
+/ios/**/Pods/
+/ios/**/.symlinks/
+/ios/**/Flutter/Flutter.podspec
+/ios/**/Flutter/Flutter.framework
+/ios/**/Flutter/app.flx
+/ios/**/Flutter/app.zip
+/ios/**/Flutter/flutter_assets/
+/ios/**/Flutter/flutter_export_environment.sh
+/ios/**/.generated/
+/ios/**/Flutter/Generated.xcconfig
+/ios/**/Flutter/app.flx
+/ios/**/Debug.xcconfig
+/ios/**/Release.xcconfig
+/ios/**/Profile.xcconfig
+/ios/Flutter/.last_build_id
+
+# Flutter
+/.dart_tool/
+/.flutter-plugins
+/.flutter-plugins-dependencies
+/.packages
+.pub-cache/
+.pub/
+/build/
+/fvm/
+**/doc/api/
+
+# Platform-specific generated files
+/linux/flutter/generated_plugin_registrant.*
+/linux/flutter/generated_plugins.cmake
+/macos/Flutter/GeneratedPluginRegistrant.swift
+/windows/flutter/generated_plugin_registrant.*
+/windows/flutter/generated_plugins.cmake
+
+# Debug/Release artifacts
+app.*.symbols
+app.*.map.json
+
+# IDE & Editor-specific files
+.vscode/  # Uncomment if you don't want to share VS Code settings
+.idea/
+*.iml
+*.ipr
+*.iws
+.atom/
+.buildlog/
+.history/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Environment & config files
+.env
+.env.local
+.env.*.local
+.flutter_settings
+
+# Miscellaneous
+*.log
+*.lock
+*.pyc
+*.class
+*.ktmeta
+*.keystore
+*.jks
+*.p12
+*.key
+*.cer
+migrate_working_dir/
+.svn/
