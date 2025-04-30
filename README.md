@@ -8,6 +8,12 @@ This project ensures that all instruments are properly sterilized, stored, and d
 
 ---
 
+## 🖼️ Screenshots
+<img src="https://github.com/user-attachments/assets/c0e25434-2af0-4354-b84a-78515dea9fcb" alt="Alt Text" style="width:35%; height:auto;">
+<img src="https://github.com/user-attachments/assets/72bc735d-19b1-4669-9ac6-7fc0c1af7947" alt="Alt Text" style="width:35%; height:auto;">
+
+
+
 ## 🚀 Features  
 
 ### 📌 **User Authentication & Role Management**  
