@@ -57,10 +57,10 @@ This project ensures that all instruments are properly sterilized, stored, and d
 - **Provider** – State management  
 - **DevicePreview** – Adaptive UI design  
 - **timeline_tile** – Timeline visualization  
-- **Retrofit (Flutter)** – API integration  
+- **Retrofit and Dio (Flutter)** – API integration  
 
 ### **Backend & APIs**  
-- **Node.js (if applicable)** – Backend for managing sterilization data  
+- **Node.js** – Backend for managing sterilization data  
 - **MySQL** – Database for storing requests and stock information  
 
 ### **Additional Tools & Services**  
@@ -75,5 +75,6 @@ This project ensures that all instruments are properly sterilized, stored, and d
 ### **🛠 Developed From Scratch**  
 This project has been developed entirely from scratch by **one person (me)**. It includes:  
 - **UI/UX Design** – Designed in **Figma**  
+- **Presentations and FLowcharts** – Build Using **Lucidchart and ppt**  
 - **Development** – Built using **Flutter**  
 - **Testing & Optimization** – Fully tested and refined by me  
