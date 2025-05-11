@@ -65,8 +65,8 @@ This project ensures that all instruments are properly sterilized, stored, and d
 
 ### **Additional Tools & Services**  
 - **Figma** – UI/UX Design: [CSSD user login – Figma File](https://www.figma.com/design/AhiXAiuGINvj6A2I6KD8PO/CSSD?node-id=0-1&p=f&t=eNLrn1jNvmvWceYe-0)
-- - **Flowchart** – Application Flow: [Lucidchart Flow](https://lucid.app/lucidspark/2cc70bb3-73f1-44f3-9dbe-d21028ccccef/edit?viewport_loc=-3462%2C-816%2C9600%2C4344%2C0_0&invitationId=inv_b7d50099-8c24-42f6-96b3-4e762285cdb9)
-- **Application flow** - Powerpoint Presentaion : [Flowchart and Design](https://onedrive.live.com/view.aspx?resid=E3FDBE66304549A4%21132&authkey=!AC37oRTACybBPdY)   
+- **Flowchart** – Application Flow: [Lucidchart Flow](https://lucid.app/lucidspark/2cc70bb3-73f1-44f3-9dbe-d21028ccccef/edit?viewport_loc=-3462%2C-816%2C9600%2C4344%2C0_0&invitationId=inv_b7d50099-8c24-42f6-96b3-4e762285cdb9)
+- **Application Design** - Powerpoint Presentaion : [Flowchart and Design](https://onedrive.live.com/view.aspx?resid=E3FDBE66304549A4%21132&authkey=!AC37oRTACybBPdY)   
 - **Git & GitHub** – Version Control  
 - **Postman** – API testing  
 
